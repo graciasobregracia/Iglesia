@@ -138,8 +138,10 @@ header a:hover {
     align-items: center;
     color: white;
     background-image: url("img.png");
-    background-size: cover;
-    background-position: center;
+     background-size: cover;       /* Hace que siempre cubra toda la caja */
+    background-position: center;  /* Centrado */
+    background-repeat: no-repeat; /* Que no se repita */
+    min-height: 100vh;
 }
 
 #Nosotros {
@@ -240,4 +242,5 @@ footer {
     font-weight: bold;
     color: #9260ff;
     text-transform: uppercase;
+
 }
