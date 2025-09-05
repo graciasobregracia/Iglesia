@@ -4,10 +4,9 @@
     padding: 0;
 }
 
-html,
-body {
+html, body {
     width: 100%;
-    overflow-x: hidden; /* ✅ Evita scroll horizontal */
+    overflow-x: hidden;   /* Evita scroll horizontal */
     margin: 0;
     padding: 0;
 }
@@ -16,7 +15,6 @@ body {
     font-family: "Roboto", sans-serif;
     background: #fff;
     color: #333;
-    max-width: 100%; /* ✅ Asegura que nunca se pase del ancho */
 }
 
 /* --- TITULOS --- */
@@ -28,13 +26,13 @@ h1 {
 
 h2 {
     font-size: 2.5em;
-    color: #7a4dff;
+    color: #7a4dff; /* tono más suave del logo */
     margin-bottom: 15px;
 }
 
 h3 {
     font-size: 1.6em;
-    color: #9260ff;
+    color: #9260ff; /* color principal del logo */
 }
 
 p {
@@ -74,7 +72,7 @@ p {
     font-size: 0.95em;
 }
 
-.toggle-info:checked~.extra-info {
+.toggle-info:checked ~ .extra-info {
     display: block;
 }
 
@@ -86,8 +84,6 @@ header {
     color: #fff;
     padding: 15px 0;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-    width: 100%; /* ✅ Evita que sobrepase */
-    overflow-x: hidden; /* ✅ FIX */
 }
 
 header .header-flex {
@@ -97,7 +93,6 @@ header .header-flex {
     max-width: 1200px;
     margin: auto;
     padding: 0 20px;
-    width: 100%; /* ✅ FIX */
 }
 
 header .logo {
@@ -121,7 +116,6 @@ header .logo-text {
 header nav {
     display: flex;
     gap: 25px;
-    flex-wrap: wrap; /* ✅ FIX para que no se desborde en móvil */
 }
 
 header a {
@@ -129,7 +123,6 @@ header a {
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
-    white-space: nowrap; /* ✅ evita cortes raros */
 }
 
 header a:hover {
@@ -142,11 +135,9 @@ header a:hover {
 #Servicios,
 #Contacto {
     width: 100%;
-    max-width: 100%; /* ✅ FIX */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    overflow-x: hidden; /* ✅ FIX */
 }
 
 #Inicio {
@@ -161,7 +152,101 @@ header a:hover {
     min-height: 100vh;
 }
 
-/* ... resto de tu código sigue igual ... */
+#Nosotros {
+    padding: 60px 20px;
+    background-image: url("img.png");
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+#Servicios {
+    padding: 60px 20px;
+    background-image: url("img3.png");
+    text-align: center;
+    color: white;
+}
+
+/* --- TARJETAS --- */
+#Servicios .card-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+#Servicios .card {
+    background: #fff;
+    color: #333;
+    border-radius: 12px;
+    padding: 25px;
+    width: 280px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-top: 5px solid #9260ff;
+    transition: transform 0.3s;
+}
+
+#Servicios .card:hover {
+    transform: scale(1.05);
+}
+
+/* --- CONTACTO --- */
+#Contacto {
+    background: #f9f9ff;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+#Contacto h2 {
+    color: #9260ff;
+}
+
+.contact-info {
+    text-align: left;
+    max-width: 600px;
+    margin: 20px auto;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.contact-info a {
+    color: #9260ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* --- FOOTER --- */
+footer {
+    background: #9260ff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* --- LOGO --- */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.logo-text {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #9260ff;
+    text-transform: uppercase;
+}
 
 /* --- IMÁGENES RESPONSIVAS --- */
 img {
@@ -169,6 +254,8 @@ img {
     height: auto;
     display: block;
 }
+
+
 
 
 
