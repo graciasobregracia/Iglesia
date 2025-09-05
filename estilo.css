@@ -20,15 +20,13 @@ h1 {
 
 h2 {
     font-size: 2.5em;
-    color: #7a4dff;
-    /* tono más suave del logo */
+    color: #7a4dff; /* tono más suave del logo */
     margin-bottom: 15px;
 }
 
 h3 {
     font-size: 1.6em;
-    color: #9260ff;
-    /* color principal del logo */
+    color: #9260ff; /* color principal del logo */
 }
 
 p {
@@ -68,22 +66,17 @@ p {
     font-size: 0.95em;
 }
 
-.toggle-info:checked~.extra-info {
+.toggle-info:checked ~ .extra-info {
     display: block;
 }
 
 /* --- HEADER --- */
 header {
-    background: url("img2.png");
-    /* misma textura de tu fondo */
-    background-size: cover;
-    background-position: center;
-    color: #fff;
+    background-color: #fff;
+    color: #9260ff;
     padding: 15px 0;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
-
-
 
 header .header-flex {
     display: flex;
@@ -95,20 +88,9 @@ header .header-flex {
 }
 
 header .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-header .logo img {
-    height: 50px;
-    width: auto;
-}
-
-header .logo-text {
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
-    color: #fff;
+    color: #9260ff;
     text-transform: uppercase;
 }
 
@@ -118,14 +100,14 @@ header nav {
 }
 
 header a {
-    color: #fff;
+    color: #333;
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
 }
 
 header a:hover {
-    color: #156b7a;
+    color: #9260ff;
 }
 
 /* --- SECCIONES --- */
@@ -139,12 +121,7 @@ header a:hover {
     color: white;
     background-image: url("img.png");
     background-size: cover;
-    /* Hace que siempre cubra toda la caja */
     background-position: center;
-    /* Centrado */
-    background-repeat: no-repeat;
-    /* Que no se repita */
-    min-height: 100vh;
 }
 
 #Nosotros {
@@ -226,23 +203,4 @@ footer {
     color: white;
     text-align: center;
     padding: 20px;
-}
-
-/* --- LOGO --- */
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo-img {
-    height: 50px;
-    width: auto;
-}
-
-.logo-text {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #9260ff;
-    text-transform: uppercase;
 }
