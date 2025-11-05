@@ -1,3 +1,4 @@
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -160,10 +161,11 @@ header a:hover {
 
 /* TARJETA INDIVIDUAL */
 .about-card {
-    background: linear-gradient(145deg, #dcd3ff, #c8bfff);
-    box-shadow: 0 5px 15px rgba(100, 70, 180, 0.3);
+    background: linear-gradient(160deg, #e6e0ff, #d8d0ff);
+    box-shadow: 0 6px 14px rgba(90, 60, 150, 0.25);
     border-radius: 14px;
     padding: 25px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     /* dos por fila */
     min-width: 320px;
     max-width: 480px;
