@@ -361,7 +361,7 @@ header a:hover {
     .service-card {
         width: 100%;
         max-width: 400px;
-        height: 360px;
+        height: 355px;
     }
 }
 
@@ -608,5 +608,6 @@ footer {
     #btnEventos {
         list-style: none;
     }
+
 
 }
