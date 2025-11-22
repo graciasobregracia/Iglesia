@@ -136,14 +136,8 @@ header a:hover {
 
 /* Fondo específico */
 #Inicio {
-    min-height: 100vh;
-    background-image: url("");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(180deg, #0a0a1f 0%, #1b1740 100%);
+    color: #ffffff;
 }
 
 
@@ -616,5 +610,6 @@ footer {
     #btnEventos {
         list-style: none;
     }
+
 
 }
