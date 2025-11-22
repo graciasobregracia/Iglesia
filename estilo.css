@@ -361,7 +361,7 @@ header a:hover {
     .service-card {
         width: 100%;
         max-width: 400px;
-        height: 464px;
+        height: 460px;
     }
 }
 
@@ -611,5 +611,6 @@ footer {
 
 
 }
+
 
 
