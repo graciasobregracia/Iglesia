@@ -152,14 +152,11 @@ header a:hover {
 /*AJUSTE PERFECTO PARA CELULAR */
 @media (max-width: 768px) {
     #Inicio {
-
-
+        background-size: 100% auto;   /* ✅ la imagen se ALARGA, no la sección */
         background-position: center top;
-        min-height: 60vh;
-        /* ya no ocupa toda la pantalla */
+        min-height: auto;             /* ✅ deja de empujar otras secciones */
         padding-top: 80px;
-        /* evita que el header la tape */
-       
+        padding-bottom: 40px;
     }
 }
 
@@ -639,3 +636,4 @@ footer {
 
 
 }
+
