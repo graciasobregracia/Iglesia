@@ -37,7 +37,8 @@ p {
 /* --- TITULO DEL HEADER --- */
 .logo-text {
     font-family: 'Marcellus', serif;
-    font-size: 3em;
+    font-size: 0.5em;
+    text-align: center;
     font-weight: 400;
     color: #ffffff;
     letter-spacing: 1px;
@@ -688,5 +689,6 @@ footer {
 
 
 }
+
 
 
