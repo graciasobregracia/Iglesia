@@ -479,7 +479,7 @@ footer {
 
 .logo-text {
 
-    font-size: 1.5em;
+    font-size: 3em;
     color: #ffffff;
     letter-spacing: 1px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
@@ -496,7 +496,7 @@ footer {
 
 @media (max-width: 600px) {
     .logo-text {
-        font-size: 1.3em !important;
+        font-size: 1.2em !important;
     }
 }
 
@@ -685,5 +685,6 @@ footer {
     #btnEventos {
         list-style: none;
     }
+
 
 }
