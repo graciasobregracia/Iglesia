@@ -154,7 +154,7 @@ header a:hover {
     #Inicio {
         background-size: 100% auto;   /* ✅ la imagen se ALARGA, no la sección */
         background-position: center top;
-        min-height: auto;             /* ✅ deja de empujar otras secciones */
+        max-height: auto;             /* ✅ deja de empujar otras secciones */
         padding-top: 80px;
         padding-bottom: 40px;
     }
@@ -636,4 +636,5 @@ footer {
 
 
 }
+
 
