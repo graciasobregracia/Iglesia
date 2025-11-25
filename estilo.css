@@ -477,7 +477,7 @@ footer {
 
 .logo-text {
     font-family: 'Marcellus', serif;
-     font-size: 0.2em;
+     font-size: 3em;
     font-weight: 400;
     color: #ffffff;
     letter-spacing: 1px;
@@ -490,6 +490,12 @@ footer {
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55);
     transform: translateY(-1px);
 }
+@media (max-width: 600px) {
+  .logo-text {
+    font-size: 1.5em !important;
+  }
+}
+
 
 
 /* --- RESPONSIVE FIX PARA CELULAR --- */
@@ -676,6 +682,7 @@ footer {
 
 
 }
+
 
 
 
