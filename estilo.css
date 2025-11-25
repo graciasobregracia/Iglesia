@@ -37,7 +37,7 @@ p {
 /* --- TITULO DEL HEADER --- */
 .logo-text {
     font-family: 'Marcellus', serif;
-    font-size: 1.5em;
+    font-size: 3em;
     font-weight: 400;
     color: #ffffff;
     letter-spacing: 1px;
@@ -50,6 +50,11 @@ p {
 .logo-text:hover {
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55);
     transform: translateY(-1px);
+}
+@media (max-width: 600px) {
+  .logo-text {
+    font-size: 1.5em;
+  }
 }
 
 
@@ -683,3 +688,4 @@ footer {
 
 
 }
+
