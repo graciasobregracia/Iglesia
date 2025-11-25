@@ -134,32 +134,19 @@ header a:hover {
     text-align: center;
 }
 
-/* Fondo específico */
 #Inicio {
-    background:
-
-        url("tu casa, tu familia.png");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url("tu casa, tu familia.png") center/cover no-repeat;
     min-height: 100vh;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
 }
 
-/*AJUSTE PERFECTO PARA CELULAR */
+/* Ajuste específico para móvil */
 @media (max-width: 768px) {
     #Inicio {
-        background-size: 100% auto;   /* ✅ la imagen se ALARGA, no la sección */
-        background-position: center top;
-        max-height: auto;             /* ✅ deja de empujar otras secciones */
-        padding-top: 80px;
-        padding-bottom: 40px;
+        background-size: cover;
+        background-position: center center;
+        min-height: 70vh;
     }
 }
-
 
 
 #Nosotros {
@@ -636,5 +623,6 @@ footer {
 
 
 }
+
 
 
