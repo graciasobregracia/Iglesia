@@ -34,29 +34,6 @@ p {
     line-height: 1.6;
 }
 
-/* --- TITULO DEL HEADER --- */
-.logo-text {
-    font-family: 'Marcellus', serif;
-    font-size: 0.5em;
-    text-align: center;
-    font-weight: 400;
-    color: #ffffff;
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
-}
-
-
-
-/* Efecto suave al pasar el mouse */
-.logo-text:hover {
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55);
-    transform: translateY(-1px);
-}
-@media (max-width: 600px) {
-  .logo-text {
-    font-size: 0.5em;
-  }
-}
 
 
 .titulo-principal {
@@ -499,11 +476,22 @@ footer {
 }
 
 .logo-text {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #6A4BAF;
-    text-transform: uppercase;
+    font-family: 'Marcellus', serif;
+     font-size: 0.5em;
+    text-align: center;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
 }
+
+
+/* Efecto suave al pasar el mouse */
+.logo-text:hover {
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55);
+    transform: translateY(-1px);
+}
+
 
 /* --- RESPONSIVE FIX PARA CELULAR --- */
 @media (max-width: 2000px) {
@@ -689,6 +677,7 @@ footer {
 
 
 }
+
 
 
 
