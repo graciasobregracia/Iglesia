@@ -443,12 +443,12 @@ footer {
 }
 
 /* --- RESPONSIVE FIX PARA CELULAR --- */
-@media (max-width: 2000px) {
+@media (max-width: 768px) {
 
     #Inicio,
     #Nosotros,
     #Servicios {
-        min-height: 100vh;
+        min-height: 65vh;
         /* garantiza que ocupe toda la pantalla */
         background-attachment: scroll;
         /* evita cortes en móvil */
