@@ -496,7 +496,7 @@ footer {
 
 @media (max-width: 600px) {
     .logo-text {
-        font-size: 1.2em !important;
+        font-size: 0.9em !important;
     }
 }
 
@@ -688,3 +688,4 @@ footer {
 
 
 }
+
