@@ -159,7 +159,7 @@ header a:hover {
         /* ya no ocupa toda la pantalla */
         padding-top: 80px;
         /* evita que el header la tape */
-        display: flex;
+       
     }
 }
 
@@ -636,5 +636,6 @@ footer {
     #btnEventos {
         list-style: none;
     }
+
 
 }
