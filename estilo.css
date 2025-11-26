@@ -215,19 +215,16 @@ header a:hover {
 
 /* TARJETA INDIVIDUAL */
 .about-card {
-    background: linear-gradient(160deg, #e6e0ff, #d8d0ff);
+    background: linear-gradient(160deg, rgba(14, 39, 68, 0.12), rgba(14, 39, 68, 0.18));
     box-shadow: 0 6px 14px rgba(14, 39, 68, 0.25);
     border-radius: 14px;
     padding: 25px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    /* dos por fila */
     min-width: 320px;
     max-width: 480px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
 
 .about-card:hover {
     transform: translateY(-5px);
@@ -687,3 +684,4 @@ footer {
     }
 
 }
+
