@@ -102,7 +102,7 @@ p {
     display: none;
     margin-top: 15px;
     padding: 15px;
-    border-top: 2px solid #0e2744;
+    border-top: 2px solid #071A2F;
     background: linear-gradient(135deg, #ffffff, rgba(106, 75, 175, 0.06));
     border-radius: 8px;
     font-size: 0.95em;
@@ -160,7 +160,7 @@ header a {
 }
 
 header a:hover {
-    color: #0e2744;
+    color: #071A2F;
 }
 
 /* --- SECCIONES --- */
@@ -196,7 +196,7 @@ header a:hover {
 
 #Nosotros {
     background: linear-gradient(180deg, #ffffff 0%, #f4f2fa 100%);
-    color: #0e2744;
+    color: #071A2F;
     text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
 }
 
@@ -242,7 +242,7 @@ header a:hover {
 }
 
 .about-card-info h3 {
-    color: #0e2744;
+    color: #071A2F;
     font-size: 1.4rem;
     margin-bottom: 10px;
     text-align: center;
@@ -353,7 +353,7 @@ header a:hover {
 }
 
 .card-front h2 {
-    color: #0e2744;
+    color: #071A2F;
     font-size: 1.5rem;
     margin: 15px 0 5px 0;
 }
@@ -375,13 +375,13 @@ header a:hover {
 }
 
 .card-back h2 {
-    color: #0e2744;
+    color: #071A2F;
     /* púrpura */
     margin-bottom: 10px;
 }
 
 .card-back p {
-    color: #0e2744;
+    color: #071A2F;
     /* navy */
     font-size: 1rem;
     line-height: 1.4;
@@ -389,7 +389,7 @@ header a:hover {
 
 .close-back {
     display: inline-block;
-    color: #0e2744;
+    color: #071A2F;
     font-weight: bold;
     margin-bottom: 15px;
     text-decoration: none;
@@ -422,7 +422,7 @@ header a:hover {
 .card-front-info h3 {
     font-family: 'Great Vibes', cursive;
     font-size: 2.4em;
-    color: #0e2744;
+    color: #071A2F;
     text-align: center;
     text-shadow: 1px 1px 6px rgba(106, 75, 175, 0.4);
 }
@@ -448,7 +448,7 @@ header a:hover {
 }
 
 .contact-info a {
-    color: #0e2744;
+    color: #0f3560;
     text-decoration: none;
     font-weight: bold;
 }
@@ -618,9 +618,9 @@ footer {
     .modal-content h2 {
         font-family: 'Great Vibes', cursive;
         font-size: 3.5em;
-        color: #6A4BAF;
+        color: #0e2744;
         text-align: center;
-        text-shadow: 1px 1px 6px rgba(106, 75, 175, 0.4);
+        text-shadow: 1px 1px 6px rgba(7, 26, 47, 0.7);
         margin-bottom: 15px;
     }
 
