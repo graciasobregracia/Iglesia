@@ -1,56 +1,96 @@
-// ============ MODAL + SLIDER EVENTOS ============
+// MODAL EVENTOS
+
 const modal = document.getElementById("modalEventos");
 const btnEventos = document.getElementById("btnEventos");
-const closeBtn = document.querySelector(".close");
+const span = document.querySelector(".close");
 
-let eventos = document.querySelectorAll(".evento");
+btnEventos.onclick = function () {
+    modal.style.display = "flex";
+};
+
+span.onclick = function () {
+    modal.style.display = "none";
+};
+
+window.onclick = function (event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+
+// EVENTOS DESDE GOOGLE SHEETS
+
+fetch("https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/EventosIglesia")
+    .then(res => res.json())
+    .then(data => {
+
+        console.log("EVENTOS DESDE SHEET:", data);
+
+        const contenedor = document.querySelector(".modal-content");
+
+        // borrar eventos previos si existen
+        contenedor.querySelectorAll(".evento").forEach(e => e.remove());
+
+        data.forEach((fila, i) => {
+
+
+            if (!fila.LINK_IMAGEN) return;
+
+            // extraer ID de Drive
+            let id = fila.LINK_IMAGEN.match(/\/d\/([^\/]+)/)[1];
+
+            // convertir a imagen directa
+            let imgURL = "https://lh3.googleusercontent.com/d/" + id;
+
+            const div = document.createElement("div");
+            div.className = "evento" + (i === 0 ? " activo" : "");
+            div.innerHTML = `<img src="${imgURL}" alt="Eventos iglesia">`;
+
+            contenedor.insertBefore(div, contenedor.querySelector(".flechas"));
+        });
+
+        iniciarSlider();
+
+    })
+    .catch(err => console.error("ERROR EVENTOS:", err));
+
+
+// SLIDER EVENTOS 
+
+let eventos = [];
 let indice = 0;
 
-// Abrir modal
-if (btnEventos) {
-    btnEventos.addEventListener("click", function (e) {
-        e.preventDefault();
-        modal.style.display = "flex";
-        eventos.forEach(ev => ev.classList.remove("activo"));
-        indice = 0;
-        if (eventos[indice]) eventos[indice].classList.add("activo");
-    });
-}
+function iniciarSlider() {
 
-// Cerrar modal
-if (closeBtn) {
-    closeBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-    });
-}
+    eventos = document.querySelectorAll(".evento");
+    indice = 0;
 
-// Flechas
-const nextBtn = document.getElementById("next");
-const prevBtn = document.getElementById("prev");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
 
-if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-        eventos[indice].classList.remove("activo");
-        indice = (indice + 1) % eventos.length;
-        eventos[indice].classList.add("activo");
-    });
-}
+    function mostrarEvento(i) {
+        eventos.forEach((ev, index) => {
+            ev.classList.toggle("activo", index === i);
+        });
+    }
 
-if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-        eventos[indice].classList.remove("activo");
+    if (eventos.length > 0) {
+        mostrarEvento(indice);
+    }
+
+    prev.onclick = () => {
         indice = (indice - 1 + eventos.length) % eventos.length;
-        eventos[indice].classList.add("activo");
-    });
+        mostrarEvento(indice);
+    };
+
+    next.onclick = () => {
+        indice = (indice + 1) % eventos.length;
+        mostrarEvento(indice);
+    };
 }
 
-// Cerrar modal al hacer clic fuera
-window.addEventListener("click", function (e) {
-    if (e.target === modal) modal.style.display = "none";
-});
-
-
-// ============ ANIMACIÓN DE TARJETAS ============
+// ANIMACIÓN DE TARJETAS 
 document.querySelectorAll('.service-card').forEach(card => {
     const closeBtn = card.querySelector('.close-back');
 
@@ -68,11 +108,13 @@ document.querySelectorAll('.service-card').forEach(card => {
     }
 });
 
+
+
 // HORARIO DE TRANSMISIONES (INICIO Y FIN)
 const horariosYouTube = {
     1: { inicio: "19:00", fin: "20:30" }, // Lunes 7pm - 8:30pm
     3: { inicio: "19:00", fin: "22:30" }, // Miércoles 7pm - 8:30pm
-    0: { inicio: "10:00", fin: "11:55" }  // Domingo 10am - 11:55am
+    0: { inicio: "10:00", fin: "11:50" }  // Domingo 10am - 11:50am
 };
 
 const ahora = new Date();
@@ -104,4 +146,5 @@ botonesYT.forEach(boton => {
     }
 
 });
+
 
