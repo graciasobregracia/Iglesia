@@ -114,7 +114,7 @@ document.querySelectorAll('.service-card').forEach(card => {
 const horariosYouTube = {
     1: { inicio: "19:00", fin: "20:30" }, // Lunes 7pm - 8:30pm
     3: { inicio: "19:00", fin: "22:30" }, // Miércoles 7pm - 8:30pm
-    0: { inicio: "10:00", fin: "11:50" }  // Domingo 10am - 11:50am
+    0: { inicio: "10:00", fin: "11:45" }  // Domingo 10am - 11:50am
 };
 
 const ahora = new Date();
@@ -146,5 +146,6 @@ botonesYT.forEach(boton => {
     }
 
 });
+
 
 
