@@ -1,4 +1,7 @@
-/* RESETEO GENERAL */
+html{
+    scroll-behavior: smooth;
+    
+}
 * {
     box-sizing: border-box;
     margin: 0;
@@ -728,3 +731,4 @@ footer {
         opacity: 0.4;
     }
 }
+
