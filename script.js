@@ -152,7 +152,15 @@ window.scrollTo({ top: 700, behavior: 'smooth' });
 document.querySelectorAll('.flip-btn').forEach(btn => {
     btn.addEventListener('click', e => {
         e.stopPropagation();
-        btn.closest('.about-card-flip')
-            .classList.toggle('is-flipped');
+
+        const card = btn.closest('.about-card-flip');
+        const scrolls = card.querySelectorAll('.about-card-scroll');
+
+        //  REINICIAR SCROLL SIEMPRE
+        scrolls.forEach(s => {
+            s.scrollTop = 0;
+        });
+
+        card.classList.toggle('is-flipped');
     });
 });
