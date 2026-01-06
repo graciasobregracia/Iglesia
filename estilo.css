@@ -213,7 +213,7 @@ header a:hover {
     align-items: center;
     flex-wrap: wrap;
     gap: 35px;
-    margin-top: 30px;
+    margin-top: 5px;
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -227,12 +227,12 @@ header a:hover {
     border-radius: 14px;
     padding: 25px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    min-width: 320px;
-    max-width: 420px;
-    height: 520px;
+    width: 600px;          /* 👈 tamaño fijo elegante en PC */
+    height: 540px; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    touch-action: pan-y;
 }
 
 /* ===== FLIP TARJETA NOSOTROS (AUTO ALTURA, SIN CORTES) ===== */
@@ -261,7 +261,7 @@ header a:hover {
     inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .about-card-back {
@@ -333,6 +333,7 @@ header a:hover {
     flex: 1;
     overflow-y: auto;
     padding-right: 6px;
+    -webkit-overflow-scrolling: touch;
 }
 
 
