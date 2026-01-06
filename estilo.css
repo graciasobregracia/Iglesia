@@ -393,7 +393,7 @@ header a:hover {
     }
 
     .about-card {
-        width: 92%;
+        width: 275px;
         height: 575px;
         /* 👈 más baja */
         padding: 14px;
