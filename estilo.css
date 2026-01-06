@@ -1,7 +1,8 @@
-html{
+html {
     scroll-behavior: smooth;
-    
+
 }
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -95,6 +96,8 @@ p {
 .info-btn:hover {
     background-color: #0e2744;
 }
+
+
 
 /* --- TARJETAS EXTRA INFO --- */
 .toggle-info {
@@ -207,7 +210,7 @@ header a:hover {
 .nosotros-card-container {
     display: flex;
     justify-content: center;
-    align-items: stretch;
+    align-items: center;
     flex-wrap: wrap;
     gap: 35px;
     margin-top: 30px;
@@ -225,23 +228,124 @@ header a:hover {
     padding: 25px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     min-width: 320px;
-    max-width: 480px;
+    max-width: 420px;
+    height: 520px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
+/* ===== FLIP TARJETA NOSOTROS (AUTO ALTURA, SIN CORTES) ===== */
+.about-card-flip {
+    perspective: 1400px;
+    align-self: stretch;
+}
+
+
+.about-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+}
+
+
+.about-card-flip.is-flipped .about-card-inner {
+    transform: rotateY(180deg);
+}
+
+.about-card-front,
+.about-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.about-card-back {
+    transform: rotateY(180deg);
+}
+
+
+
+.about-card-back {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(180deg);
+
+
+}
+
+
 
 .about-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 14px rgba(14, 39, 68, 0.25);
 }
 
+.about-btn {
+    margin-top: 15px;
+    padding: 14px 20px;
+    background: #071A2F;
+    color: #FAF9F6;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(7, 26, 47, 0.45);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+}
+
+.about-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(7, 26, 47, 0.6);
+}
+
+.about-card-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.about-card-scroll::-webkit-scrollbar-thumb {
+    background: rgba(14, 39, 68, 0.4);
+    border-radius: 10px;
+}
+
+
+
 /* CONTENIDO DE LA TARJETA */
 .about-card-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     padding: 22px;
     color: #071A2F;
     background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
 }
+
+.about-card-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+
+
+.about-card-info::-webkit-scrollbar {
+    width: 6px;
+}
+
+.about-card-info::-webkit-scrollbar-thumb {
+    background: rgba(14, 39, 68, 0.4);
+    border-radius: 10px;
+}
+
 
 .about-card-info h3 {
     color: #071A2F;
@@ -731,4 +835,3 @@ footer {
         opacity: 0.4;
     }
 }
-
