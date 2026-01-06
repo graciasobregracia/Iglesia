@@ -222,17 +222,17 @@ header a:hover {
 /* TARJETA INDIVIDUAL */
 .about-card {
     background: rgba(48, 140, 245, 0.2);
-    /* 20% del color real */
     box-shadow: 0 6px 14px rgba(14, 39, 68, 0.25);
     border-radius: 14px;
     padding: 25px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    width: 600px;          /* 👈 tamaño fijo elegante en PC */
-    height: 540px; 
+
+    width: 600px;
+    height: 540px;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    touch-action: pan-y;
 }
 
 /* ===== FLIP TARJETA NOSOTROS (AUTO ALTURA, SIN CORTES) ===== */
@@ -333,7 +333,13 @@ header a:hover {
     flex: 1;
     overflow-y: auto;
     padding-right: 6px;
+
+
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+
+
+    overscroll-behavior: contain;
 }
 
 
@@ -363,25 +369,47 @@ header a:hover {
 }
 
 /* RESPONSIVO */
-@media (max-width: 860px) {
+@media (max-width: 768px) {
     .nosotros-card-container {
         flex-direction: column;
         align-items: center;
     }
 
     .about-card {
-        width: 90%;
-        max-width: 600px;
+        width: 92%;
+        height: 575px;
+        /* 👈 más baja */
+        padding: 14px;
+        /* 👈 menos marco */
+        border-radius: 16px;
+    }
+
+    .about-card-info {
+        padding: 14px;
+        /* 👈 menos padding interno */
     }
 
     .about-card-info h3 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
     }
 
     .about-card-info p {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+
+    .about-card-scroll {
+        padding-right: 4px;
+    }
+
+    .about-btn {
+        margin-top: 10px;
+        padding: 12px 18px;
+        font-size: 13px;
     }
 }
+
 
 
 
