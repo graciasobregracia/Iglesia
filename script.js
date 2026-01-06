@@ -22,6 +22,8 @@ window.onclick = function (event) {
 
 // EVENTOS DESDE GOOGLE SHEETS
 
+
+
 fetch("https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/EventosIglesia")
     .then(res => res.json())
     .then(data => {
@@ -30,32 +32,57 @@ fetch("https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/Eve
 
         const contenedor = document.querySelector(".modal-content");
 
-        // borrar eventos previos si existen
+        // borrar eventos previos
         contenedor.querySelectorAll(".evento").forEach(e => e.remove());
 
-        data.forEach((fila, i) => {
+        let eventosValidos = 0;
 
+        data.forEach(fila => {
 
             if (!fila.LINK_IMAGEN) return;
 
-            // extraer ID de Drive
-            let id = fila.LINK_IMAGEN.match(/\/d\/([^\/]+)/)[1];
+            const match = fila.LINK_IMAGEN.match(/\/d\/([^\/]+)/);
+            if (!match) return;
 
-            // convertir a imagen directa
+            const id = match[1];
             let imgURL = "https://lh3.googleusercontent.com/d/" + id;
 
+
             const div = document.createElement("div");
-            div.className = "evento" + (i === 0 ? " activo" : "");
+            div.className = "evento";
             div.innerHTML = `<img src="${imgURL}" alt="Eventos iglesia">`;
 
             contenedor.insertBefore(div, contenedor.querySelector(".flechas"));
+            eventosValidos++;
         });
+
+        // SI NO HAY EVENTOS → MENSAJE AMIGABLE
+        if (eventosValidos === 0) {
+
+            const mensaje = document.createElement("div");
+            mensaje.className = "evento activo";
+            mensaje.innerHTML = `
+        <p class="mensaje-eventos">
+           <strong>Algo nuevo se acerca<br>
+           en nuestra iglesia</strong>
+        </p>
+    `;
+
+            contenedor.insertBefore(mensaje, contenedor.querySelector(".flechas"));
+        }
 
         iniciarSlider();
 
+        // OCULTAR FLECHAS SI NO SON NECESARIAS
+        const flechas = contenedor.querySelector(".flechas");
+        if (eventosValidos <= 1 && flechas) {
+            flechas.style.display = "none";
+        } else if (flechas) {
+            flechas.style.display = "flex";
+        }
+
     })
     .catch(err => console.error("ERROR EVENTOS:", err));
-
 
 // SLIDER EVENTOS 
 
@@ -147,7 +174,7 @@ botonesYT.forEach(boton => {
     }
 
 });
-window.scrollTo({ top: 700, behavior: 'smooth' });
+
 
 document.querySelectorAll('.flip-btn').forEach(btn => {
     btn.addEventListener('click', e => {
@@ -172,3 +199,4 @@ document.querySelectorAll('.flip-btn').forEach(btn => {
         card.classList.toggle('is-flipped');
     }, { passive: false });
 });
+
