@@ -151,16 +151,24 @@ window.scrollTo({ top: 700, behavior: 'smooth' });
 
 document.querySelectorAll('.flip-btn').forEach(btn => {
     btn.addEventListener('click', e => {
+        e.preventDefault();
         e.stopPropagation();
 
         const card = btn.closest('.about-card-flip');
-        const scrolls = card.querySelectorAll('.about-card-scroll');
+        if (!card) return;
 
-        //  REINICIAR SCROLL SIEMPRE
-        scrolls.forEach(s => {
-            s.scrollTop = 0;
-        });
+        // Reiniciar scroll SOLO del lado visible
+        const activeScroll = card.querySelector(
+            card.classList.contains('is-flipped')
+                ? '.about-card-front .about-card-scroll'
+                : '.about-card-back .about-card-scroll'
+        );
 
+        if (activeScroll) {
+            activeScroll.scrollTop = 0;
+        }
+
+        // Girar tarjeta
         card.classList.toggle('is-flipped');
-    });
+    }, { passive: false });
 });
