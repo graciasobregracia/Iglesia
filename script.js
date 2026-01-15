@@ -1,5 +1,6 @@
-
 // MODAL EVENTOS
+
+
 
 const modal = document.getElementById("modalEventos");
 const btnEventos = document.getElementById("btnEventos");
@@ -141,7 +142,7 @@ document.querySelectorAll('.service-card').forEach(card => {
 // HORARIO DE TRANSMISIONES (INICIO Y FIN)
 const horariosYouTube = {
     1: { inicio: "19:00", fin: "20:30" }, // Lunes 7pm - 8:30pm
-    3: { inicio: "19:00", fin: "22:30" }, // Miércoles 7pm - 8:30pm
+    3: { inicio: "23:00", fin: "00:30" }, // Miércoles 7pm - 8:30pm
     0: { inicio: "10:00", fin: "11:50" }  // Domingo 10am - 11:50am
 };
 
@@ -172,6 +173,7 @@ botonesYT.forEach(boton => {
     } else {
         boton.style.display = "none";
     }
+
 
 });
 
@@ -219,4 +221,40 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealElements.forEach(el => revealObserver.observe(el));
+
+document.addEventListener("DOMContentLoaded", () => {
+    const seccionServicios = document.getElementById("Servicios");
+    const aviso = document.getElementById("aviso-servicios");
+
+    if (!seccionServicios || !aviso) return;
+
+    // Solo considerar los botones de live que están visibles
+    const botonesLiveActivos = Array.from(document.querySelectorAll(".boton-live"))
+        .filter(boton => boton.style.display !== "none");
+
+    if (botonesLiveActivos.length === 0) return; // No hay live → no mostramos aviso
+
+    const observerServicios = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    aviso.classList.add("activo");
+
+                    // Al girar cualquier tarjeta → ocultar aviso
+                    botonesLiveActivos.forEach(card => {
+                        card.addEventListener("click", () => {
+                            aviso.classList.remove("activo");
+                        }, { once: true });
+                    });
+
+                } else {
+                    aviso.classList.remove("activo"); // desaparece al salir de la sección
+                }
+            });
+        },
+        { threshold: 0.35 }
+    );
+
+    observerServicios.observe(seccionServicios);
+});
 
