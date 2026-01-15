@@ -896,6 +896,7 @@ footer {
         opacity: 0.4;
     }
 }
+
 .mensaje-eventos {
     padding: 30px;
     text-align: center;
@@ -904,4 +905,31 @@ footer {
     font-size: 2.4em;
     line-height: 1.4;
     text-shadow: 1px 1px 6px rgba(7, 26, 47, 0.4);
+}
+
+/* ===== SCROLL REVEAL (estilo institucional elegante) ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1s ease, transform 1s ease;
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Variantes sutiles */
+.reveal-left {
+    transform: translateX(-60px);
+}
+
+.reveal-right {
+    transform: translateX(60px);
+}
+
+.reveal-left.active,
+.reveal-right.active {
+    transform: translateX(0);
 }
