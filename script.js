@@ -199,4 +199,24 @@ document.querySelectorAll('.flip-btn').forEach(btn => {
         card.classList.toggle('is-flipped');
     }, { passive: false });
 });
+// ===== SCROLL REVEAL OBSERVER =====
+const revealElements = document.querySelectorAll(
+    ".reveal, .reveal-left, .reveal-right"
+);
+
+const revealObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                revealObserver.unobserve(entry.target); // solo una vez
+            }
+        });
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+revealElements.forEach(el => revealObserver.observe(el));
 
