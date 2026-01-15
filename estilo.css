@@ -568,7 +568,7 @@ header a:hover {
     .service-card {
         width: 100%;
         max-width: 400px;
-        height: 410px;
+        height: 430px;
     }
 }
 
@@ -932,4 +932,94 @@ footer {
 .reveal-left.active,
 .reveal-right.active {
     transform: translateX(0);
+}
+
+/* ===== HOVER INTERACTIVO TARJETAS ===== */
+.tarjeta {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.tarjeta:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* ===== BOTÓN PRINCIPAL (CTA) ===== */
+.cta-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 14px 30px;
+    background: linear-gradient(90deg, #f2c94c, #e0b84a);
+    color: #1f3c88;
+    font-weight: 600;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== VERSÍCULO DESTACADO ===== */
+.versiculo {
+    font-style: italic;
+    background: #f5f8ff;
+    border-left: 4px solid #f2c94c;
+    padding: 20px;
+    margin: 40px auto;
+    max-width: 800px;
+    color: #333;
+}
+
+.versiculo span {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #1f3c88;
+}
+
+.aviso-servicios {
+    position: sticky;
+    top: 90px;
+    /* debajo del header */
+    margin: 0 auto 20px;
+    width: fit-content;
+    padding: 8px 14px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    font-size: 13px;
+    border-radius: 20px;
+    z-index: 50;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Cuando se activa */
+.aviso-servicios.activo {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animación suave */
+.aviso-servicios::after {
+    content: " ↺";
+    animation: giroHint 1.5s infinite;
+}
+
+@keyframes giroHint {
+    0% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.4;
+    }
 }
