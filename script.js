@@ -142,7 +142,7 @@ document.querySelectorAll('.service-card').forEach(card => {
 // HORARIO DE TRANSMISIONES (INICIO Y FIN)
 const horariosYouTube = {
     1: { inicio: "19:00", fin: "20:30" }, // Lunes 7pm - 8:30pm
-    3: { inicio: "23:00", fin: "00:30" }, // Miércoles 7pm - 8:30pm
+    3: { inicio: "19:00", fin: "20:30" }, // Miércoles 7pm - 8:30pm
     0: { inicio: "10:00", fin: "11:50" }  // Domingo 10am - 11:50am
 };
 
@@ -257,4 +257,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     observerServicios.observe(seccionServicios);
 });
+
 
