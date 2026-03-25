@@ -1023,3 +1023,9 @@ footer {
         opacity: 0.4;
     }
 }
+/* Asegurar que todos los contenedores no se salgan */
+section,
+.container {
+    max-width: 106vw;
+    box-sizing: border-box;
+}
