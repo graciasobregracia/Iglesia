@@ -1023,6 +1023,11 @@ footer {
         opacity: 0.4;
     }
 }
+/* Evitar scroll horizontal en móviles */
+html,
+body {
+    overflow-x: hidden;
+}
 /* Asegurar que todos los contenedores no se salgan */
 section,
 .container {
