@@ -13,6 +13,7 @@ body {
     font-family: "Roboto", sans-serif;
     background: #ffffff;
     color: #071A2F;
+    font-size: 1;
 }
 
 /* --- TITULOS --- */
@@ -124,6 +125,9 @@ header {
     color: #fff;
     padding: 15px 0;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    font-size: 0.96em;
+
 }
 
 header .header-flex {
@@ -144,6 +148,7 @@ header .logo {
 header .logo img {
     height: 50px;
     width: auto;
+    text-align: center;
 }
 
 header .logo-text {
@@ -486,6 +491,7 @@ header a:hover {
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+
 }
 
 .card-front {
@@ -518,12 +524,23 @@ header a:hover {
 
 /* ======= CARA TRASERA ======= */
 .card-back {
-    background-color: #ffffff;
-    /* blanco puro */
+
+    
+    
+    background: #faf5f5;
+    
+
     transform: rotateY(180deg);
     text-align: center;
     padding: 20px;
     border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    /* mantiene el orden vertical */
+    justify-content: center;
+    /* centra el contenido verticalmente */
+    padding: 20px;
+
 }
 
 .card-back h2 {
@@ -537,6 +554,10 @@ header a:hover {
     /* navy */
     font-size: 1rem;
     line-height: 1.4;
+
+
+
+
 }
 
 .close-back {
@@ -546,6 +567,7 @@ header a:hover {
     margin-bottom: 15px;
     text-decoration: none;
     cursor: pointer;
+
 }
 
 .close-back:hover {
@@ -567,8 +589,9 @@ header a:hover {
 
     .service-card {
         width: 100%;
-        max-width: 400px;
-        height: 430px;
+        max-width: 340px;
+        max-height: 445px;
+
     }
 }
 
@@ -1023,11 +1046,13 @@ footer {
         opacity: 0.4;
     }
 }
+
 /* Evitar scroll horizontal en móviles */
 html,
 body {
     overflow-x: hidden;
 }
+
 /* Asegurar que todos los contenedores no se salgan */
 section,
 .container {
