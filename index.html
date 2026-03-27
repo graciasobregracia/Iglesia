@@ -5,19 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iglesia Gracia Sobre Gracia</title>
+    <meta name="description"
+        content="Iglesia Cristiana Gracia Sobre Gracia. Conoce nuestros servicios, eventos y canales de contacto.">
     <link rel="stylesheet" href="estilo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-
-
-
-
-
-    <!-- jQuery + ScrollUp -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="jquery.scrollUp.js"></script>
     <script>
@@ -27,286 +24,261 @@
             });
         });
     </script>
-
 </head>
 
 <body>
-
-    <!-- HEADER -->
     <header>
         <div class="container header-flex">
-            <!-- Logo + Nombre -->
             <div class="logo-container">
                 <img src="logo.png" alt="Logo Iglesia" class="logo-img">
                 <p class="logo-text">Gracia Sobre Gracia</p>
             </div>
 
-            <nav>
+            <nav aria-label="Navegaci&oacute;n principal">
                 <a href="#Inicio">Inicio</a>
                 <a href="#Nosotros">Nosotros</a>
                 <a href="#Servicios">Servicios</a>
                 <a href="#Contacto">Contacto</a>
-                <a href="#" id="btnEventos">Eventos</a>
-
-
+                <a href="#modalEventos" id="btnEventos" aria-haspopup="dialog" aria-controls="modalEventos">Eventos</a>
             </nav>
         </div>
     </header>
 
-    <!-- INICIO -->
     <section id="Inicio" class="reveal">
         <div class="container">
-            <h1 class="titulo-principal">
-                Bienvenidos a casa
-            </h1>
-
-            <h2 class="titulo-grande">Tu refugio, <br>tu hogar</h2>
+            <h1 class="titulo-principal">Bienvenidos a casa</h1>
+            <h2 class="titulo-grande">
+                <span>Tu refugio</span>
+                <span>tu hogar</span>
+            </h2>
 
             <p class="texto-descriptivo">
                 Donde el amor crece, la fe se afirma y la familia se une
             </p>
 
-            <!-- BOTÓN CTA AQUÍ -->
             <a href="#Contacto" class="cta-btn reveal">
                 Planifica tu visita
             </a>
-
         </div>
-
-
     </section>
 
-    <!-- NOSOTROS -->
     <section id="Nosotros" class="reveal">
         <div class="container">
             <h2>Sobre Nosotros</h2>
 
             <div class="nosotros-card-container">
-
                 <article class="about-card about-card-flip reveal">
                     <div class="about-card-inner">
-
-                        <!-- CARA FRONTAL -->
                         <div class="about-card-front">
                             <div class="about-card-info">
                                 <div class="about-card-scroll">
-                                    <h3>NUESTRA DECLARACIÓN DE FE</h3>
-                                    <p> En la Iglesia Cristiana Gracia sobre Gracia creemos firmemente en el Dios Trino:
-                                        Padre, Hijo y Espíritu Santo, tres personas distintas y un solo Dios verdadero.
-                                        Nuestra fe se fundamenta en la Palabra de Dios como única regla de fe y
-                                        conducta, reconociendo la Biblia como la inspirada e infalible revelación
-                                        divina. </p>
-                                    <p> Creemos que la salvación es un don gratuito de Dios, otorgado por Su gracia y
-                                        recibido únicamente por medio de la fe en Jesucristo, no por obras humanas. En
-                                        esta verdad se sostiene nuestra esperanza y se centra nuestra predicación: que
-                                        solo en Cristo hay perdón, restauración y vida eterna. </p>
-                                    <p> Nos esforzamos por vivir conforme a la sana doctrina, proclamando el evangelio
-                                        con pureza, edificando la iglesia sobre el fundamento apostólico y extendiendo
-                                        el amor de Cristo a todas las personas. </p>
-
+                                    <h3>NUESTRA DECLARACI&Oacute;N DE FE</h3>
+                                    <p>En la Iglesia Cristiana Gracia Sobre Gracia creemos firmemente en el Dios Trino:
+                                        Padre, Hijo y Esp&iacute;ritu Santo, tres personas distintas y un solo Dios verdadero.
+                                        Nuestra fe se fundamenta en la Palabra de Dios como &uacute;nica regla de fe y
+                                        conducta, reconociendo la Biblia como la inspirada e infalible revelaci&oacute;n
+                                        divina.</p>
+                                    <p>Creemos que la salvaci&oacute;n es un don gratuito de Dios, otorgado por Su gracia y
+                                        recibido &uacute;nicamente por medio de la fe en Jesucristo, no por obras humanas. En
+                                        esta verdad se sostiene nuestra esperanza y se centra nuestra predicaci&oacute;n: que
+                                        solo en Cristo hay perd&oacute;n, restauraci&oacute;n y vida eterna.</p>
+                                    <p>Nos esforzamos por vivir conforme a la sana doctrina, proclamando el evangelio
+                                        con pureza, edificando la iglesia sobre el fundamento apost&oacute;lico y extendiendo
+                                        el amor de Cristo a todas las personas.</p>
                                 </div>
 
-                                <button class="about-btn flip-btn">
-                                    Conoce nuestra declaración de fe
+                                <button class="about-btn flip-btn" type="button">
+                                    Conoce nuestra declaraci&oacute;n de fe
                                 </button>
                             </div>
                         </div>
 
-                        <!-- CARA TRASERA -->
                         <div class="about-card-back">
                             <div class="about-card-info">
                                 <div class="about-card-scroll">
                                     <h3>NUESTRA HISTORIA</h3>
-                                    <p> Juan Esteban Jaramillo, oriundo del municipio de Yarumal (Antioquia), recibió a
-                                        los 19 años la convicción de la salvación. Desde ese momento nació en su corazón
-                                        un profundo deseo de compartir la Palabra de Dios, comenzando su ministerio en
-                                        pequeños grupos familiares. </p>
-                                    <p> Un año después fue enviado al corregimiento de Llanos de Cuivá, donde durante
-                                        dos años predicó fielmente en los hogares, llevando el mensaje del evangelio a
-                                        cada familia. Posteriormente, su pastor lo envió al municipio de Santa Rosa de
-                                        Osos, donde se realizó el primer culto con la participación de cinco personas.
+                                    <p>Juan Esteban Jaramillo, oriundo del municipio de Yarumal (Antioquia), recibi&oacute; a
+                                        los 19 a&ntilde;os la convicci&oacute;n de la salvaci&oacute;n. Desde ese momento naci&oacute; en su
+                                        coraz&oacute;n un profundo deseo de compartir la Palabra de Dios, comenzando su
+                                        ministerio en peque&ntilde;os grupos familiares.</p>
+                                    <p>Un a&ntilde;o despu&eacute;s fue enviado al corregimiento de Llanos de Cuiv&aacute;, donde durante
+                                        dos a&ntilde;os predic&oacute; fielmente en los hogares, llevando el mensaje del evangelio a
+                                        cada familia. Posteriormente, su pastor lo envi&oacute; al municipio de Santa Rosa de
+                                        Osos, donde se realiz&oacute; el primer culto con la participaci&oacute;n de cinco personas.
                                     </p>
-                                    <p> Con el paso del tiempo, la congregación creció rápidamente, lo que hizo
-                                        necesario trasladarse a un lugar con capacidad para cerca de 100 personas. </p>
-                                    <p> El 17 de noviembre de 2023, guiado por el Señor, fundó la Iglesia Cristiana
-                                        Gracia sobre Gracia, con la visión de predicar la Palabra de Dios con toda
-                                        pureza y fidelidad. </p>
+                                    <p>Con el paso del tiempo, la congregaci&oacute;n creci&oacute; r&aacute;pidamente, lo que hizo
+                                        necesario trasladarse a un lugar con capacidad para cerca de 100 personas.</p>
+                                    <p>El 17 de noviembre de 2023, guiado por el Se&ntilde;or, fund&oacute; la Iglesia Cristiana
+                                        Gracia Sobre Gracia, con la visi&oacute;n de predicar la Palabra de Dios con toda
+                                        pureza y fidelidad.</p>
                                 </div>
 
-                                <button class="about-btn flip-btn">
+                                <button class="about-btn flip-btn" type="button">
                                     Conoce nuestra historia
                                 </button>
                             </div>
                         </div>
-
                     </div>
                 </article>
-
             </div>
         </div>
-
     </section>
 
-
-
-    <!-- SERVICIOS -->
-
     <section id="Servicios">
-
         <blockquote class="versiculo reveal">
-            “Porque donde están dos o tres congregados en mi nombre, allí estoy yo.”
+            &ldquo;Porque donde est&aacute;n dos o tres congregados en mi nombre, all&iacute; estoy yo.&rdquo;
             <span>Mateo 18:20</span>
         </blockquote>
 
-
         <div id="aviso-servicios" class="aviso-servicios">
-            ↺ Toca las tarjetas para girarlas y ver el botón del live
+            Toca las tarjetas para girarlas y ver el bot&oacute;n del live
         </div>
 
         <div class="card-container">
-
-            <!-- Tarjeta 1 -->
             <article class="service-card reveal" tabindex="0" aria-pressed="false"
-                aria-label="Culto de Enseñanza - ver detalles">
+                aria-label="Culto de Ense&ntilde;anza - ver detalles">
                 <div class="card-inner">
                     <div class="card-front">
-                        <img src="Servicio De Enseñanza.png" alt="Culto de Enseñanza" class="card-img" loading="lazy">
+                        <img src="Servicio De Ense&#241;anza.png" alt="Culto de Ense&ntilde;anza" class="card-img"
+                            loading="lazy">
                         <div class="card-front-info">
                             <h3>Creciendo en la Palabra</h3>
                         </div>
-                        <button class="info-btn">
-                            Conoce la enseñanza
+                        <button class="info-btn" type="button">
+                            Conoce la ense&ntilde;anza
                         </button>
                     </div>
 
                     <div class="card-back">
-                        <!-- <button class="close-back" aria-label="Volver">← Volver</button>-->
-                        <h3>Culto de Enseñanza</h3>
-                        <p><strong>Día:</strong> Miércoles</p>
+                        <h3>Culto de Ense&ntilde;anza</h3>
+                        <p><strong>D&iacute;a:</strong> Mi&eacute;rcoles</p>
                         <p><strong>Hora:</strong> 7:00 pm</p>
-                        <p>Un tiempo para conocer al Dios Trino y perseverar en Su Palabra,|
-                            avivando en nosotros el llamado de seguir a Jesucristo</p>
-                        <p>y crecer juntos con gozo en la comunión de la congregación.</p>
-                        </p>
+                        <p>Un tiempo para conocer al Dios Trino y perseverar en Su Palabra,</p>
+                        <p>avivando en nosotros el llamado de seguir a Jesucristo</p>
+                        <p>y crecer juntos con gozo en la comuni&oacute;n de la congregaci&oacute;n.</p>
                         <br>
-                        <!-- MIÉRCOLES -->
                         <div class="boton-live" data-dia="3">
-                            <a href="https://youtube.com/@icgraciasobregracia" target="_blank">🔴 EN VIVO</a>
+                            <a href="https://youtube.com/@icgraciasobregracia" target="_blank"
+                                rel="noopener noreferrer">EN VIVO</a>
                         </div>
-
                     </div>
                 </div>
             </article>
 
-            <!-- Tarjeta 2 -->
             <article class="service-card reveal-right" tabindex="0" aria-pressed="false"
                 aria-label="Culto Dominical - ver detalles">
                 <div class="card-inner">
                     <div class="card-front">
                         <img src="Servicio Dominical.png" alt="Culto Dominical" class="card-img" loading="lazy">
                         <div class="card-front-info">
-                            <h3>Culto de Adoración</h3>
+                            <h3>Culto de Adoraci&oacute;n</h3>
                         </div>
-                        <button class="info-btn">
+                        <button class="info-btn" type="button">
                             Vivir la experiencia
                         </button>
                     </div>
 
                     <div class="card-back">
-                        <!-- <button class="close-back" aria-label="Volver">← Volver</button>-->
                         <h3>Culto Dominical</h3>
-                        <p><strong>Día:</strong> Domingo</p>
+                        <p><strong>D&iacute;a:</strong> Domingo</p>
                         <p><strong>Hora:</strong> 9:50 am</p>
                         <p>Un encuentro para adorar a Jesucristo</p>
-                        <p>y celebrar la salvación con gozo y paz,</p>
-                        <p>al reunirnos en la presencia del Espíritu Santo.</p>
-
-
+                        <p>y celebrar la salvaci&oacute;n con gozo y paz,</p>
+                        <p>al reunirnos en la presencia del Esp&iacute;ritu Santo.</p>
                         <br>
-                        <!-- DOMINGO -->
                         <div class="boton-live" data-dia="0">
-                            <a href="https://youtube.com/@icgraciasobregracia" target="_blank">🔴 EN VIVO</a>
+                            <a href="https://youtube.com/@icgraciasobregracia" target="_blank"
+                                rel="noopener noreferrer">EN VIVO</a>
                         </div>
-
                     </div>
                 </div>
             </article>
         </div>
     </section>
 
-
-
-    <!-- CONTACTO -->
     <section id="Contacto" class="reveal">
-        <div class="container">
-            <h2>Contáctanos</h2>
-            <p>Estamos aquí para ti. Puedes comunicarte con nosotros a través de los siguientes medios:</p>
+        <div class="container contact-layout">
+            <div class="contact-intro">
+                <h2>Cont&aacute;ctanos</h2>
+                <p>Estamos aqu&iacute; para ti. Si deseas visitarnos, pedir oraci&oacute;n o recibir m&aacute;s informaci&oacute;n,
+                    puedes comunicarte por cualquiera de estos medios.</p>
 
-            <div class="contact-info">
-                <p><strong>📍 Dirección:</strong> Calle 28 AA # 31 - 13 | B. San Miguel | Santa Rosa De Osos</p>
-                <p><strong>💬 WhatsApp:</strong>
-                    <a href="https://wa.me/573018664201?text=Hola%20Iglesia%20Gracia%20Sobre%20Gracia,%20quisiera%20más%20información,%20sobre%20ustedes."
-                        target="_blank">
-                        Escríbenos por WhatsApp
+                <div class="contact-actions">
+                    <a class="contact-cta" href="https://graciasobregracia.github.io/Contacto.github.io/index.html"
+                        target="_blank" rel="noopener noreferrer">
+                        Abrir formulario de contacto
                     </a>
-                </p>
-                <p><strong>✉️ Correo:</strong>
-                    <a
-                        href="mailto:icgraciasobregracia@gmail.com?subject=Información Iglesia Gracia Sobre Gracia&body=Hola, quisiera más información sobre su iglesia.">
-                        Estamos para ti
+                    <a class="contact-cta contact-cta-secondary"
+                        href="https://wa.me/573018664201?text=Hola%20Iglesia%20Gracia%20Sobre%20Gracia,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20ustedes."
+                        target="_blank" rel="noopener noreferrer">
+                        Escribir por WhatsApp
                     </a>
-                </p>
+                </div>
+            </div>
 
-                <p><strong>🌐 Facebook:</strong>
-                    <a href="https://www.facebook.com/iglesiacristianagraciasobregraciasro" target="_blank">Encuéntranos
-                        en Facebook</a>
-                </p>
-                <p><strong>🎥 YouTube:</strong>
-                    <a href="https://www.youtube.com/@icgraciasobregracia" target="_blank">Síguenos en nuestro canal</a>
-                </p>
-                <p><strong>🎥 TikTok:</strong>
-                    <a href="https://www.tiktok.com/@icgraciasobregracia?_r=1&_t=ZS-91ptzN2ySUp"
-                        target="_blank">Contenido que edifica</a>
-                </p>
-                <p><strong>🌐 Instagram:</strong>
-                    <a href="https://www.instagram.com/icgraciasobregracia" target="_blank">Visítanos en Instagram</a>
-                </p>
+            <div class="contact-info" aria-label="Canales de contacto">
+                <article class="contact-card contact-card-location">
+                    <h3>Vis&iacute;tanos</h3>
+                    <div class="contact-address">
+                        <span>Calle 28 AA # 31 - 13</span>
+                        <span>B. San Miguel</span>
+                        <span>Santa Rosa de Osos</span>
+                    </div>
+                </article>
+
+                <article class="contact-card contact-card-email">
+                    <h3>Correo</h3>
+                    <div class="contact-email-box">
+                        <p class="contact-email-text">icgraciasobregracia@gmail.com</p>
+                    </div>
+                    <div class="contact-inline-actions">
+                        <button class="contact-mini-btn contact-mini-btn-secondary" type="button"
+                            data-copy-email="icgraciasobregracia@gmail.com">
+                            Copiar correo
+                        </button>
+                    </div>
+                </article>
+
+                <article class="contact-card">
+                    <h3>Redes sociales</h3>
+                    <div class="social-links">
+                        <a class="social-link" href="https://www.facebook.com/iglesiacristianagraciasobregraciasro"
+                            target="_blank" rel="noopener noreferrer">Facebook</a>
+                        <a class="social-link" href="https://www.youtube.com/@icgraciasobregracia" target="_blank"
+                            rel="noopener noreferrer">YouTube</a>
+                        <a class="social-link" href="https://www.tiktok.com/@icgraciasobregracia?_r=1&_t=ZS-91ptzN2ySUp"
+                            target="_blank" rel="noopener noreferrer">TikTok</a>
+                        <a class="social-link" href="https://www.instagram.com/icgraciasobregracia" target="_blank"
+                            rel="noopener noreferrer">Instagram</a>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="container">
             <p>&copy; 2025 Gracia Sobre Gracia. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-
-    <!-- Modal -->
-    <div id="modalEventos" class="modal">
+    <div id="modalEventos" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalEventos">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" aria-label="Cerrar modal">&times;</span>
 
-            <h2>Próximos Eventos</h2>
+            <h2 id="tituloModalEventos">Pr&oacute;ximos Eventos</h2>
 
-            <img id="" src="" alt="" style="width:100%; border-radius:10px; margin-top:15px;">
+            <img id="imagenEventoModal" src="" alt="Evento destacado"
+                style="width:100%; border-radius:10px; margin-top:15px; display:none;">
 
-
-
-
-
-
-            <!-- Flechas -->
             <div class="flechas">
-                <button id="prev">&#10094;</button>
-                <button id="next">&#10095;</button>
+                <button id="prev" type="button" aria-label="Evento anterior">&#10094;</button>
+                <button id="next" type="button" aria-label="Siguiente evento">&#10095;</button>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 
 </html>
