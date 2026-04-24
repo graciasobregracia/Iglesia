@@ -12,10 +12,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const aviso = document.getElementById("aviso-servicios");
     const seccionServicios = document.getElementById("Servicios");
     const copyEmailButtons = document.querySelectorAll("[data-copy-email]");
+    const disabledLinks = document.querySelectorAll(".contact-cta-disabled");
+    const announcer = document.getElementById("announcer");
+    const versiculo = document.querySelector(".versiculo");
+    const versiculoReferencia = versiculo?.querySelector("span");
 
     let eventos = [];
     let indice = 0;
     let avisoOcultoPorInteraccion = false;
+    let lastFocusedElement = null;
     const FORZAR_LIVE_PRUEBA = false;
 
     const horariosYouTube = {
@@ -23,16 +28,61 @@ document.addEventListener("DOMContentLoaded", () => {
         3: { inicio: "19:00", fin: "20:30" }
     };
 
+    const versiculosCongregacion = [
+        {
+            texto: "Porque donde est&aacute;n dos o tres congregados en mi nombre, all&iacute; estoy yo.",
+            referencia: "Mateo 18:20"
+        },
+        {
+            texto: "Y perseveraban en la doctrina de los ap&oacute;stoles, en la comuni&oacute;n unos con otros, en el partimiento del pan y en las oraciones.",
+            referencia: "Hechos 2:42"
+        },
+        {
+            texto: "Mirad cu&aacute;n bueno y cu&aacute;n delicioso es habitar los hermanos juntos en armon&iacute;a.",
+            referencia: "Salmo 133:1"
+        },
+        {
+            texto: "Y consider&eacute;monos unos a otros para estimularnos al amor y a las buenas obras; no dejando de congregarnos, como algunos tienen por costumbre.",
+            referencia: "Hebreos 10:24-25"
+        },
+        {
+            texto: "Sol&iacute;citos en guardar la unidad del Esp&iacute;ritu en el v&iacute;nculo de la paz.",
+            referencia: "Efesios 4:3"
+        },
+        {
+            texto: "Por tanto, recib&iacute;os los unos a los otros, como tambi&eacute;n Cristo nos recibi&oacute;, para gloria de Dios.",
+            referencia: "Romanos 15:7"
+        }
+    ];
+
+    function actualizarVersiculo() {
+        if (!versiculo || !versiculoReferencia) return;
+
+        const versiculoAleatorio =
+            versiculosCongregacion[Math.floor(Math.random() * versiculosCongregacion.length)];
+
+        versiculo.innerHTML = `&ldquo;${versiculoAleatorio.texto}&rdquo;<span>${versiculoAleatorio.referencia}</span>`;
+    }
+
     function abrirModal() {
         if (!modal) return;
+        lastFocusedElement = document.activeElement;
         modal.style.display = "flex";
+        modal.setAttribute("aria-hidden", "false");
+        btnEventos?.setAttribute("aria-expanded", "true");
         document.body.style.overflow = "hidden";
+        closeModalBtn?.focus();
     }
 
     function cerrarModal() {
         if (!modal) return;
         modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+        btnEventos?.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
+        if (lastFocusedElement instanceof HTMLElement) {
+            lastFocusedElement.focus();
+        }
     }
 
     if (btnEventos) {
@@ -53,18 +103,43 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && modal?.style.display === "flex") {
             cerrarModal();
+            return;
+        }
+
+        if (event.key !== "Tab" || modal?.style.display !== "flex") return;
+
+        const focusableElements = modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey && document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
         }
     });
 
     function construirUrlImagen(linkImagen) {
         if (!linkImagen) return null;
 
-        const patronDrive = linkImagen.match(/\/d\/([^/]+)/);
+        const linkLimpio = String(linkImagen).trim();
+        if (/^https?:\/\//i.test(linkLimpio) && !linkLimpio.includes("drive.google.com")) {
+            return linkLimpio;
+        }
+
+        const patronDrive = linkLimpio.match(/\/d\/([^/]+)/);
         if (patronDrive?.[1]) {
             return `https://lh3.googleusercontent.com/d/${patronDrive[1]}`;
         }
 
-        const patronId = linkImagen.match(/[?&]id=([^&]+)/);
+        const patronId = linkLimpio.match(/[?&]id=([^&]+)/);
         if (patronId?.[1]) {
             return `https://lh3.googleusercontent.com/d/${patronId[1]}`;
         }
@@ -187,6 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function cambiarEstadoTarjeta(card, estaActiva) {
         card.classList.toggle("is-flipped", estaActiva);
         card.setAttribute("aria-pressed", String(estaActiva));
+        card.setAttribute("aria-expanded", String(estaActiva));
     }
 
     function ocultarAvisoServicios() {
@@ -326,6 +402,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             card.classList.toggle("is-flipped");
+            const expanded = String(card.classList.contains("is-flipped"));
+            card.querySelectorAll(".flip-btn").forEach((flipButton) => {
+                flipButton.setAttribute("aria-expanded", expanded);
+            });
         });
     });
 
@@ -352,9 +432,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 button.textContent = "Correo copiado";
+                if (announcer) announcer.textContent = "El correo fue copiado al portapapeles.";
             } catch (error) {
                 console.error("No se pudo copiar el correo:", error);
                 button.textContent = "Copia manualmente";
+                if (announcer) announcer.textContent = "No se pudo copiar el correo.";
             }
 
             window.setTimeout(() => {
@@ -362,6 +444,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 2200);
         });
     });
+
+    disabledLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+        });
+    });
+
+    actualizarVersiculo();
 
     if ("IntersectionObserver" in window) {
         const revealObserver = new IntersectionObserver(
