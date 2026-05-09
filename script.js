@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const next = document.getElementById("next");
     const modalImage = document.getElementById("imagenEventoModal");
     const serviceCards = Array.from(document.querySelectorAll(".service-card"));
-    const cardContainer = document.querySelector(".card-container");
     const revealElements = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
     const copyEmailButtons = document.querySelectorAll("[data-copy-email]");
     const disabledLinks = document.querySelectorAll(".contact-cta-disabled");
@@ -20,8 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let eventos = [];
     let indice = 0;
     let lastFocusedElement = null;
-    let liveHintTimeoutId = null;
-    let liveHintMostrado = false;
 
     const horariosYouTube = {
         0: { inicio: "10:00", fin: "11:50" },
@@ -417,45 +414,13 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    function actualizarMensajeLiveServicio(hayLiveActivo) {
-        const mensajeActual = document.querySelector("[data-service-live-message]");
-
-        if (!hayLiveActivo) {
-            liveHintMostrado = false;
-            if (liveHintTimeoutId) {
-                window.clearTimeout(liveHintTimeoutId);
-                liveHintTimeoutId = null;
-            }
-            mensajeActual?.remove();
-            return;
-        }
-
-        if (mensajeActual || liveHintMostrado || !cardContainer) return;
-
-        const mensaje = document.createElement("p");
-        mensaje.className = "service-live-message";
-        mensaje.dataset.serviceLiveMessage = "";
-        mensaje.textContent = "Toca las tarjetas para girarlas y ver el botón del live";
-        cardContainer.insertAdjacentElement("afterend", mensaje);
-        liveHintMostrado = true;
-
-        liveHintTimeoutId = window.setTimeout(() => {
-            mensaje.remove();
-            liveHintTimeoutId = null;
-        }, 10000);
-    }
-
     function actualizarEstadoLiveTarjetas() {
         const horarioActual = obtenerHorarioBogota();
-        let hayLiveActivo = false;
 
         serviceCards.forEach((card) => {
             const estadoTarjeta = construirEstadoVisualTarjeta(card, horarioActual);
-            hayLiveActivo = hayLiveActivo || estadoTarjeta.tipo === "live";
             aplicarEstadoLiveEnTarjeta(card, estadoTarjeta);
         });
-
-        actualizarMensajeLiveServicio(hayLiveActivo);
     }
 
     document.querySelectorAll(".flip-btn").forEach((btn) => {
