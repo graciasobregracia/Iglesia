@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
     const modal = document.getElementById("modalEventos");
     const btnEventos = document.getElementById("btnEventos");
     const closeModalBtn = document.querySelector(".close");
@@ -8,9 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const next = document.getElementById("next");
     const modalImage = document.getElementById("imagenEventoModal");
     const serviceCards = Array.from(document.querySelectorAll(".service-card"));
+    const cardContainer = document.querySelector(".card-container");
     const revealElements = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
-    const aviso = document.getElementById("aviso-servicios");
-    const seccionServicios = document.getElementById("Servicios");
     const copyEmailButtons = document.querySelectorAll("[data-copy-email]");
     const disabledLinks = document.querySelectorAll(".contact-cta-disabled");
     const announcer = document.getElementById("announcer");
@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let eventos = [];
     let indice = 0;
-    let avisoOcultoPorInteraccion = false;
     let lastFocusedElement = null;
-    const FORZAR_LIVE_PRUEBA = false;
+    let liveHintTimeoutId = null;
+    let liveHintMostrado = false;
 
     const horariosYouTube = {
         0: { inicio: "10:00", fin: "11:50" },
@@ -265,16 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("aria-expanded", String(estaActiva));
     }
 
-    function ocultarAvisoServicios() {
-        if (!aviso) return;
-        aviso.classList.remove("activo");
-        avisoOcultoPorInteraccion = true;
-    }
-
     function alternarTarjeta(card) {
         const estaActiva = card.classList.contains("is-flipped");
         cambiarEstadoTarjeta(card, !estaActiva);
-        ocultarAvisoServicios();
     }
 
     serviceCards.forEach((card) => {
@@ -334,59 +327,135 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    function hayBotonesLiveVisibles() {
-        return Array.from(document.querySelectorAll(".boton-live")).some((boton) => {
-            return window.getComputedStyle(boton).display !== "none";
-        });
+    function convertirHoraAMinutos(hora) {
+        const [horaTexto, minutoTexto] = hora.split(":");
+        return Number(horaTexto) * 60 + Number(minutoTexto);
     }
 
-    function actualizarAvisoServicios() {
-        if (!aviso) return;
+    function obtenerEstadoProgramadoParaTarjeta(card, horarioActual) {
+        const botonLive = card.querySelector(".boton-live");
+        const diaTarjeta = Number(botonLive?.dataset.dia);
+        const horario = horariosYouTube[diaTarjeta];
 
-        if (!hayBotonesLiveVisibles() || avisoOcultoPorInteraccion) {
-            aviso.classList.remove("activo");
+        if (!horario) {
+            return {
+                diaTarjeta,
+                esHoy: false,
+                estaEnFranja: false
+            };
+        }
+
+        const inicioMin = convertirHoraAMinutos(horario.inicio);
+        const finMin = convertirHoraAMinutos(horario.fin);
+        const esHoy = diaTarjeta === horarioActual.dia;
+
+        return {
+            diaTarjeta,
+            esHoy,
+            estaEnFranja: esHoy && horarioActual.minutosActuales >= inicioMin && horarioActual.minutosActuales <= finMin
+        };
+    }
+
+    function aplicarEstadoLiveEnTarjeta(card, estado) {
+        const statusText = card.querySelector("[data-live-status]");
+        const hintText = card.querySelector("[data-live-hint]");
+        const botonLive = card.querySelector(".boton-live");
+        const enlaceLive = botonLive?.querySelector("a");
+        const infoBtn = card.querySelector(".info-btn");
+        const estaEnVivo = estado.tipo === "live";
+
+        if (statusText) {
+            statusText.textContent = estado.status;
+            statusText.classList.toggle("is-live", estaEnVivo);
+            statusText.classList.toggle("is-today", estado.tipo === "today");
+        }
+
+        if (hintText) {
+            hintText.textContent = estado.hint;
+        }
+
+        if (botonLive) {
+            botonLive.hidden = !estaEnVivo;
+            botonLive.style.display = estaEnVivo ? "block" : "none";
+        }
+
+        if (enlaceLive) {
+            enlaceLive.href = estado.videoUrl || YOUTUBE_CHANNEL_URL;
+            enlaceLive.classList.toggle("youtube-parpadeo", estaEnVivo);
+        }
+
+        card.classList.toggle("service-card-live", estaEnVivo);
+        infoBtn?.classList.toggle("info-btn-live", estaEnVivo);
+    }
+
+    function construirEstadoVisualTarjeta(card, horarioActual) {
+        const programacion = obtenerEstadoProgramadoParaTarjeta(card, horarioActual);
+
+        if (programacion.estaEnFranja) {
+            return {
+                tipo: "live",
+                status: "Estamos en vivo",
+                hint: "Toca la tarjeta para ver el live",
+                videoUrl: YOUTUBE_CHANNEL_URL
+            };
+        }
+
+        if (programacion.esHoy) {
+            return {
+                tipo: "today",
+                status: "Hoy hay culto",
+                hint: "Toca la tarjeta para ver los detalles",
+                videoUrl: YOUTUBE_CHANNEL_URL
+            };
+        }
+
+        return {
+            tipo: "idle",
+            status: "No hay transmisión en este momento",
+            hint: "Toca la tarjeta para ver los detalles",
+            videoUrl: YOUTUBE_CHANNEL_URL
+        };
+    }
+
+    function actualizarMensajeLiveServicio(hayLiveActivo) {
+        const mensajeActual = document.querySelector("[data-service-live-message]");
+
+        if (!hayLiveActivo) {
+            liveHintMostrado = false;
+            if (liveHintTimeoutId) {
+                window.clearTimeout(liveHintTimeoutId);
+                liveHintTimeoutId = null;
+            }
+            mensajeActual?.remove();
             return;
         }
 
-        const rect = seccionServicios?.getBoundingClientRect();
-        if (!rect) return;
+        if (mensajeActual || liveHintMostrado || !cardContainer) return;
 
-        const visible = rect.top < window.innerHeight * 0.65 && rect.bottom > window.innerHeight * 0.35;
-        aviso.classList.toggle("activo", visible);
+        const mensaje = document.createElement("p");
+        mensaje.className = "service-live-message";
+        mensaje.dataset.serviceLiveMessage = "";
+        mensaje.textContent = "Toca las tarjetas para girarlas y ver el botón del live";
+        cardContainer.insertAdjacentElement("afterend", mensaje);
+        liveHintMostrado = true;
+
+        liveHintTimeoutId = window.setTimeout(() => {
+            mensaje.remove();
+            liveHintTimeoutId = null;
+        }, 10000);
     }
 
-    function actualizarBotonesLive() {
-        const { dia, minutosActuales } = obtenerHorarioBogota();
+    function actualizarEstadoLiveTarjetas() {
+        const horarioActual = obtenerHorarioBogota();
+        let hayLiveActivo = false;
 
-        document.querySelectorAll(".boton-live").forEach((boton) => {
-            const diaBoton = Number(boton.dataset.dia);
-            const horario = horariosYouTube[diaBoton];
-            const card = boton.closest(".service-card");
-            const infoBtn = card?.querySelector(".info-btn");
-
-            if (!horario) {
-                boton.style.display = "none";
-                card?.classList.remove("service-card-live");
-                infoBtn?.classList.remove("info-btn-live");
-                return;
-            }
-
-            const [horaInicio, minutoInicio] = horario.inicio.split(":").map(Number);
-            const [horaFin, minutoFin] = horario.fin.split(":").map(Number);
-
-            const inicioMin = horaInicio * 60 + minutoInicio;
-            const finMin = horaFin * 60 + minutoFin;
-            const estaActivo = FORZAR_LIVE_PRUEBA
-                ? true
-                : diaBoton === dia && minutosActuales >= inicioMin && minutosActuales <= finMin;
-
-            boton.style.display = estaActivo ? "block" : "none";
-            boton.querySelector("a")?.classList.toggle("youtube-parpadeo", estaActivo);
-            card?.classList.toggle("service-card-live", estaActivo);
-            infoBtn?.classList.toggle("info-btn-live", estaActivo);
+        serviceCards.forEach((card) => {
+            const estadoTarjeta = construirEstadoVisualTarjeta(card, horarioActual);
+            hayLiveActivo = hayLiveActivo || estadoTarjeta.tipo === "live";
+            aplicarEstadoLiveEnTarjeta(card, estadoTarjeta);
         });
 
-        actualizarAvisoServicios();
+        actualizarMensajeLiveServicio(hayLiveActivo);
     }
 
     document.querySelectorAll(".flip-btn").forEach((btn) => {
@@ -466,32 +535,21 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         revealElements.forEach((elemento) => revealObserver.observe(elemento));
-
-        if (seccionServicios && aviso) {
-            const observerServicios = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (!entry.isIntersecting) {
-                            aviso.classList.remove("activo");
-                            return;
-                        }
-
-                        actualizarAvisoServicios();
-                    });
-                },
-                { threshold: 0.35 }
-            );
-
-            observerServicios.observe(seccionServicios);
-        }
     } else {
         revealElements.forEach((elemento) => elemento.classList.add("active"));
     }
 
-    window.addEventListener("scroll", actualizarAvisoServicios, { passive: true });
-    window.addEventListener("resize", actualizarAvisoServicios);
-
     cargarEventos();
-    actualizarBotonesLive();
-    window.setInterval(actualizarBotonesLive, 60000);
+    actualizarEstadoLiveTarjetas();
+
+    window.setInterval(() => {
+        if (document.visibilityState === "hidden") return;
+        actualizarEstadoLiveTarjetas();
+    }, 180000);
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            actualizarEstadoLiveTarjetas();
+        }
+    });
 });
