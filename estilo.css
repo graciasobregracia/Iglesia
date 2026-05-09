@@ -474,19 +474,6 @@ section[id] {
     align-items: start;
 }
 
-.service-live-message {
-    justify-self: center;
-    max-width: min(100%, 620px);
-    margin: 0 auto;
-    padding: 12px 20px;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.94);
-    color: var(--color-navy);
-    font-weight: 700;
-    text-align: center;
-    box-shadow: 0 12px 26px rgba(7, 26, 47, 0.16);
-}
-
 .service-card {
     position: relative;
     perspective: 1200px;
