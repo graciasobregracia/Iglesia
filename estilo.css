@@ -467,28 +467,6 @@ section[id] {
     font-weight: 700;
 }
 
-.aviso-servicios {
-    position: sticky;
-    top: 90px;
-    margin: 0 auto;
-    width: fit-content;
-    padding: 10px 16px;
-    border-radius: var(--radius-pill);
-    background: rgba(0, 0, 0, 0.82);
-    color: var(--color-white);
-    font-size: 0.92rem;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.35s ease, transform 0.35s ease;
-    pointer-events: none;
-    z-index: 20;
-}
-
-.aviso-servicios.activo {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 .card-container {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -502,6 +480,7 @@ section[id] {
     cursor: pointer;
     border-radius: 24px;
     outline: none;
+    align-self: start;
 }
 
 .service-card:hover {
@@ -516,6 +495,7 @@ section[id] {
 .card-inner {
     display: grid;
     width: 100%;
+    height: auto;
     transition: transform 0.8s ease-in-out;
     transform-style: preserve-3d;
 }
@@ -529,6 +509,7 @@ section[id] {
     grid-area: 1 / 1;
     display: flex;
     flex-direction: column;
+    min-height: 100%;
     backface-visibility: hidden;
     border-radius: 24px;
     overflow: hidden;
@@ -541,25 +522,56 @@ section[id] {
 }
 
 .card-front-media {
-    aspect-ratio: 7 / 6;
     width: 100%;
-    overflow: hidden;
     background: var(--color-white);
 }
 
 .card-front img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
     object-position: center top;
     background: var(--color-white);
 }
 
 .card-front-actions {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 14px 14px 16px;
+    gap: 10px;
+    padding: 18px 18px 20px;
     background: var(--color-white);
+    text-align: center;
+}
+
+.card-live-status,
+.card-live-hint {
+    display: none;
+    max-width: 28ch;
+    margin: 0;
+}
+
+.card-live-status {
+    min-height: 1.7em;
+    color: var(--color-navy-soft);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.card-live-status.is-live {
+    color: var(--color-blue);
+}
+
+.card-live-status.is-today {
+    color: var(--color-navy);
+}
+
+.card-live-hint {
+    min-height: 1.5em;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.4;
 }
 
 .card-front-info {
@@ -613,6 +625,10 @@ section[id] {
     display: none;
     margin-top: 24px;
     text-align: center;
+}
+
+.boton-live[hidden] {
+    display: none !important;
 }
 
 .boton-live a {
@@ -675,6 +691,7 @@ section[id] {
     background: linear-gradient(135deg, var(--color-navy), #1f4b8f);
     color: var(--color-white);
     box-shadow: 0 12px 26px rgba(7, 26, 47, 0.16);
+    transition: background 0.25s ease, color 0.25s ease, transform 0.22s ease, box-shadow 0.25s ease;
 }
 
 .contact-cta:hover {
@@ -685,6 +702,14 @@ section[id] {
 .contact-cta-secondary {
     background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
     color: var(--color-navy);
+}
+
+.contact-cta[href*="wa.me"]:hover,
+.contact-cta[href*="wa.me"]:active {
+    background: #25d366;
+    color: var(--color-white);
+    transform: scale(1.03);
+    box-shadow: 0 14px 30px rgba(37, 211, 102, 0.34), 0 0 18px rgba(37, 211, 102, 0.18);
 }
 
 .contact-cta-disabled {
@@ -800,12 +825,44 @@ section[id] {
     font-weight: 700;
     text-decoration: none;
     box-shadow: 0 8px 18px rgba(15, 53, 96, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.22s ease, box-shadow 0.25s ease;
 }
 
-.social-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(15, 53, 96, 0.14);
+.social-link:hover,
+.social-link:active {
+    color: var(--color-white);
+    transform: scale(1.03);
+}
+
+.social-link[href*="facebook"]:hover,
+.social-link[href*="facebook"]:active {
+    border-color: #1877f2;
+    background: #1877f2;
+    box-shadow: 0 12px 26px rgba(24, 119, 242, 0.34);
+}
+
+.social-link[href*="youtube"]:hover,
+.social-link[href*="youtube"]:active {
+    border-color: #ff0000;
+    background: #ff0000;
+    box-shadow: 0 12px 26px rgba(255, 0, 0, 0.3);
+}
+
+.social-link[href*="tiktok"]:hover,
+.social-link[href*="tiktok"]:active {
+    border-color: #000000;
+    background:
+        linear-gradient(120deg, rgba(37, 244, 238, 0.32), transparent 34%),
+        linear-gradient(300deg, rgba(254, 44, 85, 0.32), transparent 38%),
+        #000000;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28), 0 0 18px rgba(37, 244, 238, 0.16), 0 0 18px rgba(254, 44, 85, 0.14);
+}
+
+.social-link[href*="instagram"]:hover,
+.social-link[href*="instagram"]:active {
+    border-color: #e1306c;
+    background: linear-gradient(135deg, #feda75 0%, #fa7e1e 22%, #d62976 48%, #962fbf 72%, #4f5bd5 100%);
+    box-shadow: 0 12px 26px rgba(225, 48, 108, 0.3), 0 0 18px rgba(150, 47, 191, 0.16);
 }
 
 footer {
