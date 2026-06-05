@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
     const modal = document.getElementById("modalEventos");
     const btnEventos = document.getElementById("btnEventos");
+    const openEventosButtons = document.querySelectorAll("[data-open-eventos]");
     const closeModalBtn = document.querySelector(".close");
     const modalContent = document.querySelector(".modal-content");
     const flechas = modalContent?.querySelector(".flechas");
@@ -88,6 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
             abrirModal();
         });
     }
+
+    openEventosButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            abrirModal();
+        });
+    });
 
     closeModalBtn?.addEventListener("click", cerrarModal);
 
