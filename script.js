@@ -30,27 +30,27 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             texto: "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento",
             referencia: "Salmo 23:4"
-        },
-        {
-            texto: "Y perseveraban en la doctrina de los ap&oacute;stoles, en la comuni&oacute;n unos con otros, en el partimiento del pan y en las oraciones.",
-            referencia: "Hechos 2:42"
-        },
-        {
-            texto: "Mirad cu&aacute;n bueno y cu&aacute;n delicioso es habitar los hermanos juntos en armon&iacute;a.",
-            referencia: "Salmo 133:1"
-        },
-        {
-            texto: "Y consider&eacute;monos unos a otros para estimularnos al amor y a las buenas obras; no dejando de congregarnos, como algunos tienen por costumbre.",
-            referencia: "Hebreos 10:24-25"
-        },
-        {
-            texto: "Sol&iacute;citos en guardar la unidad del Esp&iacute;ritu en el v&iacute;nculo de la paz.",
-            referencia: "Efesios 4:3"
-        },
-        {
-            texto: "Por tanto, recib&iacute;os los unos a los otros, como tambi&eacute;n Cristo nos recibi&oacute;, para gloria de Dios.",
-            referencia: "Romanos 15:7"
         }
+        //{//
+            //texto: "Y perseveraban en la doctrina de los ap&oacute;stoles, en la comuni&oacute;n unos con otros, en el partimiento del pan y en las oraciones.",//
+            //referencia: "Hechos 2:42"//
+        //},//
+        //{//
+           // texto: "Mirad cu&aacute;n bueno y cu&aacute;n delicioso es habitar los hermanos juntos en armon&iacute;a.",//
+            //referencia: "Salmo 133:1"//
+        //},//
+        //{//
+           // texto: "Y consider&eacute;monos unos a otros para estimularnos al amor y a las buenas obras; no dejando de congregarnos, como algunos tienen por costumbre.",//
+           // referencia: "Hebreos 10:24-25"//
+        //},//
+        //{//
+            //texto: "Sol&iacute;citos en guardar la unidad del Esp&iacute;ritu en el v&iacute;nculo de la paz.",//
+           // referencia: "Efesios 4:3"//
+       // },//
+        //{//
+           // texto: "Por tanto, recib&iacute;os los unos a los otros, como tambi&eacute;n Cristo nos recibi&oacute;, para gloria de Dios.",//
+            //referencia: "Romanos 15:7"//
+        //}//
     ];
 
     function actualizarVersiculo() {
