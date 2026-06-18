@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastFocusedElement = null;
 
     const horariosYouTube = {
-        0: { inicio: "10:00", fin: "11:50" },
+        6: { inicio: "19:00", fin: "21:00" },
         3: { inicio: "19:00", fin: "20:30" }
     };
 
     const versiculosCongregacion = [
         {
-            texto: "Porque donde est&aacute;n dos o tres congregados en mi nombre, all&iacute; estoy yo.",
-            referencia: "Mateo 18:20"
+            texto: "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento",
+            referencia: "Salmo 23:4"
         },
         {
             texto: "Y perseveraban en la doctrina de los ap&oacute;stoles, en la comuni&oacute;n unos con otros, en el partimiento del pan y en las oraciones.",
