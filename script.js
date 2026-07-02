@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const versiculosCongregacion = [
         {
-            texto: "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento",
-            referencia: "Salmo 23:4"
+            texto: "Ciertamente el bien y la misericordia me seguirán todos los días de mi vida, Y en la casa de Jehová moraré por largos días.",
+            referencia: "Salmo 23:6"
         }
         //{//
             //texto: "Y perseveraban en la doctrina de los ap&oacute;stoles, en la comuni&oacute;n unos con otros, en el partimiento del pan y en las oraciones.",//
