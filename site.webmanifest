@@ -1,0 +1,16 @@
+{
+  "name": "Iglesia Cristiana Gracia Sobre Gracia",
+  "short_name": "Gracia Sobre Gracia",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071a2f",
+  "theme_color": "#071a2f",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
