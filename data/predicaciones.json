@@ -4,22 +4,46 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-07-24T04:32:03.572Z",
-  "source": "youtube-streams-page",
+  "updatedAt": "2026-07-27T15:10:21.730Z",
+  "source": "youtube-streams-and-live-pages",
+  "status": {
+    "isLiveNow": false,
+    "activeLiveId": null,
+    "checkedAt": "2026-07-27T15:10:21.730Z"
+  },
+  "activeLive": null,
   "items": [
+    {
+      "id": "T9mlnBMUlHQ",
+      "title": "Servicio Principal| 25 de julio del 2026| IC Gracia Sobre Gracia",
+      "url": "https://www.youtube.com/watch?v=T9mlnBMUlHQ",
+      "thumbnail": "https://i.ytimg.com/vi/T9mlnBMUlHQ/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD4vPhlr4HawqcQ0zaDISFXZQsARw",
+      "duration": "1:53:22",
+      "publishedText": "Se transmitió en vivo el 25 jul 2026",
+      "originalIndex": 0,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-25T12:00:00.000Z"
+    },
     {
       "id": "fRjRaHrb_wE",
       "title": "Servicio De Ensañanza | 22 de julio 2026 | IC Gracia Sobre Gracia",
       "url": "https://www.youtube.com/watch?v=fRjRaHrb_wE",
       "thumbnail": "https://i.ytimg.com/vi/fRjRaHrb_wE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC0jCPqXLzxUkJwBmmz3p_u_KMI-w",
       "duration": "1:22:22",
-      "publishedText": null,
-      "originalIndex": 0,
+      "publishedText": "Se transmitió en vivo el 22 jul 2026",
+      "originalIndex": 1,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-23T06:33:35-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-22T12:00:00.000Z"
     },
     {
       "id": "CygTHwCAfho",
@@ -27,13 +51,15 @@
       "url": "https://www.youtube.com/watch?v=CygTHwCAfho",
       "thumbnail": "https://i.ytimg.com/vi/CygTHwCAfho/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAsu3L5upWJ4NCdOhzAu_rlCuriCA",
       "duration": "1:01:53",
-      "publishedText": null,
-      "originalIndex": 1,
+      "publishedText": "Se transmitió en vivo el 18 jul 2026",
+      "originalIndex": 2,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-19T06:51:01-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-18T12:00:00.000Z"
     },
     {
       "id": "ry6E9XdQm-E",
@@ -41,13 +67,15 @@
       "url": "https://www.youtube.com/watch?v=ry6E9XdQm-E",
       "thumbnail": "https://i.ytimg.com/vi/ry6E9XdQm-E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDRGNFx3SUy6lg5w431-pvwLItS6A",
       "duration": "57:28",
-      "publishedText": null,
-      "originalIndex": 2,
+      "publishedText": "Se transmitió en vivo el 15 jul 2026",
+      "originalIndex": 3,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-16T06:38:42-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-15T12:00:00.000Z"
     },
     {
       "id": "HH0ErzqlSoM",
@@ -55,13 +83,15 @@
       "url": "https://www.youtube.com/watch?v=HH0ErzqlSoM",
       "thumbnail": "https://i.ytimg.com/vi/HH0ErzqlSoM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB-5V3fjFZTmZXzaV49R1JOKIxmhA",
       "duration": "1:31:24",
-      "publishedText": null,
-      "originalIndex": 3,
+      "publishedText": "Se transmitió en vivo el 11 jul 2026",
+      "originalIndex": 4,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-12T07:07:01-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-11T12:00:00.000Z"
     },
     {
       "id": "8NkjjiI-wAA",
@@ -69,13 +99,15 @@
       "url": "https://www.youtube.com/watch?v=8NkjjiI-wAA",
       "thumbnail": "https://i.ytimg.com/vi/8NkjjiI-wAA/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAW_PsNRtAxEQOcOHyF66Bk56YUig",
       "duration": "12:56",
-      "publishedText": null,
-      "originalIndex": 4,
+      "publishedText": "Se transmitió en vivo el 11 jul 2026",
+      "originalIndex": 5,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-11T17:16:47-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-11T12:00:00.000Z"
     },
     {
       "id": "vme9zJmEMrc",
@@ -83,13 +115,15 @@
       "url": "https://www.youtube.com/watch?v=vme9zJmEMrc",
       "thumbnail": "https://i.ytimg.com/vi/vme9zJmEMrc/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDshE2vQvtnrOpLsfZQK0WuMOEKpA",
       "duration": "48:19",
-      "publishedText": null,
-      "originalIndex": 5,
+      "publishedText": "Se transmitió en vivo el 8 jul 2026",
+      "originalIndex": 6,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-09T06:23:26-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-08T12:00:00.000Z"
     },
     {
       "id": "whGWhn4NwgE",
@@ -97,27 +131,15 @@
       "url": "https://www.youtube.com/watch?v=whGWhn4NwgE",
       "thumbnail": "https://i.ytimg.com/vi/whGWhn4NwgE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDOpq2YvqMoTWuZk7koP95nL3GNFA",
       "duration": "1:20:48",
-      "publishedText": null,
-      "originalIndex": 6,
-      "type": "live",
-      "typeLabel": "Directo",
-      "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-07T06:40:26-07:00"
-    },
-    {
-      "id": "j5tRJkahhkk",
-      "title": "Servicio De Santa Cena",
-      "url": "https://www.youtube.com/watch?v=j5tRJkahhkk",
-      "thumbnail": "https://i.ytimg.com/vi/j5tRJkahhkk/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCovRONKa1vS1peVQKfzLBFhvKvDg",
-      "duration": "1:16:24",
-      "publishedText": null,
+      "publishedText": "Se transmitió en vivo el 6 jul 2026",
       "originalIndex": 7,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
-      "description": "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-05T07:46:18-07:00"
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-07-06T12:00:00.000Z"
     }
   ]
 }

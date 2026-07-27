@@ -1029,6 +1029,22 @@ section[id] {
     backdrop-filter: blur(8px);
 }
 
+.is-live-now .sermon-type-badge {
+    background: #e11d48;
+    color: #ffffff;
+    box-shadow: 0 0 0 6px rgba(225, 29, 72, 0.16);
+}
+
+.is-live-now .play-badge {
+    background: rgba(225, 29, 72, 0.92);
+    color: #ffffff;
+}
+
+.is-live-now .button-primary {
+    background: linear-gradient(135deg, #e11d48, #fb7185);
+    color: #ffffff;
+}
+
 .play-badge svg {
     width: 1rem;
     height: 1rem;

@@ -8,10 +8,11 @@ const projectRoot = path.resolve(__dirname, "..");
 const outputDirectory = path.join(projectRoot, "data");
 const outputPath = path.join(outputDirectory, "predicaciones.json");
 const channelHomeUrl = "https://www.youtube.com/@icgraciasobregracia";
-const streamsUrl = `${channelHomeUrl}/streams`;
-const maxStreams = 8;
+const channelStreamsUrl = `${channelHomeUrl}/streams`;
+const channelLiveUrl = `${channelHomeUrl}/live`;
+const maxArchivedStreams = 8;
 
-async function fetchText(url) {
+async function fetchPage(url) {
     const response = await fetch(url, {
         headers: {
             "Accept-Language": "es-CO,es;q=0.9,en;q=0.7",
@@ -24,7 +25,15 @@ async function fetchText(url) {
         throw new Error(`No se pudo cargar ${url} (${response.status})`);
     }
 
-    return response.text();
+    return {
+        html: await response.text(),
+        finalUrl: response.url
+    };
+}
+
+async function fetchText(url) {
+    const page = await fetchPage(url);
+    return page.html;
 }
 
 function matchFirst(source, pattern) {
@@ -78,7 +87,7 @@ function parseInitialData(html) {
         extractJsonAfterMarker(html, "window[\"ytInitialData\"] =");
 
     if (!jsonText) {
-        throw new Error("No se encontro ytInitialData en la pestaña de transmisiones.");
+        throw new Error("No se encontro ytInitialData en la pestana de transmisiones.");
     }
 
     return JSON.parse(jsonText);
@@ -184,46 +193,183 @@ function getChannelId(html) {
     );
 }
 
-function getPublishDate(watchHtml) {
+function getVideoIdFromUrl(url) {
+    try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.searchParams.get("v");
+    } catch {
+        return null;
+    }
+}
+
+function getCanonicalVideoId(html) {
     return (
-        matchFirst(watchHtml, /"publishDate":"([^"]+)"/) ||
-        matchFirst(watchHtml, /"datePublished":"([^"]+)"/) ||
-        matchFirst(watchHtml, /<meta itemprop="datePublished" content="([^"]+)"/)
+        matchFirst(html, /<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})"/) ||
+        matchFirst(html, /"videoId":"([a-zA-Z0-9_-]{11})"/)
     );
 }
 
-function hasLiveMetadata(watchHtml) {
-    return (
+function getPublishDate(watchHtml) {
+    const isoDate =
+        matchFirst(watchHtml, /"publishDate":"([^"]+)"/) ||
+        matchFirst(watchHtml, /"datePublished":"([^"]+)"/) ||
+        matchFirst(watchHtml, /<meta itemprop="datePublished" content="([^"]+)"/);
+
+    return isoDate || parseSpanishPublishText(getWatchPublishText(watchHtml));
+}
+
+function getWatchPublishText(watchHtml) {
+    return matchFirst(watchHtml, /"publishDate":\{"simpleText":"([^"]+)"/);
+}
+
+function parseSpanishPublishText(value) {
+    if (!value) return null;
+
+    const normalized = value
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    const match = normalized.match(
+        /(\d{1,2})\s+(ene|enero|feb|febrero|mar|marzo|abr|abril|may|mayo|jun|junio|jul|julio|ago|agosto|sep|sept|septiembre|oct|octubre|nov|noviembre|dic|diciembre)\s+(\d{4})/
+    );
+
+    if (!match) return null;
+
+    const monthMap = {
+        ene: 0,
+        enero: 0,
+        feb: 1,
+        febrero: 1,
+        mar: 2,
+        marzo: 2,
+        abr: 3,
+        abril: 3,
+        may: 4,
+        mayo: 4,
+        jun: 5,
+        junio: 5,
+        jul: 6,
+        julio: 6,
+        ago: 7,
+        agosto: 7,
+        sep: 8,
+        sept: 8,
+        septiembre: 8,
+        oct: 9,
+        octubre: 9,
+        nov: 10,
+        noviembre: 10,
+        dic: 11,
+        diciembre: 11
+    };
+
+    const day = Number(match[1]);
+    const month = monthMap[match[2]];
+    const year = Number(match[3]);
+
+    if (!Number.isInteger(day) || month === undefined || !Number.isInteger(year)) return null;
+
+    return new Date(Date.UTC(year, month, day, 12, 0, 0)).toISOString();
+}
+
+function getLiveStartDate(watchHtml) {
+    return matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/);
+}
+
+function getLiveState(watchHtml) {
+    const isLiveNow =
+        /"isLiveNow"\s*:\s*true/.test(watchHtml) ||
+        /"liveBroadcastContent"\s*:\s*"live"/.test(watchHtml);
+    const hasEnded = /"endTimestamp":"[^"]+"/.test(watchHtml);
+    const isUpcoming =
+        /"isUpcoming"\s*:\s*true/.test(watchHtml) ||
+        /"liveBroadcastContent"\s*:\s*"upcoming"/.test(watchHtml);
+    const isLiveLike =
+        isLiveNow ||
+        hasEnded ||
+        isUpcoming ||
         /"isLiveBroadcast"\s*:\s*true/.test(watchHtml) ||
         /"isLiveContent"\s*:\s*true/.test(watchHtml) ||
         /"wasLive"\s*:\s*true/.test(watchHtml) ||
         /"liveBroadcastDetails"/.test(watchHtml) ||
-        /"actualStartTime"/.test(watchHtml)
+        /"actualStartTime"/.test(watchHtml);
+
+    return {
+        isLiveLike,
+        isLiveNow: isLiveNow && !hasEnded,
+        isArchived: hasEnded && !isLiveNow,
+        isUpcoming: isUpcoming && !isLiveNow && !hasEnded
+    };
+}
+
+function buildStreamItem(item, watchHtml, overrides = {}) {
+    return {
+        ...item,
+        ...overrides,
+        type: "live",
+        typeLabel: overrides.typeLabel ?? "Directo",
+        typePriority: 1,
+        description:
+            overrides.description ??
+            "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+        publishedText: overrides.publishedText ?? getWatchPublishText(watchHtml) ?? item.publishedText ?? null,
+        publishedAt: getPublishDate(watchHtml) || getLiveStartDate(watchHtml) || item.publishedAt || null
+    };
+}
+
+async function getActiveLive() {
+    const page = await fetchPage(channelLiveUrl);
+    const videoId = getVideoIdFromUrl(page.finalUrl) || getCanonicalVideoId(page.html);
+
+    if (!videoId) return null;
+
+    const liveState = getLiveState(page.html);
+    if (!liveState.isLiveNow) return null;
+
+    const title =
+        matchFirst(page.html, /<meta name="title" content="([^"]+)"/) ||
+        matchFirst(page.html, /"title":"([^"]+)"/) ||
+        "Transmision en vivo";
+
+    return buildStreamItem(
+        {
+            id: videoId,
+            title,
+            url: `https://www.youtube.com/watch?v=${videoId}`,
+            thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+            duration: null,
+            publishedText: "En vivo ahora",
+            originalIndex: -1
+        },
+        page.html,
+        {
+            status: "live",
+            typeLabel: "EN VIVO AHORA",
+            description: "Estamos transmitiendo nuestro servicio en este momento."
+        }
     );
 }
 
-async function enrichAndValidateStreams(items) {
-    const validatedItems = [];
+async function enrichArchivedStreams(items) {
+    const archivedItems = [];
 
     for (const item of items) {
         const watchHtml = await fetchText(item.url);
+        const liveState = getLiveState(watchHtml);
 
-        if (!hasLiveMetadata(watchHtml)) {
-            console.warn(`Descartado por no exponer metadata de live: ${item.id} - ${item.title}`);
+        if (liveState.isLiveNow || liveState.isUpcoming) {
             continue;
         }
 
-        validatedItems.push({
-            ...item,
-            type: "live",
-            typeLabel: "Directo",
-            typePriority: 1,
-            description: "Transmisión en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-            publishedAt: getPublishDate(watchHtml) || null
-        });
+        archivedItems.push(
+            buildStreamItem(item, watchHtml, {
+                status: "archived",
+                verificationSource: liveState.isLiveLike ? "watch-live-metadata" : "youtube-streams-tab"
+            })
+        );
     }
 
-    return validatedItems;
+    return archivedItems;
 }
 
 function sortByPublicationDate(items) {
@@ -240,14 +386,17 @@ function sortByPublicationDate(items) {
 }
 
 async function main() {
-    const streamsHtml = await fetchText(streamsUrl);
+    const streamsHtml = await fetchText(channelStreamsUrl);
     const initialData = parseInitialData(streamsHtml);
     const channelId = getChannelId(streamsHtml);
+    const activeLive = await getActiveLive();
     const streamCandidates = getStreamItems(initialData);
-    const items = sortByPublicationDate(await enrichAndValidateStreams(streamCandidates)).slice(0, maxStreams);
+    const archivedItems = sortByPublicationDate(await enrichArchivedStreams(streamCandidates))
+        .filter((item) => item.id !== activeLive?.id)
+        .slice(0, maxArchivedStreams);
 
-    if (!items.length) {
-        throw new Error("No se encontraron transmisiones en vivo archivadas verificables en el canal.");
+    if (!activeLive && !archivedItems.length) {
+        throw new Error("No se encontraron transmisiones en vivo del canal.");
     }
 
     const payload = {
@@ -257,8 +406,14 @@ async function main() {
             channelId
         },
         updatedAt: new Date().toISOString(),
-        source: "youtube-streams-page",
-        items
+        source: "youtube-streams-and-live-pages",
+        status: {
+            isLiveNow: Boolean(activeLive),
+            activeLiveId: activeLive?.id ?? null,
+            checkedAt: new Date().toISOString()
+        },
+        activeLive,
+        items: archivedItems
     };
 
     await mkdir(outputDirectory, { recursive: true });
