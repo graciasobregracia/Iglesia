@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
 const outputDirectory = path.join(projectRoot, "data");
 const outputPath = path.join(outputDirectory, "predicaciones.json");
+const liveStatusPath = path.join(outputDirectory, "live-status.json");
 const channelHomeUrl = "https://www.youtube.com/@icgraciasobregracia";
 const channelStreamsUrl = `${channelHomeUrl}/streams`;
 const channelLiveUrl = `${channelHomeUrl}/live`;
@@ -34,6 +35,14 @@ async function fetchPage(url) {
 async function fetchText(url) {
     const page = await fetchPage(url);
     return page.html;
+}
+
+async function readJsonFile(filePath) {
+    try {
+        return JSON.parse(await readFile(filePath, "utf8"));
+    } catch {
+        return null;
+    }
 }
 
 function matchFirst(source, pattern) {
@@ -344,7 +353,8 @@ async function getActiveLive() {
         page.html,
         {
             status: "live",
-            typeLabel: "EN VIVO AHORA",
+            typeLabel: "🔴 EN VIVO AHORA",
+            startedAt: getLiveStartDate(page.html) || null,
             description: "Estamos transmitiendo nuestro servicio en este momento."
         }
     );
@@ -415,13 +425,26 @@ async function main() {
         activeLive,
         items: archivedItems
     };
+    const liveStatusPayload = {
+        channel: payload.channel,
+        updatedAt: payload.updatedAt,
+        source: payload.source,
+        status: payload.status,
+        activeLive
+    };
 
     await mkdir(outputDirectory, { recursive: true });
     await writeFile(outputPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+    await writeFile(liveStatusPath, `${JSON.stringify(liveStatusPayload, null, 2)}\n`, "utf8");
     console.log(`Transmisiones actualizadas en ${outputPath}`);
+    console.log(`Estado del live actualizado en ${liveStatusPath}`);
 }
 
-main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
+main().catch(async (error) => {
+    console.error("No se pudo actualizar YouTube. Se conserva la ultima informacion valida.", error);
+    const existingLiveStatus = await readJsonFile(liveStatusPath);
+
+    if (!existingLiveStatus) {
+        process.exitCode = 1;
+    }
 });
