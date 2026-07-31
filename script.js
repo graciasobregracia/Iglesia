@@ -223,9 +223,10 @@ function renderSermonCard(item) {
     const duration = escapeHtml(item.duration || "");
     const publishedText = item.publishedAt ? published : escapeHtml(item.publishedText || "Canal oficial de YouTube");
     const typeLabel = escapeHtml(item.typeLabel || "Directo");
+    const liveClass = item.status === "live" ? " is-live-now" : "";
 
     return `
-        <article class="sermon-card" data-video-url="${url}" tabindex="0" role="link" aria-label="Abrir ${title} en YouTube">
+        <article class="sermon-card${liveClass}" data-video-url="${url}" tabindex="0" role="link" aria-label="Abrir ${title} en YouTube">
             <div class="sermon-thumb">
                 <img src="${thumbnail}" alt="Miniatura oficial de YouTube para ${title}" loading="lazy">
                 <span class="sermon-type-badge">${typeLabel}</span>
@@ -256,9 +257,13 @@ function renderFeaturedSermon(item) {
     const duration = escapeHtml(item.duration || "");
     const publishedText = item.publishedAt ? published : escapeHtml(item.publishedText || "Canal oficial de YouTube");
     const typeLabel = escapeHtml(item.typeLabel || "Directo");
+    const isLiveNow = item.status === "live";
+    const liveClass = isLiveNow ? " is-live-now" : "";
+    const kicker = isLiveNow ? "EN VIVO AHORA" : "Transmision destacada";
+    const primaryAction = isLiveNow ? "Ver transmision en vivo" : "Ver transmision";
 
     return `
-        <article class="sermons-feature-card reveal is-visible" data-video-url="${url}" tabindex="0" role="link" aria-label="Abrir ${title} en YouTube">
+        <article class="sermons-feature-card reveal is-visible${liveClass}" data-video-url="${url}" tabindex="0" role="link" aria-label="Abrir ${title} en YouTube">
             <div class="sermons-feature-media">
                 <img src="${thumbnail}" alt="Miniatura oficial de YouTube para ${title}">
                 <span class="sermon-type-badge">${typeLabel}</span>
@@ -268,7 +273,7 @@ function renderFeaturedSermon(item) {
                 </span>
             </div>
             <div class="sermons-feature-content">
-                <p class="eyebrow eyebrow-dark">Transmision destacada</p>
+                <p class="eyebrow eyebrow-dark">${kicker}</p>
                 <div class="sermon-meta">
                     <span>${publishedText}</span>
                     <span>${typeLabel}</span>
@@ -276,7 +281,7 @@ function renderFeaturedSermon(item) {
                 <h3><a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
                 <p>${description}</p>
                 <div class="hero-actions">
-                    <a class="button button-primary" href="${url}" target="_blank" rel="noopener noreferrer">Ver transmision</a>
+                    <a class="button button-primary" href="${url}" target="_blank" rel="noopener noreferrer">${primaryAction}</a>
                     <a class="button button-secondary" href="${escapeHtml(
                         YOUTUBE_CHANNEL_URL
                     )}" target="_blank" rel="noopener noreferrer">Ir al canal oficial</a>
@@ -316,22 +321,27 @@ async function loadSermons() {
     if (!sermonsFeatured || !sermonsTrack) return;
 
     try {
-        const response = await fetch(SERMONS_DATA_PATH, { cache: "no-store" });
+        const response = await fetch(`${SERMONS_DATA_PATH}?updated=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) {
             throw new Error(`No se pudo cargar ${SERMONS_DATA_PATH}`);
         }
 
         const data = await response.json();
         const items = Array.isArray(data.items) ? data.items : [];
+        const activeLive =
+            data.status?.isLiveNow && data.activeLive?.url && data.activeLive?.thumbnail && data.activeLive?.title
+                ? data.activeLive
+                : null;
 
         const validItems = items.filter((item) => item?.url && item?.thumbnail && item?.title);
+        const featured = activeLive || validItems[0];
+        const rest = activeLive ? validItems : validItems.slice(1);
 
-        if (!validItems.length) {
+        if (!featured) {
             renderSermonsFallback();
             return;
         }
 
-        const [featured, ...rest] = validItems;
         sermonsFeatured.innerHTML = renderFeaturedSermon(featured);
         sermonsTrack.innerHTML = rest.length
             ? rest.map((item) => renderSermonCard(item)).join("")

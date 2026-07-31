@@ -363,12 +363,14 @@ section[id] {
     grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
     gap: clamp(2rem, 4vw, 4rem);
     align-items: end;
+    min-width: 0;
 }
 
 .hero-copy {
     display: grid;
     gap: 1.5rem;
     max-width: 760px;
+    min-width: 0;
 }
 
 .eyebrow {
@@ -395,6 +397,7 @@ section[id] {
     max-width: 62ch;
     color: rgba(255, 255, 255, 0.86);
     font-size: 1.15rem;
+    overflow-wrap: anywhere;
 }
 
 .hero-meta {
@@ -405,6 +408,7 @@ section[id] {
 
 .meta-pill {
     min-width: min(100%, 250px);
+    max-width: 100%;
     padding: 1rem 1.2rem;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 20px;
@@ -424,6 +428,7 @@ section[id] {
 .meta-pill strong {
     color: var(--color-paper);
     font-size: 1rem;
+    overflow-wrap: anywhere;
 }
 
 .hero-actions,
@@ -1024,6 +1029,22 @@ section[id] {
     backdrop-filter: blur(8px);
 }
 
+.is-live-now .sermon-type-badge {
+    background: #e11d48;
+    color: #ffffff;
+    box-shadow: 0 0 0 6px rgba(225, 29, 72, 0.16);
+}
+
+.is-live-now .play-badge {
+    background: rgba(225, 29, 72, 0.92);
+    color: #ffffff;
+}
+
+.is-live-now .button-primary {
+    background: linear-gradient(135deg, #e11d48, #fb7185);
+    color: #ffffff;
+}
+
 .play-badge svg {
     width: 1rem;
     height: 1rem;
@@ -1612,6 +1633,10 @@ body.modal-open {
         padding-top: 8.5rem;
     }
 
+    .hero-layout {
+        align-items: start;
+    }
+
     .rail-header {
         align-items: start;
         flex-direction: column;
@@ -1704,7 +1729,7 @@ body.modal-open {
     }
 
     h1 {
-        font-size: clamp(2.5rem, 14vw, 4rem);
+        font-size: clamp(2.15rem, 11vw, 3.6rem);
     }
 
     h2 {
@@ -1734,6 +1759,40 @@ body.modal-open {
     .contact-inline,
     .carousel-controls {
         flex-direction: column;
+    }
+
+    .hero-section {
+        padding: 8rem 0 4.5rem;
+    }
+
+    .hero-copy {
+        width: 100%;
+        max-width: none;
+        gap: 1.15rem;
+    }
+
+    .hero-copy .eyebrow {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .hero-lead {
+        max-width: min(100%, 34rem);
+        padding-right: 0.15rem;
+        font-size: clamp(1rem, 4.5vw, 1.12rem);
+        line-height: 1.55;
+    }
+
+    .hero-meta {
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .meta-pill {
+        width: 100%;
+        min-width: 0;
+        padding: 0.95rem 1rem;
     }
 
     .button,
@@ -1780,6 +1839,55 @@ body.modal-open {
     }
 }
 
+@media (max-width: 480px) {
+    :root {
+        --container-width: min(100% - 20px, 1200px);
+    }
+
+    .hero-section {
+        padding-top: 7.4rem;
+    }
+
+    .hero-copy {
+        gap: 1rem;
+    }
+
+    .hero-copy h1 {
+        max-width: 100%;
+        font-size: clamp(2rem, 10.5vw, 3rem);
+        line-height: 1.04;
+        overflow-wrap: normal;
+    }
+
+    .hero-lead {
+        max-width: 100%;
+        padding-right: 0;
+    }
+
+    .hero-card {
+        padding: 1.25rem;
+        border-radius: var(--radius-md);
+    }
+
+    .hero-card h2 {
+        font-size: clamp(1.45rem, 7.4vw, 1.9rem);
+    }
+
+    .hero-checklist {
+        padding-left: 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .hero-copy h1 {
+        font-size: clamp(1.9rem, 10vw, 2.45rem);
+    }
+
+    .meta-pill strong {
+        font-size: 0.95rem;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -1802,4 +1910,11 @@ body.modal-open {
 .hero-second-line {
     display: block;
     white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+    .no-break,
+    .hero-second-line {
+        white-space: normal;
+    }
 }

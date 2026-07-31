@@ -3,10 +3,14 @@ name: Update Sermons
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 11 * * *"
+    - cron: "*/5 * * * *"
 
 permissions:
   contents: write
+
+concurrency:
+  group: update-sermons-feed
+  cancel-in-progress: false
 
 jobs:
   update-sermons:
@@ -25,10 +29,21 @@ jobs:
         run: node scripts/update-sermons.mjs
 
       - name: Commit data changes
+        id: commit-data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/predicaciones.json
-          git diff --cached --quiet && exit 0
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git commit -m "chore: update sermons feed"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Render deploy
+        if: steps.commit-data.outputs.changed == 'true' && secrets.RENDER_DEPLOY_HOOK_URL != ''
+        run: curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
