@@ -4,12 +4,12 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-06T15:17:22.732Z",
+  "updatedAt": "2026-08-07T00:20:44.180Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
-    "checkedAt": "2026-08-06T15:17:22.732Z"
+    "checkedAt": "2026-08-07T00:20:44.180Z"
   },
   "activeLive": null,
   "items": [
@@ -19,7 +19,7 @@
       "url": "https://www.youtube.com/watch?v=TQxIgkkaeCU",
       "thumbnail": "https://i.ytimg.com/vi/TQxIgkkaeCU/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBlojcgHxKeAVqDL4YC2pCx80w66A",
       "duration": "1:20:02",
-      "publishedText": "Se transmitió en vivo hace 15 horas",
+      "publishedText": "Se transmitió en vivo el 5 ago 2026",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
@@ -27,7 +27,7 @@
       "typeLabel": "Directo",
       "typePriority": 1,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": null
+      "publishedAt": "2026-08-05T12:00:00.000Z"
     },
     {
       "id": "zxkaa4aqEXU",
