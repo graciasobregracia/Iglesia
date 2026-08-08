@@ -4,12 +4,12 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-08T16:33:19.881Z",
+  "updatedAt": "2026-08-08T17:04:14.757Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
-    "checkedAt": "2026-08-08T16:33:19.881Z"
+    "checkedAt": "2026-08-08T17:04:14.757Z"
   },
   "activeLive": null,
   "items": [
@@ -70,12 +70,12 @@
       "publishedText": "Se transmitió en vivo el 27 jul 2026",
       "originalIndex": 3,
       "status": "archived",
-      "verificationSource": "watch-live-metadata",
+      "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-28T06:26:02-07:00"
+      "publishedAt": "2026-07-27T12:00:00.000Z"
     },
     {
       "id": "T9mlnBMUlHQ",
