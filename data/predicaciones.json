@@ -4,15 +4,31 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-08T23:43:07.267Z",
+  "updatedAt": "2026-08-09T00:01:48.054Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
-    "checkedAt": "2026-08-08T23:43:07.267Z"
+    "checkedAt": "2026-08-09T00:01:48.054Z"
   },
   "activeLive": null,
   "items": [
+    {
+      "id": "HfJzDB_qVFM",
+      "title": "Servicio Especial de Familia | Iglesia Cristiana Gracia Sobre Gracia",
+      "url": "https://www.youtube.com/watch?v=HfJzDB_qVFM",
+      "thumbnail": "https://i.ytimg.com/vi/HfJzDB_qVFM/hqdefault.jpg?v=6a77beca&sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDlQtAlgnonqTgq7Eag10i9XVCGQw",
+      "duration": null,
+      "publishedText": "Comenzó a transmitir hace 3 minutos",
+      "originalIndex": 0,
+      "status": "archived",
+      "verificationSource": "youtube-streams-tab",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": null
+    },
     {
       "id": "TQxIgkkaeCU",
       "title": "Servicio De Enseñanza",
@@ -124,22 +140,6 @@
       "typePriority": 1,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
       "publishedAt": "2026-07-18T12:00:00.000Z"
-    },
-    {
-      "id": "ry6E9XdQm-E",
-      "title": "Servicio De Ensañanza",
-      "url": "https://www.youtube.com/watch?v=ry6E9XdQm-E",
-      "thumbnail": "https://i.ytimg.com/vi/ry6E9XdQm-E/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDRGNFx3SUy6lg5w431-pvwLItS6A",
-      "duration": "57:28",
-      "publishedText": "Se transmitió en vivo el 15 jul 2026",
-      "originalIndex": 8,
-      "status": "archived",
-      "verificationSource": "youtube-streams-tab",
-      "type": "live",
-      "typeLabel": "Directo",
-      "typePriority": 1,
-      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-07-15T12:00:00.000Z"
     }
   ]
 }
