@@ -4,12 +4,12 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-11T00:38:40.641Z",
+  "updatedAt": "2026-08-11T02:38:12.152Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
-    "checkedAt": "2026-08-11T00:38:40.641Z"
+    "checkedAt": "2026-08-11T02:38:12.152Z"
   },
   "activeLive": null,
   "items": [
@@ -17,9 +17,9 @@
       "id": "c4Rvy42QNKY",
       "title": "Servicio De Oración",
       "url": "https://www.youtube.com/watch?v=c4Rvy42QNKY",
-      "thumbnail": "https://i.ytimg.com/vi/c4Rvy42QNKY/hqdefault.jpg?v=6a7a61f5&sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCp7zdqb1j9R8NpdxBtVm5KrXLx7A",
-      "duration": null,
-      "publishedText": "Comenzó a transmitir hace 40 minutos",
+      "thumbnail": "https://i.ytimg.com/vi/c4Rvy42QNKY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCp7zdqb1j9R8NpdxBtVm5KrXLx7A",
+      "duration": "1:06:10",
+      "publishedText": "Se transmitió en vivo hace 2 horas",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
