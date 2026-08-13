@@ -4,12 +4,12 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-13T00:46:29.984Z",
+  "updatedAt": "2026-08-13T03:14:48.640Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
-    "checkedAt": "2026-08-13T00:46:29.984Z"
+    "checkedAt": "2026-08-13T03:14:48.640Z"
   },
   "activeLive": null,
   "items": [
@@ -17,9 +17,9 @@
       "id": "HecFl2pptes",
       "title": "Servicio De Enseñanza |12 Agosto 20261 | Iglesia Cristiana Gracia Sobre Gracia",
       "url": "https://www.youtube.com/watch?v=HecFl2pptes",
-      "thumbnail": "https://i.ytimg.com/vi/HecFl2pptes/hqdefault.jpg?v=6a7d061c&sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCuQ-fFn4IaxVD_9_NkxWZRqJkFzQ",
-      "duration": null,
-      "publishedText": "Comenzó a transmitir hace 47 minutos",
+      "thumbnail": "https://i.ytimg.com/vi/HecFl2pptes/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCuQ-fFn4IaxVD_9_NkxWZRqJkFzQ",
+      "duration": "1:10:41",
+      "publishedText": "Se transmitió en vivo hace 3 horas",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
