@@ -315,9 +315,22 @@ section[id] {
 
 .live-notice {
     position: fixed;
-    inset: 6.4rem 0 auto;
+    inset: 9rem 0 auto;
     z-index: 1450;
+    opacity: 0;
     pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 380ms ease, transform 380ms ease;
+}
+
+.live-notice.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.live-notice.is-hiding {
+    opacity: 0;
+    transform: translateY(-8px);
 }
 
 .live-notice-inner {
@@ -325,9 +338,11 @@ section[id] {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    width: min(760px, calc(100% - 32px));
+    margin-inline: auto;
     padding: 0.9rem 1rem;
     border: 1px solid rgba(242, 201, 76, 0.24);
-    border-radius: var(--radius-lg);
+    border-radius: 24px;
     background: rgba(7, 26, 47, 0.88);
     color: var(--color-paper);
     box-shadow: 0 22px 60px rgba(7, 26, 47, 0.28);
@@ -386,6 +401,33 @@ section[id] {
     flex: 0 0 auto;
     min-height: 2.85rem;
     padding: 0.72rem 1.05rem;
+}
+
+.live-notice-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex: 0 0 auto;
+}
+
+.live-notice-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-paper);
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform var(--transition-base), background-color var(--transition-base), color var(--transition-base);
+}
+
+.live-notice-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-1px);
 }
 
 @keyframes livePulse {
@@ -1943,6 +1985,7 @@ section[id] {
 .gallery-item:focus-visible,
 .rail-button:focus-visible,
 .modal-close:focus-visible,
+.live-notice-close:focus-visible,
 .scroll-top:focus-visible,
 .hero-contact-quick a:focus-visible,
 .footer-column a:focus-visible,
@@ -2041,17 +2084,23 @@ body.modal-open {
     }
 
     .live-notice {
-        inset: 5.9rem 0 auto;
+        inset: 7.75rem 0 auto;
     }
 
     .live-notice-inner {
         align-items: stretch;
         flex-direction: column;
+        width: min(560px, calc(100% - 28px));
         border-radius: 24px;
     }
 
-    .live-notice .button {
+    .live-notice-actions {
+        justify-content: space-between;
         width: 100%;
+    }
+
+    .live-notice-actions .button {
+        flex: 1 1 auto;
     }
 
     .info-grid,
@@ -2197,7 +2246,7 @@ body.modal-open {
     }
 
     .live-notice {
-        inset: 5.45rem 0 auto;
+        inset: 7.25rem 0 auto;
     }
 
     .live-notice-inner {
@@ -2206,6 +2255,14 @@ body.modal-open {
 
     .live-notice-copy {
         align-items: flex-start;
+    }
+
+    .live-notice h2 {
+        font-size: 1.05rem;
+    }
+
+    .live-notice p:not(.live-notice-kicker) {
+        font-size: 0.92rem;
     }
 
     .brand-logo {

@@ -2,6 +2,8 @@ const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
 const SERMONS_DATA_PATH = "data/predicaciones.json";
 const LIVE_STATUS_DATA_PATH = "data/live-status.json";
 const LIVE_STATUS_POLL_INTERVAL = 60000;
+const LIVE_NOTICE_VISIBLE_DURATION = 10000;
+const LIVE_NOTICE_EXIT_DURATION = 420;
 const SITE_TIME_ZONE = "America/Bogota";
 const EVENTS_SOURCE_URL =
     "https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/EventosIglesia";
@@ -48,6 +50,9 @@ let currentEventIndex = 0;
 let eventsLoaded = false;
 let liveNoticeSlot = null;
 let activeLiveSignature = "";
+let dismissedLiveSignature = "";
+let liveNoticeHideTimer = null;
+let liveNoticeTransitionTimer = null;
 let navigationFrame = null;
 
 if (currentYearTarget) {
@@ -450,39 +455,101 @@ function getActiveLiveFromStatus(data) {
     };
 }
 
+function getLiveSignature(activeLive) {
+    return `${activeLive.id || activeLive.url}:${activeLive.startedAt || activeLive.publishedAt || ""}`;
+}
+
+function clearLiveNoticeTimers() {
+    if (liveNoticeHideTimer) {
+        window.clearTimeout(liveNoticeHideTimer);
+        liveNoticeHideTimer = null;
+    }
+
+    if (liveNoticeTransitionTimer) {
+        window.clearTimeout(liveNoticeTransitionTimer);
+        liveNoticeTransitionTimer = null;
+    }
+}
+
+function hideLiveNotice({ remember = true, immediate = false } = {}) {
+    const slot = liveNoticeSlot;
+    if (!slot) return;
+
+    clearLiveNoticeTimers();
+
+    if (remember && activeLiveSignature) {
+        dismissedLiveSignature = activeLiveSignature;
+    }
+
+    const finishHide = () => {
+        slot.hidden = true;
+        slot.classList.remove("is-visible", "is-hiding");
+        slot.innerHTML = "";
+    };
+
+    if (immediate) {
+        finishHide();
+        return;
+    }
+
+    slot.classList.remove("is-visible");
+    slot.classList.add("is-hiding");
+    liveNoticeTransitionTimer = window.setTimeout(finishHide, LIVE_NOTICE_EXIT_DURATION);
+}
+
 function renderLiveStatus(activeLive) {
     const slot = ensureLiveNoticeSlot();
     if (!slot) return;
 
     if (!activeLive) {
         activeLiveSignature = "";
-        slot.innerHTML = "";
-        slot.hidden = true;
+        dismissedLiveSignature = "";
+        hideLiveNotice({ remember: false, immediate: true });
         return;
     }
 
-    const nextSignature = `${activeLive.id || activeLive.url}:${activeLive.startedAt || activeLive.publishedAt || ""}`;
+    const nextSignature = getLiveSignature(activeLive);
+    if (nextSignature === dismissedLiveSignature) return;
     if (nextSignature === activeLiveSignature && !slot.hidden) return;
 
     activeLiveSignature = nextSignature;
+    clearLiveNoticeTimers();
     slot.hidden = false;
+    slot.classList.remove("is-visible", "is-hiding");
     slot.innerHTML = `
         <div class="container live-notice-inner">
             <div class="live-notice-copy">
                 <span class="live-dot" aria-hidden="true"></span>
                 <div>
-                    <p class="live-notice-kicker">Estamos en vivo ahora mismo</p>
+                    <p class="live-notice-kicker">ESTAMOS EN VIVO AHORA MISMO</p>
                     <h2>${escapeHtml(activeLive.title || "Transmisión en vivo")}</h2>
                     <p>Acompáñanos en nuestra transmisión actual.</p>
                 </div>
             </div>
-            <a class="button button-primary" href="${escapeHtml(
-                activeLive.url
-            )}" target="_blank" rel="noopener noreferrer" aria-label="Ver transmisión en vivo ahora mismo">
-                Ver transmisión
-            </a>
+            <div class="live-notice-actions">
+                <a class="button button-primary" href="${escapeHtml(
+                    activeLive.url
+                )}" target="_blank" rel="noopener noreferrer" aria-label="Ver transmisión en vivo ahora mismo">
+                    Ver transmisión
+                </a>
+                <button class="live-notice-close" type="button" data-close-live-notice aria-label="Cerrar aviso de transmisión en vivo">
+                    &times;
+                </button>
+            </div>
         </div>
     `;
+
+    slot.querySelector("[data-close-live-notice]")?.addEventListener("click", () => {
+        hideLiveNotice({ remember: true });
+    });
+
+    window.requestAnimationFrame(() => {
+        slot.classList.add("is-visible");
+    });
+
+    liveNoticeHideTimer = window.setTimeout(() => {
+        hideLiveNotice({ remember: true });
+    }, LIVE_NOTICE_VISIBLE_DURATION);
 }
 
 async function refreshLiveStatus() {
