@@ -4,19 +4,51 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
+<<<<<<< HEAD
   "updatedAt": "2026-08-20T04:29:08.177Z",
+=======
+  "updatedAt": "2026-08-20T04:46:10.039Z",
+>>>>>>> 247f558 (Descripcion del cambio)
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
+<<<<<<< HEAD
     "checkedAt": "2026-08-20T04:29:08.177Z"
+=======
+    "featuredLiveTodayId": "-arBOXaXH8Y",
+    "checkedAt": "2026-08-20T04:46:10.045Z"
+>>>>>>> 247f558 (Descripcion del cambio)
   },
   "activeLive": null,
+  "featuredLiveToday": {
+    "id": "-arBOXaXH8Y",
+    "title": "Servicio De Enseñanza",
+    "url": "https://www.youtube.com/watch?v=-arBOXaXH8Y",
+    "thumbnail": "https://i.ytimg.com/vi/-arBOXaXH8Y/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDSzFCQn_lcXKeQUPDVX7bOyNdImA",
+    "duration": "1:25:24",
+    "publishedText": "Se transmitió en vivo hace 4 horas",
+    "originalIndex": 0,
+    "status": "archived",
+    "verificationSource": "watch-live-metadata",
+    "type": "live",
+    "typeLabel": "Directo",
+    "typePriority": 1,
+    "isLiveBroadcast": true,
+    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+    "publishedAt": "2026-08-20T00:04:46+00:00",
+    "startedAt": "2026-08-20T00:04:46+00:00",
+    "actualStartTime": "2026-08-20T00:04:46+00:00",
+    "endedAt": "2026-08-20T01:30:11+00:00",
+    "actualEndTime": "2026-08-20T01:30:11+00:00",
+    "scheduledStartTime": null
+  },
   "items": [
     {
       "id": "-arBOXaXH8Y",
       "title": "Servicio De Enseñanza",
       "url": "https://www.youtube.com/watch?v=-arBOXaXH8Y",
+<<<<<<< HEAD
       "thumbnail": "https://i.ytimg.com/vi/-arBOXaXH8Y/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDleTvd3RuUcve0RNWD7peFFwErVA",
       "duration": "1:25:24",
       "publishedText": "Se transmitió en vivo hace 4 horas",
@@ -53,93 +85,200 @@
       "duration": "44:27",
       "publishedText": "Se transmitió en vivo el 12 ago 2026",
       "originalIndex": 2,
+=======
+      "thumbnail": "https://i.ytimg.com/vi/-arBOXaXH8Y/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDSzFCQn_lcXKeQUPDVX7bOyNdImA",
+      "duration": "1:25:24",
+      "publishedText": "Se transmitió en vivo hace 4 horas",
+      "originalIndex": 0,
+>>>>>>> 247f558 (Descripcion del cambio)
       "status": "archived",
-      "verificationSource": "youtube-streams-tab",
+      "verificationSource": "watch-live-metadata",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
+      "isLiveBroadcast": true,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-08-12T12:00:00.000Z"
+      "publishedAt": "2026-08-20T00:04:46+00:00",
+      "startedAt": "2026-08-20T00:04:46+00:00",
+      "actualStartTime": "2026-08-20T00:04:46+00:00",
+      "endedAt": "2026-08-20T01:30:11+00:00",
+      "actualEndTime": "2026-08-20T01:30:11+00:00",
+      "scheduledStartTime": null
+    },
+    {
+      "id": "Mw8MC4d2SmQ",
+      "title": "El Salvador Va A Tu Encuentro | Prédicas Cristianas",
+      "url": "https://www.youtube.com/watch?v=Mw8MC4d2SmQ",
+      "thumbnail": "https://i.ytimg.com/vi/Mw8MC4d2SmQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDDERiW3vx7njoZSSiPwYydBdvJEA",
+      "duration": "47:16",
+      "publishedText": "Se transmitió en vivo el 15 ago 2026",
+      "originalIndex": 1,
+      "status": "archived",
+      "verificationSource": "watch-live-metadata",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-08-16T00:01:01+00:00",
+      "startedAt": "2026-08-16T00:01:01+00:00",
+      "actualStartTime": "2026-08-16T00:01:01+00:00",
+      "endedAt": "2026-08-16T01:23:38+00:00",
+      "actualEndTime": "2026-08-16T01:23:38+00:00",
+      "scheduledStartTime": null
+    },
+    {
+      "id": "HecFl2pptes",
+      "title": "El Llamado Final De La Sabiduría | Prédicas Cristianas",
+      "url": "https://www.youtube.com/watch?v=HecFl2pptes",
+      "thumbnail": "https://i.ytimg.com/vi/HecFl2pptes/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCBiTxFvSe7xnc5MBIlVwJpfdDZrA",
+      "duration": "44:27",
+      "publishedText": "Se transmitió en vivo el 12 ago 2026",
+      "originalIndex": 2,
+      "status": "archived",
+      "verificationSource": "watch-live-metadata",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-08-12T23:59:06+00:00",
+      "startedAt": "2026-08-12T23:59:06+00:00",
+      "actualStartTime": "2026-08-12T23:59:06+00:00",
+      "endedAt": "2026-08-13T01:09:48+00:00",
+      "actualEndTime": "2026-08-13T01:09:48+00:00",
+      "scheduledStartTime": null
     },
     {
       "id": "c4Rvy42QNKY",
       "title": "Servicio De Oración",
       "url": "https://www.youtube.com/watch?v=c4Rvy42QNKY",
+<<<<<<< HEAD
       "thumbnail": "https://i.ytimg.com/vi/c4Rvy42QNKY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCp7zdqb1j9R8NpdxBtVm5KrXLx7A",
+=======
+      "thumbnail": "https://i.ytimg.com/vi/c4Rvy42QNKY/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBwrOlVaJdSBoZWwVZteTKKZnvB9g",
+>>>>>>> 247f558 (Descripcion del cambio)
       "duration": "18:28",
       "publishedText": "Se transmitió en vivo el 10 ago 2026",
       "originalIndex": 3,
       "status": "archived",
-      "verificationSource": "youtube-streams-tab",
+      "verificationSource": "watch-live-metadata",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
+      "isLiveBroadcast": true,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-08-10T12:00:00.000Z"
+      "publishedAt": "2026-08-10T23:57:49+00:00",
+      "startedAt": "2026-08-10T23:57:49+00:00",
+      "actualStartTime": "2026-08-10T23:57:49+00:00",
+      "endedAt": "2026-08-11T01:03:59+00:00",
+      "actualEndTime": "2026-08-11T01:03:59+00:00",
+      "scheduledStartTime": null
     },
     {
       "id": "u_wm2pBkvnY",
       "title": "Servicio De Familia | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=u_wm2pBkvnY",
+<<<<<<< HEAD
       "thumbnail": "https://i.ytimg.com/vi/u_wm2pBkvnY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA-xZtCY9tLFauHh6v2O8wB5E5UkQ",
+=======
+      "thumbnail": "https://i.ytimg.com/vi/u_wm2pBkvnY/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAiEaM-MlqEVy05nTsV4H_RaiGYew",
+>>>>>>> 247f558 (Descripcion del cambio)
       "duration": "1:08:13",
       "publishedText": "Se transmitió en vivo el 8 ago 2026",
       "originalIndex": 4,
       "status": "archived",
+<<<<<<< HEAD
       "verificationSource": "youtube-streams-tab",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
       "publishedAt": "2026-08-08T12:00:00.000Z"
+=======
+      "verificationSource": "watch-live-metadata",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+      "publishedAt": "2026-08-09T00:17:26+00:00",
+      "startedAt": "2026-08-09T00:17:26+00:00",
+      "actualStartTime": "2026-08-09T00:17:26+00:00",
+      "endedAt": "2026-08-09T01:40:32+00:00",
+      "actualEndTime": "2026-08-09T01:40:32+00:00",
+      "scheduledStartTime": null
+>>>>>>> 247f558 (Descripcion del cambio)
     },
     {
       "id": "TQxIgkkaeCU",
       "title": "La Arquitectura Del Cielo | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=TQxIgkkaeCU",
-      "thumbnail": "https://i.ytimg.com/vi/TQxIgkkaeCU/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBlojcgHxKeAVqDL4YC2pCx80w66A",
+      "thumbnail": "https://i.ytimg.com/vi/TQxIgkkaeCU/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAYnu91h-W4jnYK4bVI748AlvY7lw",
       "duration": "50:32",
       "publishedText": "Se transmitió en vivo el 5 ago 2026",
       "originalIndex": 5,
       "status": "archived",
-      "verificationSource": "youtube-streams-tab",
+      "verificationSource": "watch-live-metadata",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
+      "isLiveBroadcast": true,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-08-05T12:00:00.000Z"
+      "publishedAt": "2026-08-05T23:59:19+00:00",
+      "startedAt": "2026-08-05T23:59:19+00:00",
+      "actualStartTime": "2026-08-05T23:59:19+00:00",
+      "endedAt": "2026-08-06T01:19:24+00:00",
+      "actualEndTime": "2026-08-06T01:19:24+00:00",
+      "scheduledStartTime": null
     },
     {
       "id": "zxkaa4aqEXU",
       "title": "Servicio De Santa Cena",
       "url": "https://www.youtube.com/watch?v=zxkaa4aqEXU",
-      "thumbnail": "https://i.ytimg.com/vi/zxkaa4aqEXU/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDRA6WRKR-qGuJD-TWuzrraYqOMWA",
+      "thumbnail": "https://i.ytimg.com/vi/zxkaa4aqEXU/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDaTmWXIrWzd8hM0p_8lZt8irGPcw",
       "duration": "1:33:21",
       "publishedText": "Se transmitió en vivo el 1 ago 2026",
       "originalIndex": 6,
       "status": "archived",
-      "verificationSource": "youtube-streams-tab",
+      "verificationSource": "watch-live-metadata",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
+      "isLiveBroadcast": true,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": "2026-08-01T12:00:00.000Z"
+      "publishedAt": "2026-08-02T00:13:06+00:00",
+      "startedAt": "2026-08-02T00:13:06+00:00",
+      "actualStartTime": "2026-08-02T00:13:06+00:00",
+      "endedAt": "2026-08-02T02:05:07+00:00",
+      "actualEndTime": "2026-08-02T02:05:07+00:00",
+      "scheduledStartTime": null
     },
     {
       "id": "_tEhHWGZIes",
       "title": "Servicio De Enseñanza",
       "url": "https://www.youtube.com/watch?v=_tEhHWGZIes",
-      "thumbnail": "https://i.ytimg.com/vi/_tEhHWGZIes/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBFyiJQqUptecoZdDUePKBb8l8gvw",
+      "thumbnail": "https://i.ytimg.com/vi/_tEhHWGZIes/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBuLx5UBCYVtahPRQdktH_VrdNe1w",
       "duration": "32:58",
       "publishedText": "Se transmitió en vivo el 29 jul 2026",
       "originalIndex": 7,
       "status": "archived",
-      "verificationSource": "youtube-streams-tab",
+      "verificationSource": "watch-live-metadata",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
+      "isLiveBroadcast": true,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
+<<<<<<< HEAD
       "publishedAt": "2026-07-29T12:00:00.000Z"
+=======
+      "publishedAt": "2026-07-30T00:20:28+00:00",
+      "startedAt": "2026-07-30T00:20:28+00:00",
+      "actualStartTime": "2026-07-30T00:20:28+00:00",
+      "endedAt": "2026-07-30T01:04:53+00:00",
+      "actualEndTime": "2026-07-30T01:04:53+00:00",
+      "scheduledStartTime": null
+>>>>>>> 247f558 (Descripcion del cambio)
     }
   ]
 }

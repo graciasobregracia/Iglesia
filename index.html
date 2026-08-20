@@ -675,25 +675,44 @@
 
     <div class="modal" id="modal-eventos" role="dialog" aria-modal="true" aria-labelledby="eventos-modal-title"
         aria-hidden="true">
-        <div class="modal-panel">
+        <div class="modal-panel modal-panel-events">
             <button class="modal-close" type="button" data-close-events aria-label="Cerrar ventana de eventos">
                 &times;
             </button>
             <div class="modal-heading">
                 <div>
                     <p class="eyebrow eyebrow-dark">Vida congregacional</p>
-                    <h2 id="eventos-modal-title">Eventos destacados</h2>
+                    <h2 id="eventos-modal-title">Galería multimedia de eventos</h2>
                 </div>
                 <div class="carousel-controls">
-                    <button type="button" class="rail-button" data-events-prev aria-label="Evento anterior">
+                    <button type="button" class="rail-button" data-events-prev aria-label="Elemento anterior">
                         <span aria-hidden="true">&#10094;</span>
                     </button>
-                    <button type="button" class="rail-button" data-events-next aria-label="Siguiente evento">
+                    <button type="button" class="rail-button" data-events-next aria-label="Siguiente elemento">
                         <span aria-hidden="true">&#10095;</span>
                     </button>
                 </div>
             </div>
-            <div class="events-carousel" data-events-carousel aria-live="polite"></div>
+            <div class="events-viewer">
+                <div class="events-stage" data-events-stage aria-live="polite"></div>
+                <div class="events-detail">
+                    <div class="event-detail-head">
+                        <div>
+                            <p class="eyebrow eyebrow-dark event-media-kind" data-event-media-kind data-kind="image">
+                                Multimedia
+                            </p>
+                            <h3 data-event-media-title>Eventos destacados</h3>
+                        </div>
+                        <p class="event-counter" data-event-counter aria-live="polite"></p>
+                    </div>
+                    <p class="event-description" data-event-description>
+                        Aquí verás las imágenes y videos públicos que se compartan desde Google Drive.
+                    </p>
+                    <p class="event-status" data-event-status hidden></p>
+                    <div class="event-actions" data-event-actions></div>
+                </div>
+            </div>
+            <div class="events-thumb-rail" data-events-thumbs aria-label="Galería multimedia de eventos"></div>
         </div>
     </div>
 

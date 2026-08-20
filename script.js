@@ -2,11 +2,19 @@ const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
 const SERMONS_DATA_PATH = "data/predicaciones.json";
 const LIVE_STATUS_DATA_PATH = "data/live-status.json";
 const LIVE_STATUS_POLL_INTERVAL = 60000;
+const SITE_TIME_ZONE = "America/Bogota";
 const EVENTS_SOURCE_URL =
     "https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/EventosIglesia";
 
-const navLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
-const sections = Array.from(document.querySelectorAll("main section[id]"));
+const navLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]:not(.nav-cta)'));
+const menuLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
+const navSections = navLinks
+    .map((link) => {
+        const sectionId = decodeURIComponent(link.getAttribute("href")?.slice(1) || "").trim();
+        const section = sectionId ? document.getElementById(sectionId) : null;
+        return section instanceof HTMLElement ? section : null;
+    })
+    .filter((section, index, list) => section && list.indexOf(section) === index);
 const header = document.querySelector(".site-header");
 const menuToggle = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector(".site-nav");
@@ -20,19 +28,27 @@ const sermonsPrevButton = document.querySelector("[data-sermons-prev]");
 const sermonsNextButton = document.querySelector("[data-sermons-next]");
 const eventsModal = document.getElementById("modal-eventos");
 const galleryModal = document.getElementById("modal-galeria");
-const eventsCarousel = document.querySelector("[data-events-carousel]");
+const eventsStage = document.querySelector("[data-events-stage]");
 const eventsPrevButton = document.querySelector("[data-events-prev]");
 const eventsNextButton = document.querySelector("[data-events-next]");
+const eventsThumbs = document.querySelector("[data-events-thumbs]");
+const eventMediaKind = document.querySelector("[data-event-media-kind]");
+const eventMediaTitle = document.querySelector("[data-event-media-title]");
+const eventCounter = document.querySelector("[data-event-counter]");
+const eventDescription = document.querySelector("[data-event-description]");
+const eventStatus = document.querySelector("[data-event-status]");
+const eventActions = document.querySelector("[data-event-actions]");
 const galleryImage = document.querySelector("[data-gallery-image]");
 const copyEmailButtons = document.querySelectorAll("[data-copy-email]");
 
 let activeModal = null;
 let lastFocusedElement = null;
-let eventSlides = [];
+let eventItems = [];
 let currentEventIndex = 0;
 let eventsLoaded = false;
-let sermonsLiveSlot = null;
+let liveNoticeSlot = null;
 let activeLiveSignature = "";
+let navigationFrame = null;
 
 if (currentYearTarget) {
     currentYearTarget.textContent = String(new Date().getFullYear());
@@ -55,7 +71,7 @@ function formatDate(dateString) {
 
     return new Intl.DateTimeFormat("es-CO", {
         dateStyle: "long",
-        timeZone: "America/Bogota"
+        timeZone: SITE_TIME_ZONE
     }).format(date);
 }
 
@@ -68,8 +84,70 @@ function formatDateTime(dateString) {
     return new Intl.DateTimeFormat("es-CO", {
         dateStyle: "long",
         timeStyle: "short",
-        timeZone: "America/Bogota"
+        timeZone: SITE_TIME_ZONE
     }).format(date);
+}
+
+function getColombiaDateKey(value) {
+    if (!value) return null;
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return null;
+
+    return new Intl.DateTimeFormat("en-CA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: SITE_TIME_ZONE
+    }).format(date);
+}
+
+function getStreamTime(item) {
+    const candidates = [
+        item?.actualStartTime,
+        item?.startedAt,
+        item?.scheduledStartTime,
+        item?.publishedAt,
+        item?.actualEndTime,
+        item?.endedAt
+    ];
+
+    for (const candidate of candidates) {
+        const time = Date.parse(candidate ?? "");
+        if (!Number.isNaN(time)) return time;
+    }
+
+    return Number.NEGATIVE_INFINITY;
+}
+
+function isLiveStreamItem(item) {
+    if (!item) return false;
+    if (item.type === "live" || item.typePriority === 1 || item.isLiveBroadcast === true) return true;
+
+    const label = String(item.typeLabel ?? "").toLowerCase();
+    return label.includes("directo") || label.includes("live") || label.includes("en vivo");
+}
+
+function getStreamDateKey(item) {
+    return (
+        getColombiaDateKey(item?.actualStartTime) ||
+        getColombiaDateKey(item?.startedAt) ||
+        getColombiaDateKey(item?.scheduledStartTime) ||
+        getColombiaDateKey(item?.publishedAt) ||
+        getColombiaDateKey(item?.actualEndTime) ||
+        getColombiaDateKey(item?.endedAt)
+    );
+}
+
+function selectTodayFeaturedSermon(items, now = new Date()) {
+    const todayKey = getColombiaDateKey(now);
+    if (!todayKey) return null;
+
+    return [...items]
+        .filter((item) => item?.url && item?.thumbnail && item?.title)
+        .filter(isLiveStreamItem)
+        .filter((item) => getStreamDateKey(item) === todayKey)
+        .sort((left, right) => getStreamTime(right) - getStreamTime(left))[0] || null;
 }
 
 function updateHeaderState() {
@@ -86,6 +164,7 @@ function toggleMenu(forceState) {
         typeof forceState === "boolean" ? forceState : menuToggle.getAttribute("aria-expanded") !== "true";
 
     menuToggle.setAttribute("aria-expanded", String(nextState));
+    menuToggle.setAttribute("aria-label", nextState ? "Cerrar navegación" : "Abrir navegación");
     siteNav.classList.toggle("is-open", nextState);
 }
 
@@ -106,26 +185,57 @@ function setCurrentNavLink(id) {
     });
 }
 
-function observeSections() {
-    if (!("IntersectionObserver" in window)) return;
+function getHeaderOffset() {
+    return (header?.offsetHeight || 96) + 18;
+}
 
-    const navObserver = new IntersectionObserver(
-        (entries) => {
-            const visibleEntry = entries
-                .filter((entry) => entry.isIntersecting)
-                .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+function syncCurrentNavLink() {
+    if (!navSections.length) return;
 
-            if (visibleEntry?.target?.id) {
-                setCurrentNavLink(visibleEntry.target.id);
-            }
-        },
-        {
-            threshold: [0.3, 0.6],
-            rootMargin: "-20% 0px -55% 0px"
+    const activationPoint = window.scrollY + getHeaderOffset() + Math.min(window.innerHeight * 0.18, 140);
+    let activeId = navSections[0].id;
+
+    navSections.forEach((section) => {
+        if (activationPoint >= section.offsetTop) {
+            activeId = section.id;
         }
-    );
+    });
 
-    sections.forEach((section) => navObserver.observe(section));
+    setCurrentNavLink(activeId);
+}
+
+function requestNavigationSync() {
+    if (navigationFrame !== null) return;
+
+    navigationFrame = window.requestAnimationFrame(() => {
+        navigationFrame = null;
+        syncCurrentNavLink();
+    });
+}
+
+function getHashTargetId() {
+    return decodeURIComponent(window.location.hash.replace(/^#/, "")).trim();
+}
+
+function syncNavFromHash() {
+    const hashId = getHashTargetId();
+    if (!hashId) return;
+
+    const hasMatchingNavLink = navLinks.some((link) => link.getAttribute("href") === `#${hashId}`);
+    if (hasMatchingNavLink) {
+        setCurrentNavLink(hashId);
+    }
+}
+
+function assignRevealDelays() {
+    document
+        .querySelectorAll(".info-grid, .schedule-grid, .social-grid, .gallery-grid")
+        .forEach((group) => {
+            Array.from(group.children).forEach((child, index) => {
+                if (!child.classList.contains("reveal")) return;
+                child.style.setProperty("--reveal-delay", `${Math.min(index * 80, 320)}ms`);
+            });
+        });
 }
 
 function observeRevealElements() {
@@ -142,7 +252,7 @@ function observeRevealElements() {
                 revealObserver.unobserve(entry.target);
             });
         },
-        { threshold: 0.15 }
+        { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
     );
 
     revealElements.forEach((element) => revealObserver.observe(element));
@@ -276,10 +386,9 @@ function renderFeaturedSermon(item) {
     const typeLabel = escapeHtml(item.typeLabel || "Directo");
     const isLiveNow = item.status === "live";
     const liveClass = isLiveNow ? " is-live-now" : "";
-    const kicker = isLiveNow ? "EN VIVO AHORA" : "Transmision destacada";
-    const primaryAction = isLiveNow ? "Ver transmision en vivo" : "Ver transmision";
-    const liveStartedAt = isLiveNow ? formatDateTime(item.startedAt || item.publishedAt) : null;
-    const metaText = isLiveNow && liveStartedAt ? `Inicio: ${liveStartedAt}` : publishedText;
+    const kicker = "Transmision destacada";
+    const primaryAction = "Ver transmision";
+    const metaText = publishedText;
 
     return `
         <article class="sermons-feature-card reveal is-visible${liveClass}" data-video-url="${url}" tabindex="0" role="link" aria-label="Abrir ${title} en YouTube">
@@ -310,16 +419,23 @@ function renderFeaturedSermon(item) {
     `;
 }
 
-function ensureLiveStatusSlot() {
-    if (sermonsLiveSlot || !sermonsFeatured?.parentElement) return sermonsLiveSlot;
+function ensureLiveNoticeSlot() {
+    if (liveNoticeSlot) return liveNoticeSlot;
 
-    sermonsLiveSlot = document.createElement("div");
-    sermonsLiveSlot.className = "sermons-featured";
-    sermonsLiveSlot.setAttribute("data-live-status-slot", "");
-    sermonsLiveSlot.hidden = true;
-    sermonsFeatured.parentElement.insertBefore(sermonsLiveSlot, sermonsFeatured);
+    liveNoticeSlot = document.createElement("aside");
+    liveNoticeSlot.className = "live-notice";
+    liveNoticeSlot.setAttribute("data-live-notice", "");
+    liveNoticeSlot.setAttribute("role", "status");
+    liveNoticeSlot.setAttribute("aria-live", "polite");
+    liveNoticeSlot.hidden = true;
 
-    return sermonsLiveSlot;
+    if (header?.parentElement) {
+        header.insertAdjacentElement("afterend", liveNoticeSlot);
+    } else {
+        document.body.prepend(liveNoticeSlot);
+    }
+
+    return liveNoticeSlot;
 }
 
 function getActiveLiveFromStatus(data) {
@@ -335,15 +451,11 @@ function getActiveLiveFromStatus(data) {
 }
 
 function renderLiveStatus(activeLive) {
-    const slot = ensureLiveStatusSlot();
+    const slot = ensureLiveNoticeSlot();
     if (!slot) return;
 
     if (!activeLive) {
-        if (activeLiveSignature) {
-            activeLiveSignature = "";
-            loadSermons();
-        }
-
+        activeLiveSignature = "";
         slot.innerHTML = "";
         slot.hidden = true;
         return;
@@ -354,8 +466,23 @@ function renderLiveStatus(activeLive) {
 
     activeLiveSignature = nextSignature;
     slot.hidden = false;
-    slot.innerHTML = renderFeaturedSermon(activeLive);
-    setupSermonCards(slot);
+    slot.innerHTML = `
+        <div class="container live-notice-inner">
+            <div class="live-notice-copy">
+                <span class="live-dot" aria-hidden="true"></span>
+                <div>
+                    <p class="live-notice-kicker">Estamos en vivo ahora mismo</p>
+                    <h2>${escapeHtml(activeLive.title || "Transmisión en vivo")}</h2>
+                    <p>Acompáñanos en nuestra transmisión actual.</p>
+                </div>
+            </div>
+            <a class="button button-primary" href="${escapeHtml(
+                activeLive.url
+            )}" target="_blank" rel="noopener noreferrer" aria-label="Ver transmisión en vivo ahora mismo">
+                Ver transmisión
+            </a>
+        </div>
+    `;
 }
 
 async function refreshLiveStatus() {
@@ -408,8 +535,15 @@ async function loadSermons() {
         const data = await response.json();
         const items = Array.isArray(data.items) ? data.items : [];
         const validItems = items.filter((item) => item?.url && item?.thumbnail && item?.title);
-        const featured = validItems[0];
-        const rest = validItems.slice(1);
+        const activeLive = getActiveLiveFromStatus(data);
+        const featuredFromPayload =
+            data.featuredLiveToday?.url && data.featuredLiveToday?.thumbnail && data.featuredLiveToday?.title
+                ? data.featuredLiveToday
+                : null;
+        const featured =
+            selectTodayFeaturedSermon(
+                [activeLive, featuredFromPayload, ...validItems].filter(Boolean)
+            ) || validItems[0];
 
         if (!featured) {
             renderSermonsFallback();
@@ -417,8 +551,8 @@ async function loadSermons() {
         }
 
         sermonsFeatured.innerHTML = renderFeaturedSermon(featured);
-        sermonsTrack.innerHTML = rest.length
-            ? rest.map((item) => renderSermonCard(item)).join("")
+        sermonsTrack.innerHTML = validItems.length
+            ? validItems.map((item) => renderSermonCard(item)).join("")
             : renderSermonCard(featured);
 
         setupSermonCards();
@@ -464,52 +598,441 @@ function buildDriveImageUrl(value) {
         return cleanValue;
     }
 
-    const matchByPath = cleanValue.match(/\/d\/([^/]+)/);
-    if (matchByPath?.[1]) {
-        return `https://lh3.googleusercontent.com/d/${matchByPath[1]}`;
+    const driveFileId = extractDriveFileId(cleanValue);
+    return driveFileId ? `https://lh3.googleusercontent.com/d/${driveFileId}` : null;
+}
+
+function normalizeSheetKey(value) {
+    return String(value ?? "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .toUpperCase();
+}
+
+function normalizeMediaType(value) {
+    const cleanValue = String(value ?? "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+    if (!cleanValue) return null;
+    if (["video", "mp4", "mov", "m4v", "webm", "video/mp4", "video/quicktime"].includes(cleanValue)) {
+        return "video";
     }
 
-    const matchByQuery = cleanValue.match(/[?&]id=([^&]+)/);
-    if (matchByQuery?.[1]) {
-        return `https://lh3.googleusercontent.com/d/${matchByQuery[1]}`;
+    if (
+        ["imagen", "image", "foto", "fotografia", "fotografia", "jpg", "jpeg", "png", "webp", "gif"].includes(
+            cleanValue
+        )
+    ) {
+        return "image";
     }
 
     return null;
 }
 
+function extractDriveFileId(value) {
+    if (!value) return null;
+
+    const cleanValue = String(value).trim();
+    const matchByPath = cleanValue.match(/\/d\/([^/]+)/i);
+    if (matchByPath?.[1]) {
+        return matchByPath[1];
+    }
+
+    const matchByQuery = cleanValue.match(/[?&]id=([^&]+)/i);
+    if (matchByQuery?.[1]) {
+        return matchByQuery[1];
+    }
+
+    return null;
+}
+
+function buildDriveViewUrl(fileId) {
+    return fileId ? `https://drive.google.com/file/d/${fileId}/view` : null;
+}
+
+function buildDrivePreviewUrl(fileId) {
+    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
+}
+
+function buildDriveThumbnailUrl(fileId, size = "w1200") {
+    return fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=${size}` : null;
+}
+
+function looksLikeVideoUrl(value) {
+    return /\.(mp4|m4v|mov|webm|ogg)(?:[?#].*)?$/i.test(String(value ?? "").trim());
+}
+
+function isExternalUrl(value) {
+    return /^https?:\/\//i.test(String(value ?? "").trim());
+}
+
+function getSheetValue(row, aliases) {
+    const normalizedEntries = Object.entries(row || {}).map(([key, value]) => [normalizeSheetKey(key), value]);
+
+    for (const alias of aliases) {
+        const normalizedAlias = normalizeSheetKey(alias);
+        const match = normalizedEntries.find(([key, value]) => key === normalizedAlias && String(value ?? "").trim());
+        if (match) {
+            return String(match[1]).trim();
+        }
+    }
+
+    return "";
+}
+
+function resolveMediaSource(rawUrl, mediaType) {
+    const driveFileId = extractDriveFileId(rawUrl);
+
+    if (mediaType === "video") {
+        if (driveFileId) {
+            return {
+                isValid: true,
+                embedMode: "iframe",
+                previewUrl: buildDrivePreviewUrl(driveFileId),
+                thumbnailUrl: buildDriveThumbnailUrl(driveFileId, "w800"),
+                openUrl: buildDriveViewUrl(driveFileId),
+                note: "Si el video no se reproduce, verifica que el archivo tenga acceso para cualquier persona con el enlace."
+            };
+        }
+
+        if (looksLikeVideoUrl(rawUrl)) {
+            return {
+                isValid: true,
+                embedMode: "video",
+                previewUrl: rawUrl,
+                thumbnailUrl: null,
+                openUrl: rawUrl,
+                note: ""
+            };
+        }
+
+        return {
+            isValid: isExternalUrl(rawUrl),
+            embedMode: "link",
+            previewUrl: null,
+            thumbnailUrl: null,
+            openUrl: isExternalUrl(rawUrl) ? rawUrl : null,
+            note: "Este enlace no se puede reproducir directamente. Ábrelo en una pestaña nueva o revisa el formato compartido."
+        };
+    }
+
+    if (driveFileId) {
+        const imageUrl = buildDriveImageUrl(rawUrl);
+        return {
+            isValid: Boolean(imageUrl),
+            embedMode: "image",
+            previewUrl: imageUrl,
+            thumbnailUrl: buildDriveThumbnailUrl(driveFileId, "w800") || imageUrl,
+            openUrl: buildDriveViewUrl(driveFileId),
+            note: ""
+        };
+    }
+
+    if (isExternalUrl(rawUrl)) {
+        return {
+            isValid: true,
+            embedMode: "image",
+            previewUrl: rawUrl,
+            thumbnailUrl: rawUrl,
+            openUrl: rawUrl,
+            note: ""
+        };
+    }
+
+    return {
+        isValid: false,
+        embedMode: "link",
+        previewUrl: null,
+        thumbnailUrl: null,
+        openUrl: null,
+        note: "No pudimos interpretar este enlace. Revisa la URL en Google Sheets y confirma que el archivo siga disponible."
+    };
+}
+
+function normalizeEventItem(row, index) {
+    const imageUrl = getSheetValue(row, ["LINK_IMAGEN", "URL_IMAGEN", "IMAGEN", "IMAGE_URL"]);
+    const videoUrl = getSheetValue(row, ["LINK_VIDEO", "URL_VIDEO", "VIDEO", "VIDEO_URL"]);
+    const genericUrl = getSheetValue(row, ["LINK_MEDIA", "URL_MEDIA", "ENLACE", "LINK", "URL", "LINK_DRIVE"]);
+    const rawUrl = imageUrl || videoUrl || genericUrl;
+
+    if (!rawUrl) return null;
+
+    const explicitType = normalizeMediaType(
+        getSheetValue(row, ["TIPO", "TIPO_MEDIA", "TIPO_ARCHIVO", "MEDIA_TYPE", "FORMATO"])
+    );
+    const mediaType = explicitType || (videoUrl ? "video" : imageUrl ? "image" : looksLikeVideoUrl(rawUrl) ? "video" : "image");
+    const title = getSheetValue(row, ["TITULO", "EVENTO", "NOMBRE_EVENTO", "TITLE", "NOMBRE"]) || `Evento destacado ${index + 1}`;
+    const description =
+        getSheetValue(row, ["DESCRIPCION", "DESCRIPCION_MEDIA", "DETALLE", "DETALLES", "NOTAS"]) ||
+        (mediaType === "video"
+            ? "Reproduce este video dentro del visor o ábrelo en Google Drive si necesitas verlo directamente."
+            : "Imagen compartida desde la galería de eventos de la iglesia.");
+    const alt =
+        getSheetValue(row, ["ALT", "TEXTO_ALT", "DESCRIPCION_ALT"]) ||
+        `${mediaType === "video" ? "Video" : "Imagen"} de ${title}`;
+    const mediaSource = resolveMediaSource(rawUrl, mediaType);
+
+    return {
+        id: `${normalizeSheetKey(title) || "EVENTO"}-${index}`,
+        type: mediaType,
+        typeLabel: mediaType === "video" ? "Video" : "Imagen",
+        title,
+        description,
+        alt,
+        rawUrl,
+        ...mediaSource
+    };
+}
+
+function getMediaIcon(type) {
+    return type === "video"
+        ? `<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="m8 6 10 6-10 6V6Z"></path></svg>`
+        : `<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"></rect><circle cx="9" cy="11" r="1.4"></circle><path d="m20 15-4.2-4.2L9 17"></path></svg>`;
+}
+
+function getEventLinkLabel(item) {
+    if (!item?.openUrl) return "";
+    return item.rawUrl.includes("drive.google.com") ? "Abrir en Google Drive" : "Abrir archivo";
+}
+
+function resetEventStage() {
+    if (!eventsStage) return;
+
+    const inlineVideo = eventsStage.querySelector("video");
+    if (inlineVideo instanceof HTMLVideoElement) {
+        inlineVideo.pause();
+        inlineVideo.removeAttribute("src");
+        inlineVideo.load();
+    }
+
+    const iframe = eventsStage.querySelector("iframe");
+    if (iframe instanceof HTMLIFrameElement) {
+        iframe.src = "about:blank";
+    }
+
+    eventsStage.innerHTML = "";
+}
+
+function setEventStatus(message = "") {
+    if (!eventStatus) return;
+
+    eventStatus.hidden = !message;
+    eventStatus.textContent = message;
+}
+
 function renderEventsFallback(message) {
-    if (!eventsCarousel) return;
-
-    eventsCarousel.innerHTML = `
-        <div class="event-slide event-empty is-active">
-            <h3>${escapeHtml(message)}</h3>
-            <p>Te invitamos a estar atento a las próximas actividades de la iglesia.</p>
-        </div>
-    `;
-
-    eventSlides = Array.from(eventsCarousel.querySelectorAll(".event-slide"));
+    resetEventStage();
+    eventItems = [];
     currentEventIndex = 0;
+
+    if (eventsStage) {
+        eventsStage.innerHTML = `
+            <article class="event-stage-card event-stage-card-empty">
+                <div class="event-placeholder">
+                    <span class="event-placeholder-icon" aria-hidden="true">${getMediaIcon("image")}</span>
+                    <h3>${escapeHtml(message)}</h3>
+                    <p>Te invitamos a estar atento a las próximas actividades de la iglesia.</p>
+                </div>
+            </article>
+        `;
+    }
+
+    if (eventMediaKind) {
+        eventMediaKind.textContent = "Multimedia";
+        eventMediaKind.dataset.kind = "image";
+    }
+
+    if (eventMediaTitle) {
+        eventMediaTitle.textContent = "Eventos destacados";
+    }
+
+    if (eventCounter) {
+        eventCounter.textContent = "";
+    }
+
+    if (eventDescription) {
+        eventDescription.textContent =
+            "Entérate de nuestros eventos, novedades y anuncios.";
+    }
+
+    if (eventActions) {
+        eventActions.innerHTML = "";
+    }
+
+    if (eventsThumbs) {
+        eventsThumbs.innerHTML = "";
+    }
+
+    setEventStatus("");
     updateEventButtons();
 }
 
-function showEvent(index) {
-    if (!eventSlides.length) return;
+function renderEventThumbnails() {
+    if (!eventsThumbs) return;
 
-    currentEventIndex = index;
-    eventSlides.forEach((slide, slideIndex) => {
-        slide.classList.toggle("is-active", slideIndex === currentEventIndex);
+    eventsThumbs.innerHTML = eventItems
+        .map((item, index) => {
+            const thumbImage = item.thumbnailUrl
+                ? `<img src="${escapeHtml(item.thumbnailUrl)}" alt="" loading="lazy" data-event-thumb-image>`
+                : `<span class="event-thumb-fallback" aria-hidden="true">${getMediaIcon(item.type)}</span>`;
+
+            return `
+                <button
+                    type="button"
+                    class="event-thumb${index === currentEventIndex ? " is-active" : ""}"
+                    data-event-index="${index}"
+                    data-media-type="${escapeHtml(item.type)}"
+                    aria-label="Ver ${escapeHtml(item.typeLabel.toLowerCase())} ${index + 1}: ${escapeHtml(item.title)}"
+                    aria-pressed="${index === currentEventIndex ? "true" : "false"}">
+                    <span class="event-thumb-media">
+                        ${thumbImage}
+                        <span class="event-thumb-type" aria-hidden="true">
+                            ${getMediaIcon(item.type)}
+                            ${escapeHtml(item.typeLabel)}
+                        </span>
+                        ${
+                            item.type === "video"
+                                ? `<span class="event-thumb-play" aria-hidden="true">${getMediaIcon("video")}</span>`
+                                : ""
+                        }
+                    </span>
+                    <span class="event-thumb-title">${escapeHtml(item.title)}</span>
+                </button>
+            `;
+        })
+        .join("");
+
+    eventsThumbs.querySelectorAll("[data-event-thumb-image]").forEach((image) => {
+        image.addEventListener(
+            "error",
+            () => {
+                const media = image.closest(".event-thumb-media");
+                if (!media) return;
+
+                image.remove();
+                media.insertAdjacentHTML("afterbegin", `<span class="event-thumb-fallback" aria-hidden="true">${getMediaIcon("image")}</span>`);
+            },
+            { once: true }
+        );
     });
-    updateEventButtons();
+}
+
+function renderEventUnavailableState(item, message) {
+    if (!eventsStage) return;
+
+    eventsStage.innerHTML = `
+        <article class="event-stage-card event-stage-card-empty">
+            <div class="event-placeholder">
+                <span class="event-placeholder-icon" aria-hidden="true">${getMediaIcon(item.type)}</span>
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(message)}</p>
+                ${
+                    item.openUrl
+                        ? `<a class="text-link" href="${escapeHtml(item.openUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+                              getEventLinkLabel(item)
+                          )}</a>`
+                        : ""
+                }
+            </div>
+        </article>
+    `;
 }
 
 function updateEventButtons() {
-    const isDisabled = eventSlides.length <= 1;
+    const isDisabled = eventItems.length <= 1;
     if (eventsPrevButton) eventsPrevButton.disabled = isDisabled;
     if (eventsNextButton) eventsNextButton.disabled = isDisabled;
 }
 
+function renderCurrentEvent() {
+    if (!eventItems.length || !eventsStage) return;
+
+    const item = eventItems[currentEventIndex];
+    resetEventStage();
+
+    if (eventMediaKind) {
+        eventMediaKind.textContent = item.typeLabel;
+        eventMediaKind.dataset.kind = item.type;
+    }
+
+    if (eventMediaTitle) {
+        eventMediaTitle.textContent = item.title;
+    }
+
+    if (eventCounter) {
+        eventCounter.textContent = `${currentEventIndex + 1} de ${eventItems.length}`;
+    }
+
+    if (eventDescription) {
+        eventDescription.textContent = item.description;
+    }
+
+    if (eventActions) {
+        eventActions.innerHTML = item.openUrl
+            ? `<a class="text-link" href="${escapeHtml(item.openUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+                  getEventLinkLabel(item)
+              )}</a>`
+            : "";
+    }
+
+    setEventStatus(item.note);
+
+    if (!item.isValid || !item.previewUrl) {
+        renderEventUnavailableState(item, item.note || "Este elemento no se pudo cargar correctamente.");
+        renderEventThumbnails();
+        updateEventButtons();
+        return;
+    }
+
+    const mediaMarkup =
+        item.embedMode === "iframe"
+            ? `<iframe src="${escapeHtml(item.previewUrl)}" title="${escapeHtml(item.title)}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`
+            : item.embedMode === "video"
+              ? `<video src="${escapeHtml(item.previewUrl)}" controls preload="metadata" playsinline aria-label="${escapeHtml(
+                    item.alt
+                )}"></video>`
+              : `<img src="${escapeHtml(item.previewUrl)}" alt="${escapeHtml(item.alt)}" loading="lazy" data-event-stage-image>`;
+
+    eventsStage.innerHTML = `
+        <article class="event-stage-card event-stage-card-${escapeHtml(item.type)}">
+            ${mediaMarkup}
+        </article>
+    `;
+
+    const stageImage = eventsStage.querySelector("[data-event-stage-image]");
+    if (stageImage instanceof HTMLImageElement) {
+        stageImage.addEventListener(
+            "error",
+            () => {
+                const fallbackMessage =
+                    "No pudimos mostrar esta imagen. Revisa que el archivo exista y que tenga permisos públicos en Google Drive.";
+                setEventStatus(fallbackMessage);
+                renderEventUnavailableState(item, fallbackMessage);
+            },
+            { once: true }
+        );
+    }
+
+    renderEventThumbnails();
+    updateEventButtons();
+}
+
+function showEvent(index) {
+    if (!eventItems.length) return;
+
+    const safeIndex = (index + eventItems.length) % eventItems.length;
+    currentEventIndex = safeIndex;
+    renderCurrentEvent();
+}
+
 async function loadEvents() {
-    if (eventsLoaded || !eventsCarousel) return;
+    if (eventsLoaded || !eventsStage) return;
 
     try {
         const response = await fetch(EVENTS_SOURCE_URL, { cache: "no-store" });
@@ -518,30 +1041,16 @@ async function loadEvents() {
         }
 
         const rows = await response.json();
-        const slidesMarkup = rows
-            .map((row) => {
-                const imageUrl = buildDriveImageUrl(row.LINK_IMAGEN);
-                if (!imageUrl) return "";
+        eventItems = rows.map((row, index) => normalizeEventItem(row, index)).filter(Boolean);
 
-                const title = escapeHtml(row.TITULO || row.EVENTO || "Evento de la iglesia");
-                return `
-                    <article class="event-slide">
-                        <img src="${escapeHtml(imageUrl)}" alt="${title}" loading="lazy">
-                    </article>
-                `;
-            })
-            .filter(Boolean)
-            .join("");
-
-        if (!slidesMarkup) {
+        if (!eventItems.length) {
             renderEventsFallback("Próximamente compartiremos nuevos eventos y actividades de la iglesia.");
             eventsLoaded = true;
             return;
         }
 
-        eventsCarousel.innerHTML = slidesMarkup;
-        eventSlides = Array.from(eventsCarousel.querySelectorAll(".event-slide"));
-        showEvent(0);
+        currentEventIndex = 0;
+        renderCurrentEvent();
         eventsLoaded = true;
     } catch (error) {
         console.error("No se pudieron cargar los eventos:", error);
@@ -612,24 +1121,35 @@ function setupEvents() {
     document.querySelectorAll("[data-open-events]").forEach((button) => {
         button.addEventListener("click", async () => {
             await loadEvents();
+            if (eventItems.length) {
+                renderCurrentEvent();
+            }
             openModal(eventsModal);
         });
     });
 
     document.querySelector("[data-close-events]")?.addEventListener("click", () => {
-        closeModal(eventsModal);
+        closeEventsModal();
     });
 
     eventsPrevButton?.addEventListener("click", () => {
-        if (eventSlides.length < 2) return;
-        const nextIndex = (currentEventIndex - 1 + eventSlides.length) % eventSlides.length;
-        showEvent(nextIndex);
+        if (eventItems.length < 2) return;
+        showEvent(currentEventIndex - 1);
     });
 
     eventsNextButton?.addEventListener("click", () => {
-        if (eventSlides.length < 2) return;
-        const nextIndex = (currentEventIndex + 1) % eventSlides.length;
-        showEvent(nextIndex);
+        if (eventItems.length < 2) return;
+        showEvent(currentEventIndex + 1);
+    });
+
+    eventsThumbs?.addEventListener("click", (event) => {
+        const trigger = event.target.closest("[data-event-index]");
+        if (!(trigger instanceof HTMLButtonElement)) return;
+
+        const targetIndex = Number(trigger.dataset.eventIndex);
+        if (Number.isNaN(targetIndex)) return;
+
+        showEvent(targetIndex);
     });
 }
 
@@ -657,7 +1177,7 @@ function setupModalDismiss() {
             if (modal === galleryModal) {
                 closeGallery();
             } else {
-                closeModal(modal);
+                closeEventsModal();
             }
         });
     });
@@ -667,7 +1187,7 @@ function setupModalDismiss() {
             if (activeModal === galleryModal) {
                 closeGallery();
             } else {
-                closeModal(activeModal);
+                closeEventsModal();
             }
         }
 
@@ -691,20 +1211,53 @@ function setupSermonRail() {
 function initializeNavigation() {
     updateHeaderState();
     updateScrollTopButton();
-    setCurrentNavLink("inicio");
-    observeSections();
+    requestNavigationSync();
 
-    window.addEventListener("scroll", () => {
-        updateHeaderState();
-        updateScrollTopButton();
+    window.addEventListener(
+        "scroll",
+        () => {
+            updateHeaderState();
+            updateScrollTopButton();
+            requestNavigationSync();
+        },
+        { passive: true }
+    );
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) {
+            toggleMenu(false);
+        }
+
+        requestNavigationSync();
+    });
+
+    window.addEventListener("hashchange", () => {
+        toggleMenu(false);
+        syncNavFromHash();
+        requestNavigationSync();
+    });
+
+    window.addEventListener("load", () => {
+        syncNavFromHash();
+        requestNavigationSync();
+        window.setTimeout(requestNavigationSync, 160);
     });
 
     menuToggle?.addEventListener("click", () => {
         toggleMenu();
     });
 
-    navLinks.forEach((link) => {
-        link.addEventListener("click", () => toggleMenu(false));
+    menuLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            const targetId = decodeURIComponent(link.getAttribute("href")?.replace(/^#/, "") || "").trim();
+            if (targetId && navLinks.some((navLink) => navLink.getAttribute("href") === `#${targetId}`)) {
+                setCurrentNavLink(targetId);
+            }
+
+            toggleMenu(false);
+            window.setTimeout(requestNavigationSync, 90);
+            window.setTimeout(requestNavigationSync, 360);
+        });
     });
 
     scrollTopButton?.addEventListener("click", () => {
@@ -712,6 +1265,12 @@ function initializeNavigation() {
     });
 }
 
+function closeEventsModal() {
+    resetEventStage();
+    closeModal(eventsModal);
+}
+
+assignRevealDelays();
 initializeNavigation();
 observeRevealElements();
 setupCopyEmailButtons();

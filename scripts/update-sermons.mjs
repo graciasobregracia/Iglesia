@@ -12,6 +12,7 @@ const channelHomeUrl = "https://www.youtube.com/@icgraciasobregracia";
 const channelStreamsUrl = `${channelHomeUrl}/streams`;
 const channelLiveUrl = `${channelHomeUrl}/live`;
 const maxArchivedStreams = 8;
+const siteTimeZone = "America/Bogota";
 
 async function fetchPage(url) {
     const response = await fetch(url, {
@@ -282,14 +283,79 @@ function parseSpanishPublishText(value) {
 }
 
 function getLiveStartDate(watchHtml) {
-    return matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/);
+    return (
+        matchFirst(watchHtml, /"actualStartTime":"([^"]+)"/) ||
+        matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/) ||
+        matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/)
+    );
+}
+
+function getLiveEndDate(watchHtml) {
+    return matchFirst(watchHtml, /"actualEndTime":"([^"]+)"/) || matchFirst(watchHtml, /"endTimestamp":"([^"]+)"/);
+}
+
+function getScheduledStartDate(watchHtml) {
+    return matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/);
+}
+
+function getColombiaDateKey(value) {
+    if (!value) return null;
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return null;
+
+    return new Intl.DateTimeFormat("en-CA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: siteTimeZone
+    }).format(date);
+}
+
+function getStreamTime(item) {
+    const candidates = [
+        item?.actualStartTime,
+        item?.startedAt,
+        item?.scheduledStartTime,
+        item?.publishedAt,
+        item?.actualEndTime,
+        item?.endedAt
+    ];
+
+    for (const candidate of candidates) {
+        const time = Date.parse(candidate ?? "");
+        if (!Number.isNaN(time)) return time;
+    }
+
+    return Number.NEGATIVE_INFINITY;
+}
+
+function getStreamDateKey(item) {
+    return (
+        getColombiaDateKey(item?.actualStartTime) ||
+        getColombiaDateKey(item?.startedAt) ||
+        getColombiaDateKey(item?.scheduledStartTime) ||
+        getColombiaDateKey(item?.publishedAt) ||
+        getColombiaDateKey(item?.actualEndTime) ||
+        getColombiaDateKey(item?.endedAt)
+    );
+}
+
+function selectTodayFeaturedStream(items, now = new Date()) {
+    const todayKey = getColombiaDateKey(now);
+    if (!todayKey) return null;
+
+    return [...items]
+        .filter((item) => item?.type === "live" || item?.isLiveBroadcast === true || item?.typePriority === 1)
+        .filter((item) => getStreamDateKey(item) === todayKey)
+        .sort((left, right) => getStreamTime(right) - getStreamTime(left))[0] || null;
 }
 
 function getLiveState(watchHtml) {
     const isLiveNow =
         /"isLiveNow"\s*:\s*true/.test(watchHtml) ||
         /"liveBroadcastContent"\s*:\s*"live"/.test(watchHtml);
-    const hasEnded = /"endTimestamp":"[^"]+"/.test(watchHtml);
+    const hasEnded = /"endTimestamp":"[^"]+"/.test(watchHtml) || /"actualEndTime":"[^"]+"/.test(watchHtml);
     const isUpcoming =
         /"isUpcoming"\s*:\s*true/.test(watchHtml) ||
         /"liveBroadcastContent"\s*:\s*"upcoming"/.test(watchHtml);
@@ -312,17 +378,28 @@ function getLiveState(watchHtml) {
 }
 
 function buildStreamItem(item, watchHtml, overrides = {}) {
+    const startedAt = overrides.startedAt ?? getLiveStartDate(watchHtml) ?? null;
+    const endedAt = overrides.endedAt ?? getLiveEndDate(watchHtml) ?? null;
+    const scheduledStartTime = overrides.scheduledStartTime ?? getScheduledStartDate(watchHtml) ?? null;
+    const publishedAt = startedAt || getPublishDate(watchHtml) || item.publishedAt || endedAt || null;
+
     return {
         ...item,
         ...overrides,
         type: "live",
         typeLabel: overrides.typeLabel ?? "Directo",
         typePriority: 1,
+        isLiveBroadcast: true,
         description:
             overrides.description ??
             "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
         publishedText: overrides.publishedText ?? getWatchPublishText(watchHtml) ?? item.publishedText ?? null,
-        publishedAt: getPublishDate(watchHtml) || getLiveStartDate(watchHtml) || item.publishedAt || null
+        publishedAt,
+        startedAt,
+        actualStartTime: startedAt,
+        endedAt,
+        actualEndTime: endedAt,
+        scheduledStartTime
     };
 }
 
@@ -355,6 +432,8 @@ async function getActiveLive() {
             status: "live",
             typeLabel: "🔴 EN VIVO AHORA",
             startedAt: getLiveStartDate(page.html) || null,
+            actualStartTime: getLiveStartDate(page.html) || null,
+            scheduledStartTime: getScheduledStartDate(page.html) || null,
             description: "Estamos transmitiendo nuestro servicio en este momento."
         }
     );
@@ -402,8 +481,8 @@ async function main() {
     const activeLive = await getActiveLive();
     const streamCandidates = getStreamItems(initialData);
     const archivedItems = sortByPublicationDate(await enrichArchivedStreams(streamCandidates))
-        .filter((item) => item.id !== activeLive?.id)
         .slice(0, maxArchivedStreams);
+    const featuredLiveToday = selectTodayFeaturedStream(activeLive ? [activeLive, ...archivedItems] : archivedItems);
 
     if (!activeLive && !archivedItems.length) {
         throw new Error("No se encontraron transmisiones en vivo del canal.");
@@ -420,9 +499,11 @@ async function main() {
         status: {
             isLiveNow: Boolean(activeLive),
             activeLiveId: activeLive?.id ?? null,
+            featuredLiveTodayId: featuredLiveToday?.id ?? null,
             checkedAt: new Date().toISOString()
         },
         activeLive,
+        featuredLiveToday,
         items: archivedItems
     };
     const liveStatusPayload = {
