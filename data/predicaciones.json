@@ -4,12 +4,12 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-20T01:10:08.860Z",
+  "updatedAt": "2026-08-20T02:22:00.161Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
-    "checkedAt": "2026-08-20T01:10:08.860Z"
+    "checkedAt": "2026-08-20T02:22:00.161Z"
   },
   "activeLive": null,
   "items": [
@@ -17,9 +17,9 @@
       "id": "-arBOXaXH8Y",
       "title": "Servicio De Enseñanza",
       "url": "https://www.youtube.com/watch?v=-arBOXaXH8Y",
-      "thumbnail": "https://i.ytimg.com/vi/-arBOXaXH8Y/hqdefault.jpg?v=6a864247&sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDleTvd3RuUcve0RNWD7peFFwErVA",
-      "duration": null,
-      "publishedText": "Comenzó a transmitir hace 64 minutos",
+      "thumbnail": "https://i.ytimg.com/vi/-arBOXaXH8Y/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDleTvd3RuUcve0RNWD7peFFwErVA",
+      "duration": "1:25:24",
+      "publishedText": "Se transmitió en vivo hace 2 horas",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
