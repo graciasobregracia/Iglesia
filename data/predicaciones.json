@@ -4,24 +4,24 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-27T15:27:01.388Z",
+  "updatedAt": "2026-08-28T00:28:47.700Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "featuredLiveTodayId": null,
-    "checkedAt": "2026-08-27T15:27:01.388Z"
+    "checkedAt": "2026-08-28T00:28:47.700Z"
   },
   "activeLive": null,
   "featuredLiveToday": null,
   "items": [
     {
       "id": "zGnWT9ZmMwY",
-      "title": "Servicio De Enseñanza | Miércoles 26 de Agosto del 2026",
+      "title": "Una Iglesia Que No Se Esconde | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=zGnWT9ZmMwY",
       "thumbnail": "https://i.ytimg.com/vi/zGnWT9ZmMwY/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDMsGhEky49_bmVe1rt3MdRTskJnQ",
-      "duration": "1:31:03",
-      "publishedText": "Se transmitió en vivo hace 15 horas",
+      "duration": "55:32",
+      "publishedText": "Se transmitió en vivo el 26 ago 2026",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
@@ -30,7 +30,7 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",
-      "publishedAt": null,
+      "publishedAt": "2026-08-26T12:00:00.000Z",
       "startedAt": null,
       "actualStartTime": null,
       "endedAt": null,
