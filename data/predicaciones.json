@@ -4,13 +4,13 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-08-30T21:15:36.630Z",
+  "updatedAt": "2026-08-30T23:30:05.130Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "featuredLiveTodayId": null,
-    "checkedAt": "2026-08-30T21:15:36.630Z"
+    "checkedAt": "2026-08-30T23:30:05.130Z"
   },
   "activeLive": null,
   "featuredLiveToday": null,
@@ -21,7 +21,7 @@
       "url": "https://www.youtube.com/watch?v=6LUywdSGe9g",
       "thumbnail": "https://i.ytimg.com/vi/6LUywdSGe9g/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCVmvYnyPBV3lLvX5yUPNL_aRLpYw",
       "duration": "1:58:13",
-      "publishedText": "Se transmitió en vivo hace 21 horas",
+      "publishedText": "Se transmitió en vivo hace 23 horas",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
