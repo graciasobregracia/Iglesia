@@ -4,13 +4,13 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-06T00:15:21.956Z",
+  "updatedAt": "2026-09-06T04:39:01.776Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "featuredLiveTodayId": null,
-    "checkedAt": "2026-09-06T00:15:21.956Z"
+    "checkedAt": "2026-09-06T04:39:01.776Z"
   },
   "activeLive": null,
   "featuredLiveToday": null,
@@ -19,9 +19,9 @@
       "id": "wNzjaKRgJjM",
       "title": "Servicio de Sanidad| 05 de Septiembre 2026.",
       "url": "https://www.youtube.com/watch?v=wNzjaKRgJjM",
-      "thumbnail": "https://i.ytimg.com/vi/wNzjaKRgJjM/hq720.jpg?v=6a9cac93&sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAC9K1z8jdHbsH257ME5J60W21fjA",
-      "duration": null,
-      "publishedText": "Comenzó a transmitir hace 12 minutos",
+      "thumbnail": "https://i.ytimg.com/vi/wNzjaKRgJjM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAC9K1z8jdHbsH257ME5J60W21fjA",
+      "duration": "1:45:16",
+      "publishedText": "Se transmitió en vivo hace 4 horas",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
