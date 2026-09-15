@@ -33,7 +33,6 @@ const galleryModal = document.getElementById("modal-galeria");
 const eventsStage = document.querySelector("[data-events-stage]");
 const eventsPrevButton = document.querySelector("[data-events-prev]");
 const eventsNextButton = document.querySelector("[data-events-next]");
-const eventsThumbs = document.querySelector("[data-events-thumbs]");
 const eventMediaKind = document.querySelector("[data-event-media-kind]");
 const eventMediaTitle = document.querySelector("[data-event-media-title]");
 const eventCounter = document.querySelector("[data-event-counter]");
@@ -47,6 +46,7 @@ let activeModal = null;
 let lastFocusedElement = null;
 let eventItems = [];
 let currentEventIndex = 0;
+let currentMediaIndex = 0;
 let eventsLoaded = false;
 let liveNoticeSlot = null;
 let activeLiveSignature = "";
@@ -444,11 +444,12 @@ function ensureLiveNoticeSlot() {
 }
 
 function getActiveLiveFromStatus(data) {
-    if (!data?.status?.isLiveNow) return null;
-    if (!data.activeLive?.url || !data.activeLive?.thumbnail || !data.activeLive?.title) return null;
+    if (data?.status?.isLiveNow !== true) return null;
+    if (!data.activeLive) return null;
 
     return {
         ...data.activeLive,
+        url: data.activeLive.url || data.channel?.url || YOUTUBE_CHANNEL_URL,
         status: "live",
         typeLabel: data.activeLive.typeLabel || "🔴 EN VIVO AHORA",
         description: data.activeLive.description || "Estamos transmitiendo nuestro servicio en este momento."
@@ -719,12 +720,8 @@ function extractDriveFileId(value) {
     return null;
 }
 
-function buildDriveViewUrl(fileId) {
-    return fileId ? `https://drive.google.com/file/d/${fileId}/view` : null;
-}
-
-function buildDrivePreviewUrl(fileId) {
-    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
+function buildDriveVideoUrl(fileId) {
+    return fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : null;
 }
 
 function buildDriveThumbnailUrl(fileId, size = "w1200") {
@@ -737,6 +734,13 @@ function looksLikeVideoUrl(value) {
 
 function isExternalUrl(value) {
     return /^https?:\/\//i.test(String(value ?? "").trim());
+}
+
+function splitSheetUrls(value) {
+    return String(value ?? "")
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
 }
 
 function getSheetValue(row, aliases) {
@@ -758,13 +762,13 @@ function resolveMediaSource(rawUrl, mediaType) {
 
     if (mediaType === "video") {
         if (driveFileId) {
+            const videoUrl = buildDriveVideoUrl(driveFileId);
             return {
-                isValid: true,
-                embedMode: "iframe",
-                previewUrl: buildDrivePreviewUrl(driveFileId),
+                isValid: Boolean(videoUrl),
+                embedMode: "video",
+                previewUrl: videoUrl,
                 thumbnailUrl: buildDriveThumbnailUrl(driveFileId, "w800"),
-                openUrl: buildDriveViewUrl(driveFileId),
-                note: "Si el video no se reproduce, verifica que el archivo tenga acceso para cualquier persona con el enlace."
+                note: ""
             };
         }
 
@@ -774,18 +778,16 @@ function resolveMediaSource(rawUrl, mediaType) {
                 embedMode: "video",
                 previewUrl: rawUrl,
                 thumbnailUrl: null,
-                openUrl: rawUrl,
                 note: ""
             };
         }
 
         return {
-            isValid: isExternalUrl(rawUrl),
-            embedMode: "link",
+            isValid: false,
+            embedMode: "video",
             previewUrl: null,
             thumbnailUrl: null,
-            openUrl: isExternalUrl(rawUrl) ? rawUrl : null,
-            note: "Este enlace no se puede reproducir directamente. Ábrelo en una pestaña nueva o revisa el formato compartido."
+            note: "No pudimos reproducir este video en el modal. Revisa que el archivo sea publico y compatible."
         };
     }
 
@@ -796,7 +798,6 @@ function resolveMediaSource(rawUrl, mediaType) {
             embedMode: "image",
             previewUrl: imageUrl,
             thumbnailUrl: buildDriveThumbnailUrl(driveFileId, "w800") || imageUrl,
-            openUrl: buildDriveViewUrl(driveFileId),
             note: ""
         };
     }
@@ -807,54 +808,81 @@ function resolveMediaSource(rawUrl, mediaType) {
             embedMode: "image",
             previewUrl: rawUrl,
             thumbnailUrl: rawUrl,
-            openUrl: rawUrl,
             note: ""
         };
     }
 
     return {
         isValid: false,
-        embedMode: "link",
+        embedMode: "image",
         previewUrl: null,
         thumbnailUrl: null,
-        openUrl: null,
-        note: "No pudimos interpretar este enlace. Revisa la URL en Google Sheets y confirma que el archivo siga disponible."
+        note: "No pudimos cargar este archivo multimedia. Revisa que el enlace sea publico y compatible."
     };
 }
 
-function normalizeEventItem(row, index) {
+function getEventTitle(row, index) {
+    return getSheetValue(row, ["EVENTO", "TITULO", "NOMBRE_EVENTO", "TITLE", "NOMBRE"]) || "Eventos destacados";
+}
+
+function getEventGroupKey(row, title) {
+    const explicitId = getSheetValue(row, ["ID_EVENTO", "EVENT_ID", "EVENTO_ID", "ID"]);
+    return normalizeSheetKey(explicitId || title || "EVENTOS_DESTACADOS") || "EVENTOS_DESTACADOS";
+}
+
+function getEventDescription(row, mediaType) {
+    return (
+        getSheetValue(row, ["DESCRIPCION", "DESCRIPCION_MEDIA", "DETALLE", "DETALLES", "NOTAS"]) ||
+        (mediaType === "video"
+            ? "Reproduce este video dentro de la galeria multimedia de la iglesia."
+            : "Imagen compartida desde la galeria de eventos de la iglesia.")
+    );
+}
+
+function normalizeEventMediaItems(row, index) {
     const imageUrl = getSheetValue(row, ["LINK_IMAGEN", "URL_IMAGEN", "IMAGEN", "IMAGE_URL"]);
     const videoUrl = getSheetValue(row, ["LINK_VIDEO", "URL_VIDEO", "VIDEO", "VIDEO_URL"]);
     const genericUrl = getSheetValue(row, ["LINK_MEDIA", "URL_MEDIA", "ENLACE", "LINK", "URL", "LINK_DRIVE"]);
-    const rawUrl = imageUrl || videoUrl || genericUrl;
-
-    if (!rawUrl) return null;
-
     const explicitType = normalizeMediaType(
         getSheetValue(row, ["TIPO", "TIPO_MEDIA", "TIPO_ARCHIVO", "MEDIA_TYPE", "FORMATO"])
     );
-    const mediaType = explicitType || (videoUrl ? "video" : imageUrl ? "image" : looksLikeVideoUrl(rawUrl) ? "video" : "image");
-    const title = getSheetValue(row, ["TITULO", "EVENTO", "NOMBRE_EVENTO", "TITLE", "NOMBRE"]) || `Evento destacado ${index + 1}`;
-    const description =
-        getSheetValue(row, ["DESCRIPCION", "DESCRIPCION_MEDIA", "DETALLE", "DETALLES", "NOTAS"]) ||
-        (mediaType === "video"
-            ? "Reproduce este video dentro del visor o ábrelo en Google Drive si necesitas verlo directamente."
-            : "Imagen compartida desde la galería de eventos de la iglesia.");
-    const alt =
-        getSheetValue(row, ["ALT", "TEXTO_ALT", "DESCRIPCION_ALT"]) ||
-        `${mediaType === "video" ? "Video" : "Imagen"} de ${title}`;
-    const mediaSource = resolveMediaSource(rawUrl, mediaType);
+    const title = getEventTitle(row, index);
+    const alt = getSheetValue(row, ["ALT", "TEXTO_ALT", "DESCRIPCION_ALT"]);
+    const mediaRows = [];
 
-    return {
-        id: `${normalizeSheetKey(title) || "EVENTO"}-${index}`,
-        type: mediaType,
-        typeLabel: mediaType === "video" ? "Video" : "Imagen",
-        title,
-        description,
-        alt,
-        rawUrl,
-        ...mediaSource
-    };
+    splitSheetUrls(imageUrl).forEach((rawUrl, mediaIndex) => {
+        mediaRows.push({ rawUrl, type: "image", mediaIndex });
+    });
+
+    splitSheetUrls(videoUrl).forEach((rawUrl, mediaIndex) => {
+        mediaRows.push({ rawUrl, type: "video", mediaIndex });
+    });
+
+    splitSheetUrls(genericUrl).forEach((rawUrl, mediaIndex) => {
+        const hasSpecificUrl = rawUrl === imageUrl || rawUrl === videoUrl;
+        if (hasSpecificUrl) return;
+
+        mediaRows.push({
+            rawUrl,
+            type: explicitType || (looksLikeVideoUrl(rawUrl) ? "video" : "image"),
+            mediaIndex
+        });
+    });
+
+    return mediaRows.map(({ rawUrl, type, mediaIndex }) => {
+        const mediaSource = resolveMediaSource(rawUrl, type);
+
+        return {
+            id: `${getEventGroupKey(row, title)}-${index}-${mediaIndex}`,
+            type,
+            typeLabel: type === "video" ? "Video" : "Imagen",
+            title,
+            description: getEventDescription(row, type),
+            alt: alt || `${type === "video" ? "Video" : "Imagen"} de ${title}`,
+            rawUrl,
+            ...mediaSource
+        };
+    });
 }
 
 function getMediaIcon(type) {
@@ -863,9 +891,79 @@ function getMediaIcon(type) {
         : `<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"></rect><circle cx="9" cy="11" r="1.4"></circle><path d="m20 15-4.2-4.2L9 17"></path></svg>`;
 }
 
-function getEventLinkLabel(item) {
-    if (!item?.openUrl) return "";
-    return item.rawUrl.includes("drive.google.com") ? "Abrir en Google Drive" : "Abrir archivo";
+function getEventMediaSummary(media = []) {
+    const hasImages = media.some((item) => item.type === "image");
+    const hasVideos = media.some((item) => item.type === "video");
+
+    if (hasImages && hasVideos) {
+        return { type: "mixed", label: "Multimedia" };
+    }
+
+    if (hasVideos) {
+        return { type: "video", label: "Video" };
+    }
+
+    if (hasImages) {
+        return { type: "image", label: "Imagen" };
+    }
+
+    return { type: "empty", label: "Sin multimedia" };
+}
+
+function getEventMediaResourceKey(item) {
+    const driveFileId = extractDriveFileId(item?.rawUrl);
+    if (driveFileId) return `drive:${driveFileId}`;
+
+    return String(item?.rawUrl || "")
+        .trim()
+        .replace(/#.*/, "");
+}
+
+function buildEventGroups(rows) {
+    const groups = new Map();
+
+    rows.forEach((row, index) => {
+        const title = getEventTitle(row, index);
+        const groupKey = getEventGroupKey(row, title || index);
+        const media = normalizeEventMediaItems(row, index);
+
+        if (!groups.has(groupKey)) {
+            groups.set(groupKey, {
+                id: groupKey,
+                title,
+                description:
+                    getSheetValue(row, ["DESCRIPCION", "DESCRIPCION_MEDIA", "DETALLE", "DETALLES", "NOTAS"]) ||
+                    "Galeria multimedia de eventos de la iglesia.",
+                media: []
+            });
+        }
+
+        const group = groups.get(groupKey);
+        group.media.push(...media);
+    });
+
+    return Array.from(groups.values())
+        .map((group) => {
+            const seenMedia = new Set();
+            const media = group.media.filter((item) => {
+                const resourceKey = getEventMediaResourceKey(item);
+                if (!resourceKey || seenMedia.has(resourceKey)) return false;
+
+                seenMedia.add(resourceKey);
+                return true;
+            });
+            const summary = getEventMediaSummary(media);
+            const thumbnailMedia = media.find((item) => item.thumbnailUrl || item.previewUrl);
+
+            return {
+                ...group,
+                media,
+                type: summary.type,
+                typeLabel: summary.label,
+                thumbnailUrl: thumbnailMedia?.thumbnailUrl || thumbnailMedia?.previewUrl || null
+            };
+        })
+        .filter((group) => group.media.length > 0);
 }
 
 function resetEventStage() {
@@ -897,6 +995,7 @@ function renderEventsFallback(message) {
     resetEventStage();
     eventItems = [];
     currentEventIndex = 0;
+    currentMediaIndex = 0;
 
     if (eventsStage) {
         eventsStage.innerHTML = `
@@ -932,62 +1031,8 @@ function renderEventsFallback(message) {
         eventActions.innerHTML = "";
     }
 
-    if (eventsThumbs) {
-        eventsThumbs.innerHTML = "";
-    }
-
     setEventStatus("");
     updateEventButtons();
-}
-
-function renderEventThumbnails() {
-    if (!eventsThumbs) return;
-
-    eventsThumbs.innerHTML = eventItems
-        .map((item, index) => {
-            const thumbImage = item.thumbnailUrl
-                ? `<img src="${escapeHtml(item.thumbnailUrl)}" alt="" loading="lazy" data-event-thumb-image>`
-                : `<span class="event-thumb-fallback" aria-hidden="true">${getMediaIcon(item.type)}</span>`;
-
-            return `
-                <button
-                    type="button"
-                    class="event-thumb${index === currentEventIndex ? " is-active" : ""}"
-                    data-event-index="${index}"
-                    data-media-type="${escapeHtml(item.type)}"
-                    aria-label="Ver ${escapeHtml(item.typeLabel.toLowerCase())} ${index + 1}: ${escapeHtml(item.title)}"
-                    aria-pressed="${index === currentEventIndex ? "true" : "false"}">
-                    <span class="event-thumb-media">
-                        ${thumbImage}
-                        <span class="event-thumb-type" aria-hidden="true">
-                            ${getMediaIcon(item.type)}
-                            ${escapeHtml(item.typeLabel)}
-                        </span>
-                        ${
-                            item.type === "video"
-                                ? `<span class="event-thumb-play" aria-hidden="true">${getMediaIcon("video")}</span>`
-                                : ""
-                        }
-                    </span>
-                    <span class="event-thumb-title">${escapeHtml(item.title)}</span>
-                </button>
-            `;
-        })
-        .join("");
-
-    eventsThumbs.querySelectorAll("[data-event-thumb-image]").forEach((image) => {
-        image.addEventListener(
-            "error",
-            () => {
-                const media = image.closest(".event-thumb-media");
-                if (!media) return;
-
-                image.remove();
-                media.insertAdjacentHTML("afterbegin", `<span class="event-thumb-fallback" aria-hidden="true">${getMediaIcon("image")}</span>`);
-            },
-            { once: true }
-        );
-    });
 }
 
 function renderEventUnavailableState(item, message) {
@@ -996,71 +1041,78 @@ function renderEventUnavailableState(item, message) {
     eventsStage.innerHTML = `
         <article class="event-stage-card event-stage-card-empty">
             <div class="event-placeholder">
-                <span class="event-placeholder-icon" aria-hidden="true">${getMediaIcon(item.type)}</span>
-                <h3>${escapeHtml(item.title)}</h3>
+                <span class="event-placeholder-icon" aria-hidden="true">${getMediaIcon(item?.type || "image")}</span>
+                <h3>${escapeHtml(item?.title || "Galeria multimedia")}</h3>
                 <p>${escapeHtml(message)}</p>
-                ${
-                    item.openUrl
-                        ? `<a class="text-link" href="${escapeHtml(item.openUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-                              getEventLinkLabel(item)
-                          )}</a>`
-                        : ""
-                }
             </div>
         </article>
     `;
 }
 
 function updateEventButtons() {
-    const isDisabled = eventItems.length <= 1;
-    if (eventsPrevButton) eventsPrevButton.disabled = isDisabled;
-    if (eventsNextButton) eventsNextButton.disabled = isDisabled;
+    const eventItem = eventItems[currentEventIndex];
+    const mediaCount = eventItem?.media?.length || 0;
+    const hasPreviousMedia = currentMediaIndex > 0 || currentEventIndex > 0;
+    const hasNextMedia = currentMediaIndex < mediaCount - 1 || currentEventIndex < eventItems.length - 1;
+
+    if (eventsPrevButton) {
+        eventsPrevButton.disabled = !hasPreviousMedia;
+    }
+
+    if (eventsNextButton) {
+        eventsNextButton.disabled = !hasNextMedia;
+    }
 }
 
 function renderCurrentEvent() {
     if (!eventItems.length || !eventsStage) return;
 
-    const item = eventItems[currentEventIndex];
+    const eventItem = eventItems[currentEventIndex];
+    const media = eventItem.media || [];
+    const item = media[currentMediaIndex] || null;
     resetEventStage();
 
     if (eventMediaKind) {
-        eventMediaKind.textContent = item.typeLabel;
-        eventMediaKind.dataset.kind = item.type;
+        eventMediaKind.textContent = item?.typeLabel || eventItem.typeLabel;
+        eventMediaKind.dataset.kind = item?.type || eventItem.type;
     }
 
     if (eventMediaTitle) {
-        eventMediaTitle.textContent = item.title;
+        eventMediaTitle.textContent = eventItem.title;
     }
 
     if (eventCounter) {
-        eventCounter.textContent = `${currentEventIndex + 1} de ${eventItems.length}`;
+        const totalMedia = eventItems.reduce((total, event) => total + event.media.length, 0);
+        const currentPosition = eventItems
+            .slice(0, currentEventIndex)
+            .reduce((total, event) => total + event.media.length, 0) + currentMediaIndex + 1;
+        eventCounter.textContent = media.length ? `${currentPosition} de ${totalMedia}` : "";
     }
 
     if (eventDescription) {
-        eventDescription.textContent = item.description;
+        eventDescription.textContent = item?.description || eventItem.description;
     }
 
     if (eventActions) {
-        eventActions.innerHTML = item.openUrl
-            ? `<a class="text-link" href="${escapeHtml(item.openUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-                  getEventLinkLabel(item)
-              )}</a>`
-            : "";
+        eventActions.innerHTML = "";
     }
 
-    setEventStatus(item.note);
+    setEventStatus(item?.note || "");
+
+    if (!item) {
+        renderEventUnavailableState(eventItem, "No hay contenido multimedia disponible por el momento.");
+        updateEventButtons();
+        return;
+    }
 
     if (!item.isValid || !item.previewUrl) {
-        renderEventUnavailableState(item, item.note || "Este elemento no se pudo cargar correctamente.");
-        renderEventThumbnails();
+        renderEventUnavailableState(item, item.note || "No hay contenido multimedia disponible por el momento.");
         updateEventButtons();
         return;
     }
 
     const mediaMarkup =
-        item.embedMode === "iframe"
-            ? `<iframe src="${escapeHtml(item.previewUrl)}" title="${escapeHtml(item.title)}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`
-            : item.embedMode === "video"
+        item.embedMode === "video"
               ? `<video src="${escapeHtml(item.previewUrl)}" controls preload="metadata" playsinline aria-label="${escapeHtml(
                     item.alt
                 )}"></video>`
@@ -1078,7 +1130,7 @@ function renderCurrentEvent() {
             "error",
             () => {
                 const fallbackMessage =
-                    "No pudimos mostrar esta imagen. Revisa que el archivo exista y que tenga permisos públicos en Google Drive.";
+                    "No pudimos mostrar esta imagen en este momento.";
                 setEventStatus(fallbackMessage);
                 renderEventUnavailableState(item, fallbackMessage);
             },
@@ -1086,15 +1138,38 @@ function renderCurrentEvent() {
         );
     }
 
-    renderEventThumbnails();
+    const stageVideo = eventsStage.querySelector("video");
+    if (stageVideo instanceof HTMLVideoElement) {
+        stageVideo.addEventListener(
+            "error",
+            () => {
+                const fallbackMessage = "No pudimos reproducir este video en el modal.";
+                setEventStatus(fallbackMessage);
+                renderEventUnavailableState(item, fallbackMessage);
+            },
+            { once: true }
+        );
+    }
+
     updateEventButtons();
 }
 
-function showEvent(index) {
-    if (!eventItems.length) return;
+function moveEventMedia(direction) {
+    const media = eventItems[currentEventIndex]?.media || [];
+    const nextMediaIndex = currentMediaIndex + direction;
 
-    const safeIndex = (index + eventItems.length) % eventItems.length;
-    currentEventIndex = safeIndex;
+    if (nextMediaIndex >= 0 && nextMediaIndex < media.length) {
+        currentMediaIndex = nextMediaIndex;
+    } else if (direction > 0 && currentEventIndex < eventItems.length - 1) {
+        currentEventIndex += 1;
+        currentMediaIndex = 0;
+    } else if (direction < 0 && currentEventIndex > 0) {
+        currentEventIndex -= 1;
+        currentMediaIndex = eventItems[currentEventIndex].media.length - 1;
+    } else {
+        return;
+    }
+
     renderCurrentEvent();
 }
 
@@ -1108,7 +1183,7 @@ async function loadEvents() {
         }
 
         const rows = await response.json();
-        eventItems = rows.map((row, index) => normalizeEventItem(row, index)).filter(Boolean);
+        eventItems = buildEventGroups(Array.isArray(rows) ? rows : []);
 
         if (!eventItems.length) {
             renderEventsFallback("Próximamente compartiremos nuevos eventos y actividades de la iglesia.");
@@ -1117,6 +1192,7 @@ async function loadEvents() {
         }
 
         currentEventIndex = 0;
+        currentMediaIndex = 0;
         renderCurrentEvent();
         eventsLoaded = true;
     } catch (error) {
@@ -1200,23 +1276,11 @@ function setupEvents() {
     });
 
     eventsPrevButton?.addEventListener("click", () => {
-        if (eventItems.length < 2) return;
-        showEvent(currentEventIndex - 1);
+        moveEventMedia(-1);
     });
 
     eventsNextButton?.addEventListener("click", () => {
-        if (eventItems.length < 2) return;
-        showEvent(currentEventIndex + 1);
-    });
-
-    eventsThumbs?.addEventListener("click", (event) => {
-        const trigger = event.target.closest("[data-event-index]");
-        if (!(trigger instanceof HTMLButtonElement)) return;
-
-        const targetIndex = Number(trigger.dataset.eventIndex);
-        if (Number.isNaN(targetIndex)) return;
-
-        showEvent(targetIndex);
+        moveEventMedia(1);
     });
 }
 
@@ -1334,6 +1398,7 @@ function initializeNavigation() {
 
 function closeEventsModal() {
     resetEventStage();
+    currentMediaIndex = 0;
     closeModal(eventsModal);
 }
 
