@@ -1,0 +1,354 @@
+warning: in the working copy of 'data/live-status.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/predicaciones.json', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/data/live-status.json b/data/live-status.json[m
+[1mindex 269a762..28f7108 100644[m
+[1m--- a/data/live-status.json[m
+[1m+++ b/data/live-status.json[m
+[36m@@ -4,13 +4,33 @@[m
+     "url": "https://www.youtube.com/@icgraciasobregracia",[m
+     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"[m
+   },[m
+[31m-  "updatedAt": "2026-09-19T23:20:12.228Z",[m
+[32m+[m[32m  "updatedAt": "2026-09-20T00:32:20.020Z",[m
+   "source": "youtube-streams-and-live-pages",[m
+   "status": {[m
+[31m-    "isLiveNow": false,[m
+[31m-    "activeLiveId": null,[m
+[31m-    "featuredLiveTodayId": null,[m
+[31m-    "checkedAt": "2026-09-19T23:20:12.228Z"[m
+[32m+[m[32m    "isLiveNow": true,[m
+[32m+[m[32m    "activeLiveId": "AsWQGkaE46o",[m
+[32m+[m[32m    "featuredLiveTodayId": "AsWQGkaE46o",[m
+[32m+[m[32m    "checkedAt": "2026-09-20T00:32:20.024Z"[m
+   },[m
+[31m-  "activeLive": null[m
+[32m+[m[32m  "activeLive": {[m
+[32m+[m[32m    "id": "AsWQGkaE46o",[m
+[32m+[m[32m    "title": "Servicio Especial De Familias",[m
+[32m+[m[32m    "url": "https://www.youtube.com/watch?v=AsWQGkaE46o",[m
+[32m+[m[32m    "thumbnail": "https://i.ytimg.com/vi/AsWQGkaE46o/maxresdefault.jpg?v=6aaf2159",[m
+[32m+[m[32m    "duration": null,[m
+[32m+[m[32m    "publishedText": "Comenzó a transmitir hace 31 minutos",[m
+[32m+[m[32m    "originalIndex": -1,[m
+[32m+[m[32m    "status": "live",[m
+[32m+[m[32m    "typeLabel": "🔴 EN VIVO AHORA",[m
+[32m+[m[32m    "startedAt": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "actualStartTime": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "scheduledStartTime": null,[m
+[32m+[m[32m    "description": "Estamos transmitiendo nuestro servicio en este momento.",[m
+[32m+[m[32m    "type": "live",[m
+[32m+[m[32m    "typePriority": 1,[m
+[32m+[m[32m    "isLiveBroadcast": true,[m
+[32m+[m[32m    "publishedAt": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "endedAt": null,[m
+[32m+[m[32m    "actualEndTime": null[m
+[32m+[m[32m  }[m
+ }[m
+[1mdiff --git a/data/predicaciones.json b/data/predicaciones.json[m
+[1mindex 4849e26..869317d 100644[m
+[1m--- a/data/predicaciones.json[m
+[1m+++ b/data/predicaciones.json[m
+[36m@@ -4,191 +4,231 @@[m
+     "url": "https://www.youtube.com/@icgraciasobregracia",[m
+     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"[m
+   },[m
+[31m-  "updatedAt": "2026-09-19T23:20:12.228Z",[m
+[32m+[m[32m  "updatedAt": "2026-09-20T00:32:20.020Z",[m
+   "source": "youtube-streams-and-live-pages",[m
+   "status": {[m
+[31m-    "isLiveNow": false,[m
+[31m-    "activeLiveId": null,[m
+[31m-    "featuredLiveTodayId": null,[m
+[31m-    "checkedAt": "2026-09-19T23:20:12.228Z"[m
+[32m+[m[32m    "isLiveNow": true,[m
+[32m+[m[32m    "activeLiveId": "AsWQGkaE46o",[m
+[32m+[m[32m    "featuredLiveTodayId": "AsWQGkaE46o",[m
+[32m+[m[32m    "checkedAt": "2026-09-20T00:32:20.024Z"[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "activeLive": {[m
+[32m+[m[32m    "id": "AsWQGkaE46o",[m
+[32m+[m[32m    "title": "Servicio Especial De Familias",[m
+[32m+[m[32m    "url": "https://www.youtube.com/watch?v=AsWQGkaE46o",[m
+[32m+[m[32m    "thumbnail": "https://i.ytimg.com/vi/AsWQGkaE46o/maxresdefault.jpg?v=6aaf2159",[m
+[32m+[m[32m    "duration": null,[m
+[32m+[m[32m    "publishedText": "Comenzó a transmitir hace 31 minutos",[m
+[32m+[m[32m    "originalIndex": -1,[m
+[32m+[m[32m    "status": "live",[m
+[32m+[m[32m    "typeLabel": "🔴 EN VIVO AHORA",[m
+[32m+[m[32m    "startedAt": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "actualStartTime": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "scheduledStartTime": null,[m
+[32m+[m[32m    "description": "Estamos transmitiendo nuestro servicio en este momento.",[m
+[32m+[m[32m    "type": "live",[m
+[32m+[m[32m    "typePriority": 1,[m
+[32m+[m[32m    "isLiveBroadcast": true,[m
+[32m+[m[32m    "publishedAt": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "endedAt": null,[m
+[32m+[m[32m    "actualEndTime": null[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "featuredLiveToday": {[m
+[32m+[m[32m    "id": "AsWQGkaE46o",[m
+[32m+[m[32m    "title": "Servicio Especial De Familias",[m
+[32m+[m[32m    "url": "https://www.youtube.com/watch?v=AsWQGkaE46o",[m
+[32m+[m[32m    "thumbnail": "https://i.ytimg.com/vi/AsWQGkaE46o/maxresdefault.jpg?v=6aaf2159",[m
+[32m+[m[32m    "duration": null,[m
+[32m+[m[32m    "publishedText": "Comenzó a transmitir hace 31 minutos",[m
+[32m+[m[32m    "originalIndex": -1,[m
+[32m+[m[32m    "status": "live",[m
+[32m+[m[32m    "typeLabel": "🔴 EN VIVO AHORA",[m
+[32m+[m[32m    "startedAt": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "actualStartTime": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "scheduledStartTime": null,[m
+[32m+[m[32m    "description": "Estamos transmitiendo nuestro servicio en este momento.",[m
+[32m+[m[32m    "type": "live",[m
+[32m+[m[32m    "typePriority": 1,[m
+[32m+[m[32m    "isLiveBroadcast": true,[m
+[32m+[m[32m    "publishedAt": "2026-09-20T00:00:52+00:00",[m
+[32m+[m[32m    "endedAt": null,[m
+[32m+[m[32m    "actualEndTime": null[m
+   },[m
+[31m-  "activeLive": null,[m
+[31m-  "featuredLiveToday": null,[m
+   "items": [[m
+     {[m
+       "id": "cidG7Jr3taI",[m
+       "title": "| Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=cidG7Jr3taI",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/cidG7Jr3taI/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDNsMz2vPP5nejlTPUmlWrfeX-URg",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/cidG7Jr3taI/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLCElvKb2tyBjw5LzlymUPPZ2PQQvg",[m
+       "duration": "53:40",[m
+[31m-      "publishedText": "Se transmitió en vivo hace 22 horas",[m
+[31m-      "originalIndex": 0,[m
+[32m+[m[32m      "publishedText": "Se transmitió en vivo hace 23 horas",[m
+[32m+[m[32m      "originalIndex": 1,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": null,[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-19T00:36:41+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-19T00:36:41+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-19T00:36:41+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-19T01:30:16+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-19T01:30:16+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "MBb0t9OQb1c",[m
+       "title": "Servicio De Enseñanza | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=MBb0t9OQb1c",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/MBb0t9OQb1c/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDOt-TZiHH-jBD8_RgwdbMUAfEXcw",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/MBb0t9OQb1c/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLDardYEKON35tU-i33HBYAYLiTXXQ",[m
+       "duration": "48:06",[m
+       "publishedText": "Se transmitió en vivo el 16 sept 2026",[m
+[31m-      "originalIndex": 1,[m
+[32m+[m[32m      "originalIndex": 2,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-16T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-16T23:57:29+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-16T23:57:29+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-16T23:57:29+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-17T01:20:02+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-17T01:20:02+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "tu7Ymgb1lc0",[m
+       "title": "Tiempo De Oración | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=tu7Ymgb1lc0",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/tu7Ymgb1lc0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDr0_9kxhzfiZPd6gTru1Vd2bKs0g",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/tu7Ymgb1lc0/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLCm3bpGkZMrhJThEjfOEObPNVLuhw",[m
+       "duration": "41:14",[m
+       "publishedText": "Se transmitió en vivo el 14 sept 2026",[m
+[31m-      "originalIndex": 2,[m
+[32m+[m[32m      "originalIndex": 3,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-14T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-15T00:04:26+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-15T00:04:26+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-15T00:04:26+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-15T01:20:22+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-15T01:20:22+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "59CKcARakH8",[m
+       "title": "Lecciones De Naamán | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=59CKcARakH8",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/59CKcARakH8/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCDK-Alo06LMT8qf0MKh_OK45nt1Q",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/59CKcARakH8/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLB6buRE7M3YRUn5OZf_A-bghJgEug",[m
+       "duration": "1:20:59",[m
+       "publishedText": "Se transmitió en vivo el 12 sept 2026",[m
+[31m-      "originalIndex": 3,[m
+[32m+[m[32m      "originalIndex": 4,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-12T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-12T23:59:37+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-12T23:59:37+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-12T23:59:37+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-13T02:00:35+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-13T02:00:35+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "CW6rAxJ5UrA",[m
+       "title": "Tú Y Yo Somos La Luz Del Mundo | Continuación | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=CW6rAxJ5UrA",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/CW6rAxJ5UrA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCB9gtqIB7MslKWs3ZkUhL5Vnz6GQ",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/CW6rAxJ5UrA/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLC0QUyek4Bl5PBBigfRGlG3_WHB-g",[m
+       "duration": "53:52",[m
+       "publishedText": "Se transmitió en vivo el 9 sept 2026",[m
+[31m-      "originalIndex": 4,[m
+[32m+[m[32m      "originalIndex": 5,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-09T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-09T23:59:08+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-09T23:59:08+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-09T23:59:08+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-10T01:25:52+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-10T01:25:52+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "Qk4CUkoI_AA",[m
+       "title": "Tiempo De Oración | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=Qk4CUkoI_AA",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/Qk4CUkoI_AA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB6plh6dICqKUTA0XIhhh9YSJ9A4w",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/Qk4CUkoI_AA/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLBRbby2hezZPT6pKpggtNXu3Ogtsw",[m
+       "duration": "30:22",[m
+       "publishedText": "Se transmitió en vivo el 7 sept 2026",[m
+[31m-      "originalIndex": 5,[m
+[32m+[m[32m      "originalIndex": 6,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-07T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-07T23:56:06+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-07T23:56:06+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-07T23:56:06+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-08T01:07:38+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-08T01:07:38+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "wNzjaKRgJjM",[m
+       "title": "Servicio De Sanidad | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=wNzjaKRgJjM",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/wNzjaKRgJjM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAC9K1z8jdHbsH257ME5J60W21fjA",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/wNzjaKRgJjM/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLCZZ60EN2oyVee4Vpbo_JyyldUF1w",[m
+       "duration": "1:09:08",[m
+       "publishedText": "Se transmitió en vivo el 5 sept 2026",[m
+[31m-      "originalIndex": 6,[m
+[32m+[m[32m      "originalIndex": 7,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-05T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-06T00:02:16+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-06T00:02:16+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-06T00:02:16+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-06T01:47:32+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-06T01:47:32+00:00",[m
+       "scheduledStartTime": null[m
+     },[m
+     {[m
+       "id": "ygc5kM5dPwA",[m
+       "title": "Tú Y Yo Somos La Luz Del Mundo | Prédicas Cristianas",[m
+       "url": "https://www.youtube.com/watch?v=ygc5kM5dPwA",[m
+[31m-      "thumbnail": "https://i.ytimg.com/vi/ygc5kM5dPwA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDpYlDnA22tU3aD5vO46O4M-8Ee7w",[m
+[32m+[m[32m      "thumbnail": "https://i.ytimg.com/vi/ygc5kM5dPwA/hq720.jpg?sqp=-oaymwEgCNAFEJQDSFXyq4qpAxIIARUAAIhCGAFwAcABBrgC8xg=&rs=AOn4CLA9h4bBTcheuOWMPrGgfjW8TVUnqg",[m
+       "duration": "54:45",[m
+       "publishedText": "Se transmitió en vivo el 2 sept 2026",[m
+[31m-      "originalIndex": 7,[m
+[32m+[m[32m      "originalIndex": 8,[m
+       "status": "archived",[m
+[31m-      "verificationSource": "youtube-streams-tab",[m
+[32m+[m[32m      "verificationSource": "watch-live-metadata",[m
+       "type": "live",[m
+       "typeLabel": "Directo",[m
+       "typePriority": 1,[m
+       "isLiveBroadcast": true,[m
+       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia.",[m
+[31m-      "publishedAt": "2026-09-02T12:00:00.000Z",[m
+[31m-      "startedAt": null,[m
+[31m-      "actualStartTime": null,[m
+[31m-      "endedAt": null,[m
+[31m-      "actualEndTime": null,[m
+[32m+[m[32m      "publishedAt": "2026-09-02T23:59:17+00:00",[m
+[32m+[m[32m      "startedAt": "2026-09-02T23:59:17+00:00",[m
+[32m+[m[32m      "actualStartTime": "2026-09-02T23:59:17+00:00",[m
+[32m+[m[32m      "endedAt": "2026-09-03T01:28:04+00:00",[m
+[32m+[m[32m      "actualEndTime": "2026-09-03T01:28:04+00:00",[m
+       "scheduledStartTime": null[m
+     }[m
+   ][m
