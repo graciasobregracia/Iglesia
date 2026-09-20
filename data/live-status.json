@@ -4,33 +4,13 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-20T00:32:20.020Z",
+  "updatedAt": "2026-09-20T01:16:53.234Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
-    "isLiveNow": true,
-    "activeLiveId": "AsWQGkaE46o",
-    "featuredLiveTodayId": "AsWQGkaE46o",
-    "checkedAt": "2026-09-20T00:32:20.024Z"
+    "isLiveNow": false,
+    "activeLiveId": null,
+    "featuredLiveTodayId": null,
+    "checkedAt": "2026-09-20T01:16:53.234Z"
   },
-  "activeLive": {
-    "id": "AsWQGkaE46o",
-    "title": "Servicio Especial De Familias",
-    "url": "https://www.youtube.com/watch?v=AsWQGkaE46o",
-    "thumbnail": "https://i.ytimg.com/vi/AsWQGkaE46o/maxresdefault.jpg?v=6aaf2159",
-    "duration": null,
-    "publishedText": "Comenzó a transmitir hace 31 minutos",
-    "originalIndex": -1,
-    "status": "live",
-    "typeLabel": "🔴 EN VIVO AHORA",
-    "startedAt": "2026-09-20T00:00:52+00:00",
-    "actualStartTime": "2026-09-20T00:00:52+00:00",
-    "scheduledStartTime": null,
-    "description": "Estamos transmitiendo nuestro servicio en este momento.",
-    "type": "live",
-    "typePriority": 1,
-    "isLiveBroadcast": true,
-    "publishedAt": "2026-09-20T00:00:52+00:00",
-    "endedAt": null,
-    "actualEndTime": null
-  }
+  "activeLive": null
 }
