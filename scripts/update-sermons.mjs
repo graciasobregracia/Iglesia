@@ -103,6 +103,20 @@ function parseInitialData(html) {
     return JSON.parse(jsonText);
 }
 
+function parseInitialPlayerResponse(html) {
+    const jsonText =
+        extractJsonAfterMarker(html, "var ytInitialPlayerResponse =") ||
+        extractJsonAfterMarker(html, "ytInitialPlayerResponse =");
+
+    if (!jsonText) return null;
+
+    try {
+        return JSON.parse(jsonText);
+    } catch {
+        return null;
+    }
+}
+
 function walk(value, visitor) {
     if (!value || typeof value !== "object") return;
 
@@ -219,6 +233,31 @@ function getCanonicalVideoId(html) {
     );
 }
 
+function getPlayerVideoDetails(watchHtml) {
+    return parseInitialPlayerResponse(watchHtml)?.videoDetails ?? null;
+}
+
+function getPlayerLiveDetails(watchHtml) {
+    return parseInitialPlayerResponse(watchHtml)?.microformat?.playerMicroformatRenderer?.liveBroadcastDetails ?? null;
+}
+
+function getWatchMetadata(watchHtml, fallbackId) {
+    const videoDetails = getPlayerVideoDetails(watchHtml);
+    const videoId = videoDetails?.videoId || fallbackId;
+    const thumbnails = videoDetails?.thumbnail?.thumbnails ?? [];
+    const thumbnail = [...thumbnails].sort((left, right) => (right.width ?? 0) - (left.width ?? 0))[0];
+
+    return {
+        id: videoId,
+        title:
+            videoDetails?.title ||
+            matchFirst(watchHtml, /<meta name="title" content="([^"]+)"/) ||
+            matchFirst(watchHtml, /"title":"([^"]+)"/) ||
+            "Transmision en vivo",
+        thumbnail: cleanThumbnailUrl(thumbnail?.url, videoId)
+    };
+}
+
 function getPublishDate(watchHtml) {
     const isoDate =
         matchFirst(watchHtml, /"publishDate":"([^"]+)"/) ||
@@ -283,7 +322,12 @@ function parseSpanishPublishText(value) {
 }
 
 function getLiveStartDate(watchHtml) {
+    const liveDetails = getPlayerLiveDetails(watchHtml);
+
     return (
+        liveDetails?.actualStartTime ||
+        liveDetails?.startTimestamp ||
+        liveDetails?.scheduledStartTime ||
         matchFirst(watchHtml, /"actualStartTime":"([^"]+)"/) ||
         matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/) ||
         matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/)
@@ -291,11 +335,18 @@ function getLiveStartDate(watchHtml) {
 }
 
 function getLiveEndDate(watchHtml) {
-    return matchFirst(watchHtml, /"actualEndTime":"([^"]+)"/) || matchFirst(watchHtml, /"endTimestamp":"([^"]+)"/);
+    const liveDetails = getPlayerLiveDetails(watchHtml);
+
+    return (
+        liveDetails?.actualEndTime ||
+        liveDetails?.endTimestamp ||
+        matchFirst(watchHtml, /"actualEndTime":"([^"]+)"/) ||
+        matchFirst(watchHtml, /"endTimestamp":"([^"]+)"/)
+    );
 }
 
 function getScheduledStartDate(watchHtml) {
-    return matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/);
+    return getPlayerLiveDetails(watchHtml)?.scheduledStartTime || matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/);
 }
 
 function getColombiaDateKey(value) {
@@ -352,28 +403,29 @@ function selectTodayFeaturedStream(items, now = new Date()) {
 }
 
 function getLiveState(watchHtml) {
+    const playerResponse = parseInitialPlayerResponse(watchHtml);
+    const videoDetails = playerResponse?.videoDetails;
+    const playerMicroformat = playerResponse?.microformat?.playerMicroformatRenderer;
+    const liveDetails = playerMicroformat?.liveBroadcastDetails;
+    const liveBroadcastContent = String(playerMicroformat?.liveBroadcastContent ?? "").toUpperCase();
+    const isLiveContent = videoDetails?.isLiveContent === true;
+    const hasEnded = Boolean(liveDetails?.endTimestamp || liveDetails?.actualEndTime);
     const isLiveNow =
-        /"isLiveNow"\s*:\s*true/.test(watchHtml) ||
-        /"liveBroadcastContent"\s*:\s*"live"/.test(watchHtml);
-    const hasEnded = /"endTimestamp":"[^"]+"/.test(watchHtml) || /"actualEndTime":"[^"]+"/.test(watchHtml);
+        isLiveContent &&
+        (liveDetails?.isLiveNow === true || liveBroadcastContent === "LIVE") &&
+        !hasEnded;
     const isUpcoming =
-        /"isUpcoming"\s*:\s*true/.test(watchHtml) ||
-        /"liveBroadcastContent"\s*:\s*"upcoming"/.test(watchHtml);
-    const isLiveLike =
-        isLiveNow ||
-        hasEnded ||
-        isUpcoming ||
-        /"isLiveBroadcast"\s*:\s*true/.test(watchHtml) ||
-        /"isLiveContent"\s*:\s*true/.test(watchHtml) ||
-        /"wasLive"\s*:\s*true/.test(watchHtml) ||
-        /"liveBroadcastDetails"/.test(watchHtml) ||
-        /"actualStartTime"/.test(watchHtml);
+        isLiveContent &&
+        !isLiveNow &&
+        !hasEnded &&
+        (videoDetails?.isUpcoming === true || liveDetails?.isUpcoming === true || liveBroadcastContent === "UPCOMING");
+    const isLiveLike = Boolean(isLiveContent || liveDetails);
 
     return {
         isLiveLike,
-        isLiveNow: isLiveNow && !hasEnded,
-        isArchived: hasEnded && !isLiveNow,
-        isUpcoming: isUpcoming && !isLiveNow && !hasEnded
+        isLiveNow,
+        isArchived: isLiveLike && hasEnded && !isLiveNow,
+        isUpcoming
     };
 }
 
@@ -403,40 +455,47 @@ function buildStreamItem(item, watchHtml, overrides = {}) {
     };
 }
 
-async function getActiveLive() {
+async function getActiveLive(streamCandidates) {
     const page = await fetchPage(channelLiveUrl);
-    const videoId = getVideoIdFromUrl(page.finalUrl) || getCanonicalVideoId(page.html);
-
-    if (!videoId) return null;
-
-    const liveState = getLiveState(page.html);
-    if (!liveState.isLiveNow) return null;
-
-    const title =
-        matchFirst(page.html, /<meta name="title" content="([^"]+)"/) ||
-        matchFirst(page.html, /"title":"([^"]+)"/) ||
-        "Transmision en vivo";
-
-    return buildStreamItem(
-        {
-            id: videoId,
-            title,
-            url: `https://www.youtube.com/watch?v=${videoId}`,
-            thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-            duration: null,
-            publishedText: "En vivo ahora",
-            originalIndex: -1
-        },
-        page.html,
-        {
-            status: "live",
-            typeLabel: "🔴 EN VIVO AHORA",
-            startedAt: getLiveStartDate(page.html) || null,
-            actualStartTime: getLiveStartDate(page.html) || null,
-            scheduledStartTime: getScheduledStartDate(page.html) || null,
-            description: "Estamos transmitiendo nuestro servicio en este momento."
-        }
+    const pagePlayerVideoId = getPlayerVideoDetails(page.html)?.videoId;
+    const candidateIds = new Set(
+        [getVideoIdFromUrl(page.finalUrl), pagePlayerVideoId, getCanonicalVideoId(page.html), ...streamCandidates.map((item) => item.id)]
+            .filter(Boolean)
     );
+
+    for (const videoId of candidateIds) {
+        const watchPage = await fetchPage(`https://www.youtube.com/watch?v=${videoId}`);
+        const watchMetadata = getWatchMetadata(watchPage.html, videoId);
+
+        // Solo se acepta el reproductor del video solicitado: el HTML del canal puede contener videos sugeridos.
+        if (watchMetadata.id !== videoId) continue;
+
+        const liveState = getLiveState(watchPage.html);
+        if (!liveState.isLiveNow) continue;
+
+        return buildStreamItem(
+            {
+                id: videoId,
+                title: watchMetadata.title,
+                url: `https://www.youtube.com/watch?v=${videoId}`,
+                thumbnail: watchMetadata.thumbnail,
+                duration: null,
+                publishedText: "En vivo ahora",
+                originalIndex: -1
+            },
+            watchPage.html,
+            {
+                status: "live",
+                typeLabel: "🔴 EN VIVO AHORA",
+                startedAt: getLiveStartDate(watchPage.html) || null,
+                actualStartTime: getLiveStartDate(watchPage.html) || null,
+                scheduledStartTime: getScheduledStartDate(watchPage.html) || null,
+                description: "Estamos transmitiendo nuestro servicio en este momento."
+            }
+        );
+    }
+
+    return null;
 }
 
 async function enrichArchivedStreams(items) {
@@ -478,8 +537,8 @@ async function main() {
     const streamsHtml = await fetchText(channelStreamsUrl);
     const initialData = parseInitialData(streamsHtml);
     const channelId = getChannelId(streamsHtml);
-    const activeLive = await getActiveLive();
     const streamCandidates = getStreamItems(initialData);
+    const activeLive = await getActiveLive(streamCandidates);
     const archivedItems = sortByPublicationDate(await enrichArchivedStreams(streamCandidates))
         .slice(0, maxArchivedStreams);
     const featuredLiveToday = selectTodayFeaturedStream(activeLive ? [activeLive, ...archivedItems] : archivedItems);
