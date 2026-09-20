@@ -410,18 +410,18 @@ function getLiveState(watchHtml) {
     const liveBroadcastContent = String(playerMicroformat?.liveBroadcastContent ?? "").toUpperCase();
     const isLiveContent = videoDetails?.isLiveContent === true;
     const hasEnded = Boolean(liveDetails?.endTimestamp || liveDetails?.actualEndTime);
+    const hasLiveSignal = liveDetails?.isLiveNow === true || liveBroadcastContent === "LIVE";
     const isLiveNow =
-        isLiveContent &&
-        (liveDetails?.isLiveNow === true || liveBroadcastContent === "LIVE") &&
+        hasLiveSignal &&
         !hasEnded;
     const isUpcoming =
-        isLiveContent &&
         !isLiveNow &&
         !hasEnded &&
         (videoDetails?.isUpcoming === true || liveDetails?.isUpcoming === true || liveBroadcastContent === "UPCOMING");
-    const isLiveLike = Boolean(isLiveContent || liveDetails);
+    const isLiveLike = Boolean(isLiveContent || liveDetails || hasLiveSignal);
 
     return {
+        hasPlayerMetadata: Boolean(videoDetails?.videoId),
         isLiveLike,
         isLiveNow,
         isArchived: isLiveLike && hasEnded && !isLiveNow,
@@ -455,50 +455,88 @@ function buildStreamItem(item, watchHtml, overrides = {}) {
     };
 }
 
-async function getActiveLive(streamCandidates) {
+function getStoredActiveLive(...payloads) {
+    for (const payload of payloads) {
+        if (payload?.status?.isLiveNow === true && payload.activeLive?.id) {
+            return payload.activeLive;
+        }
+    }
+
+    return null;
+}
+
+async function getActiveLive(streamCandidates, knownLiveId = null) {
     const page = await fetchPage(channelLiveUrl);
     const pagePlayerVideoId = getPlayerVideoDetails(page.html)?.videoId;
     const candidateIds = new Set(
-        [getVideoIdFromUrl(page.finalUrl), pagePlayerVideoId, getCanonicalVideoId(page.html), ...streamCandidates.map((item) => item.id)]
+        [
+            getVideoIdFromUrl(page.finalUrl),
+            pagePlayerVideoId,
+            getCanonicalVideoId(page.html),
+            knownLiveId,
+            ...streamCandidates.map((item) => item.id)
+        ]
             .filter(Boolean)
     );
+    let knownLiveEnded = false;
 
     for (const videoId of candidateIds) {
-        const watchPage = await fetchPage(`https://www.youtube.com/watch?v=${videoId}`);
+        let watchPage;
+
+        try {
+            watchPage = await fetchPage(`https://www.youtube.com/watch?v=${videoId}`);
+        } catch (error) {
+            // Un fallo de red no confirma que un LIVE conocido haya terminado.
+            console.warn(`No se pudo verificar el estado de ${videoId}:`, error.message);
+            continue;
+        }
+
         const watchMetadata = getWatchMetadata(watchPage.html, videoId);
 
         // Solo se acepta el reproductor del video solicitado: el HTML del canal puede contener videos sugeridos.
         if (watchMetadata.id !== videoId) continue;
 
         const liveState = getLiveState(watchPage.html);
-        if (!liveState.isLiveNow) continue;
+        if (liveState.hasPlayerMetadata && liveState.isLiveNow) {
+            return {
+                activeLive: buildStreamItem(
+                    {
+                        id: videoId,
+                        title: watchMetadata.title,
+                        url: `https://www.youtube.com/watch?v=${videoId}`,
+                        thumbnail: watchMetadata.thumbnail,
+                        duration: null,
+                        publishedText: "En vivo ahora",
+                        originalIndex: -1
+                    },
+                    watchPage.html,
+                    {
+                        status: "live",
+                        typeLabel: "🔴 EN VIVO AHORA",
+                        startedAt: getLiveStartDate(watchPage.html) || null,
+                        actualStartTime: getLiveStartDate(watchPage.html) || null,
+                        scheduledStartTime: getScheduledStartDate(watchPage.html) || null,
+                        description: "Estamos transmitiendo nuestro servicio en este momento."
+                    }
+                ),
+                knownLiveEnded: false
+            };
+        }
 
-        return buildStreamItem(
-            {
-                id: videoId,
-                title: watchMetadata.title,
-                url: `https://www.youtube.com/watch?v=${videoId}`,
-                thumbnail: watchMetadata.thumbnail,
-                duration: null,
-                publishedText: "En vivo ahora",
-                originalIndex: -1
-            },
-            watchPage.html,
-            {
-                status: "live",
-                typeLabel: "🔴 EN VIVO AHORA",
-                startedAt: getLiveStartDate(watchPage.html) || null,
-                actualStartTime: getLiveStartDate(watchPage.html) || null,
-                scheduledStartTime: getScheduledStartDate(watchPage.html) || null,
-                description: "Estamos transmitiendo nuestro servicio en este momento."
-            }
-        );
+        // Solo la metadata del propio reproductor con una hora de cierre es una
+        // confirmacion de YouTube de que el LIVE anterior termino.
+        if (videoId === knownLiveId && liveState.hasPlayerMetadata && liveState.isArchived) {
+            knownLiveEnded = true;
+        }
     }
 
-    return null;
+    return {
+        activeLive: null,
+        knownLiveEnded
+    };
 }
 
-async function enrichArchivedStreams(items) {
+async function enrichArchivedStreams(items, protectedLiveId = null) {
     const archivedItems = [];
 
     for (const item of items) {
@@ -506,6 +544,12 @@ async function enrichArchivedStreams(items) {
         const liveState = getLiveState(watchHtml);
 
         if (liveState.isLiveNow || liveState.isUpcoming) {
+            continue;
+        }
+
+        // Mientras no exista un cierre confirmado, un LIVE previamente valido
+        // nunca se reclasifica como archivado por una respuesta incompleta.
+        if (item.id === protectedLiveId && !liveState.isArchived) {
             continue;
         }
 
@@ -534,12 +578,18 @@ function sortByPublicationDate(items) {
 }
 
 async function main() {
+    const existingPayload = await readJsonFile(outputPath);
+    const existingLiveStatus = await readJsonFile(liveStatusPath);
+    const previouslyActiveLive = getStoredActiveLive(existingLiveStatus, existingPayload);
     const streamsHtml = await fetchText(channelStreamsUrl);
     const initialData = parseInitialData(streamsHtml);
     const channelId = getChannelId(streamsHtml);
     const streamCandidates = getStreamItems(initialData);
-    const activeLive = await getActiveLive(streamCandidates);
-    const archivedItems = sortByPublicationDate(await enrichArchivedStreams(streamCandidates))
+    const detectedLive = await getActiveLive(streamCandidates, previouslyActiveLive?.id ?? null);
+    const activeLive =
+        detectedLive.activeLive ||
+        (previouslyActiveLive && !detectedLive.knownLiveEnded ? previouslyActiveLive : null);
+    const archivedItems = sortByPublicationDate(await enrichArchivedStreams(streamCandidates, activeLive?.id ?? null))
         .slice(0, maxArchivedStreams);
     const featuredLiveToday = selectTodayFeaturedStream(activeLive ? [activeLive, ...archivedItems] : archivedItems);
 
