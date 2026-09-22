@@ -4,24 +4,24 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-22T10:12:00.795Z",
+  "updatedAt": "2026-09-22T14:49:30.325Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "featuredLiveTodayId": null,
-    "checkedAt": "2026-09-22T10:12:00.795Z"
+    "checkedAt": "2026-09-22T14:49:30.325Z"
   },
   "activeLive": null,
   "featuredLiveToday": null,
   "items": [
     {
       "id": "WqvSt7tCb04",
-      "title": "Tiempo De Oración",
+      "title": "Tiempo De Oración | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=WqvSt7tCb04",
       "thumbnail": "https://i.ytimg.com/vi/WqvSt7tCb04/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAfs7TrdVZJ6tN3eR_5OhM5V5IvDg",
-      "duration": "1:14:21",
-      "publishedText": "Se transmitió en vivo hace 10 horas",
+      "duration": "41:41",
+      "publishedText": "Se transmitió en vivo hace 14 horas",
       "originalIndex": 0,
       "status": "archived",
       "verificationSource": "youtube-streams-tab",
@@ -61,7 +61,7 @@
     },
     {
       "id": "cidG7Jr3taI",
-      "title": "Servicio Principal Yarumal | Prédicas Cristianas",
+      "title": "El Hijo Pródigo | Servicio Principal Yarumal | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=cidG7Jr3taI",
       "thumbnail": "https://i.ytimg.com/vi/cidG7Jr3taI/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDNsMz2vPP5nejlTPUmlWrfeX-URg",
       "duration": "53:40",
