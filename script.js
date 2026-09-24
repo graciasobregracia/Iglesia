@@ -2,7 +2,6 @@ const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
 const SERMONS_DATA_PATH = "data/predicaciones.json";
 const LIVE_STATUS_DATA_PATH = "data/live-status.json";
 const LIVE_STATUS_POLL_INTERVAL = 60000;
-const LIVE_NOTICE_VISIBLE_DURATION = 10000;
 const LIVE_NOTICE_EXIT_DURATION = 420;
 const SITE_TIME_ZONE = "America/Bogota";
 const EVENTS_SOURCE_URL =
@@ -51,7 +50,6 @@ let eventsLoaded = false;
 let liveNoticeSlot = null;
 let activeLiveSignature = "";
 let dismissedLiveSignature = "";
-let liveNoticeHideTimer = null;
 let liveNoticeTransitionTimer = null;
 let archivedFeaturedSermon = null;
 let renderedFeaturedSermonSignature = "";
@@ -446,21 +444,13 @@ function ensureLiveNoticeSlot() {
     return liveNoticeSlot;
 }
 
-function getActiveLiveFromStatus(data) {
-    if (data?.status?.isLiveNow !== true) return null;
-    if (!data.activeLive) return null;
-
-    return {
-        ...data.activeLive,
-        url: data.activeLive.url || data.channel?.url || YOUTUBE_CHANNEL_URL,
-        status: "live",
-        typeLabel: data.activeLive.typeLabel || "🔴 EN VIVO AHORA",
-        description: data.activeLive.description || "Estamos transmitiendo nuestro servicio en este momento."
-    };
-}
-
 function updateFeaturedSermon(item) {
-    if (!sermonsFeatured || !item) return;
+    if (!sermonsFeatured) return;
+    if (!item) {
+        sermonsFeatured.innerHTML = "";
+        renderedFeaturedSermonSignature = "";
+        return;
+    }
 
     const signature = [item.id, item.url, item.title, item.thumbnail, item.publishedAt, item.status].join("|");
     if (signature === renderedFeaturedSermonSignature) return;
@@ -472,20 +462,30 @@ function updateFeaturedSermon(item) {
 
 function getFeaturedLiveFromStatus(data) {
     const activeLive = data?.activeLive;
-    if (data?.status?.isLiveNow !== true || !activeLive || !activeLive.id || !activeLive.title || !activeLive.thumbnail || !activeLive.url) {
+    if (data?.status?.isLiveNow !== true || !activeLive || !/^[a-zA-Z0-9_-]{11}$/.test(activeLive.id || "")) {
         return null;
     }
 
+    const videoUrlFallback = `https://www.youtube.com/watch?v=${activeLive.id}`;
+    let videoUrl = videoUrlFallback;
     try {
-        const videoUrl = new URL(activeLive.url);
-        if (!["youtube.com", "www.youtube.com", "m.youtube.com"].includes(videoUrl.hostname)) return null;
-        if (videoUrl.pathname !== "/watch" || videoUrl.searchParams.get("v") !== activeLive.id) return null;
+        const parsedUrl = new URL(activeLive.url);
+        if (
+            ["youtube.com", "www.youtube.com", "m.youtube.com"].includes(parsedUrl.hostname) &&
+            parsedUrl.pathname === "/watch" &&
+            parsedUrl.searchParams.get("v") === activeLive.id
+        ) {
+            videoUrl = activeLive.url;
+        }
     } catch {
-        return null;
+        // El ID confirmado sigue identificando el live si falta o está mal formada su URL.
     }
 
     return {
         ...activeLive,
+        title: activeLive.title || "Transmisión en vivo",
+        url: videoUrl,
+        thumbnail: activeLive.thumbnail || `https://i.ytimg.com/vi/${activeLive.id}/hqdefault.jpg`,
         status: "live",
         typeLabel: activeLive.typeLabel || "🔴 EN VIVO AHORA",
         description: activeLive.description || "Estamos transmitiendo en vivo ahora mismo.",
@@ -498,11 +498,6 @@ function getLiveSignature(activeLive) {
 }
 
 function clearLiveNoticeTimers() {
-    if (liveNoticeHideTimer) {
-        window.clearTimeout(liveNoticeHideTimer);
-        liveNoticeHideTimer = null;
-    }
-
     if (liveNoticeTransitionTimer) {
         window.clearTimeout(liveNoticeTransitionTimer);
         liveNoticeTransitionTimer = null;
@@ -585,9 +580,6 @@ function renderLiveStatus(activeLive) {
         slot.classList.add("is-visible");
     });
 
-    liveNoticeHideTimer = window.setTimeout(() => {
-        hideLiveNotice({ remember: true });
-    }, LIVE_NOTICE_VISIBLE_DURATION);
 }
 
 async function refreshLiveStatus() {
@@ -599,9 +591,8 @@ async function refreshLiveStatus() {
         if (!response.ok) return;
 
         const data = await response.json();
-        renderLiveStatus(getActiveLiveFromStatus(data));
-
         const activeLive = getFeaturedLiveFromStatus(data);
+        renderLiveStatus(activeLive);
         const featured = activeLive || archivedFeaturedSermon;
         updateFeaturedSermon(featured);
     } catch (error) {
@@ -646,7 +637,9 @@ async function loadSermons() {
 
         const data = await response.json();
         const items = Array.isArray(data.items) ? data.items : [];
-        const validItems = items.filter((item) => item?.url && item?.thumbnail && item?.title);
+        const validItems = items.filter(
+            (item) => item?.url && item?.thumbnail && item?.title && item.status !== "live" && item.isLiveNow !== true && item.isUpcoming !== true
+        );
         let liveStatus = null;
         try {
             const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
@@ -663,12 +656,7 @@ async function loadSermons() {
         }
 
         const activeLive = getFeaturedLiveFromStatus(liveStatus);
-        const featuredFromPayload =
-            data.featuredLiveToday?.url && data.featuredLiveToday?.thumbnail && data.featuredLiveToday?.title
-                ? data.featuredLiveToday
-                : null;
-        archivedFeaturedSermon =
-            selectTodayFeaturedSermon([featuredFromPayload, ...validItems].filter(Boolean)) || validItems[0] || null;
+        archivedFeaturedSermon = selectTodayFeaturedSermon(validItems) || validItems[0] || null;
         const featured = activeLive || archivedFeaturedSermon;
 
         if (!featured) {
