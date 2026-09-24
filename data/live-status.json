@@ -4,15 +4,41 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-24T00:41:38.747Z",
+  "updatedAt": "2026-09-24T01:13:31.239Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
-    "isLiveNow": false,
-    "activeLiveId": null,
+    "isLiveNow": true,
+    "activeLiveId": "_spAtl4kyYY",
     "upcomingLiveId": null,
-    "featuredLiveTodayId": null,
-    "checkedAt": "2026-09-24T00:41:38.747Z"
+    "featuredLiveTodayId": "_spAtl4kyYY",
+    "checkedAt": "2026-09-24T01:13:31.239Z"
   },
-  "activeLive": null,
-  "upcomingLive": null
+  "activeLive": {
+    "id": "_spAtl4kyYY",
+    "title": "Servicio De Santa Cena |Miercoles 23 de Septiembre  Del 2026.",
+    "url": "https://www.youtube.com/watch?v=_spAtl4kyYY",
+    "thumbnail": "https://i.ytimg.com/vi/_spAtl4kyYY/maxresdefault.jpg?v=6ab4749c",
+    "duration": null,
+    "publishedText": "Comenzó a transmitir hace 18 minutos",
+    "originalIndex": -1,
+    "status": "live",
+    "typeLabel": "🔴 EN VIVO AHORA",
+    "isLiveNow": true,
+    "isUpcoming": false,
+    "liveBroadcastContent": "LIVE",
+    "isLiveBroadcast": true,
+    "liveBroadcastDetails": {
+      "isLiveNow": true,
+      "startTimestamp": "2026-09-24T00:54:16+00:00"
+    },
+    "startedAt": "2026-09-24T00:54:16+00:00",
+    "actualStartTime": "2026-09-24T00:54:16+00:00",
+    "scheduledStartTime": null,
+    "description": "Estamos transmitiendo nuestro servicio en este momento.",
+    "type": "live",
+    "typePriority": 1,
+    "publishedAt": "2026-09-24T00:54:16+00:00",
+    "endedAt": null,
+    "actualEndTime": null
+  }
 }
