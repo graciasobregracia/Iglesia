@@ -11,6 +11,7 @@ const liveStatusPath = path.join(outputDirectory, "live-status.json");
 const channelHomeUrl = "https://www.youtube.com/@icgraciasobregracia";
 const channelStreamsUrl = `${channelHomeUrl}/streams`;
 const channelLiveUrl = `${channelHomeUrl}/live`;
+const channelVideosUrl = `${channelHomeUrl}/videos`;
 const maxArchivedStreams = 8;
 const siteTimeZone = "America/Bogota";
 
@@ -104,17 +105,25 @@ function parseInitialData(html) {
 }
 
 function parseInitialPlayerResponse(html) {
-    const jsonText =
-        extractJsonAfterMarker(html, "var ytInitialPlayerResponse =") ||
-        extractJsonAfterMarker(html, "ytInitialPlayerResponse =");
+    const markers = ["var ytInitialPlayerResponse =", "ytInitialPlayerResponse =", '"ytInitialPlayerResponse":'];
 
-    if (!jsonText) return null;
-
-    try {
-        return JSON.parse(jsonText);
-    } catch {
-        return null;
+    for (const marker of markers) {
+        let offset = 0;
+        while ((offset = html.indexOf(marker, offset)) !== -1) {
+            const jsonText = extractJsonAfterMarker(html.slice(offset), marker);
+            if (jsonText) {
+                try {
+                    const parsed = JSON.parse(jsonText);
+                    if (parsed?.videoDetails || parsed?.microformat) return parsed;
+                } catch {
+                    // YouTube puede incluir respuestas parciales o escapadas antes de la respuesta del reproductor.
+                }
+            }
+            offset += marker.length;
+        }
     }
+
+    return null;
 }
 
 function walk(value, visitor) {
@@ -187,21 +196,30 @@ function getStreamItems(initialData) {
 
     walk(initialData, (node) => {
         const lockup = node.lockupViewModel;
-        if (!lockup || lockup.contentType !== "LOCKUP_CONTENT_TYPE_VIDEO") return;
-
-        const id = lockup.contentId;
-        const title = lockup.metadata?.lockupMetadataViewModel?.title?.content;
+        const renderer = node.videoRenderer || node.gridVideoRenderer || node.richItemRenderer?.content?.videoRenderer;
+        const id = lockup?.contentType === "LOCKUP_CONTENT_TYPE_VIDEO" ? lockup.contentId : renderer?.videoId;
+        const title =
+            lockup?.metadata?.lockupMetadataViewModel?.title?.content ||
+            renderer?.title?.runs?.map((run) => run.text).join("") ||
+            renderer?.title?.simpleText;
 
         if (!id || !title || seenIds.has(id)) return;
 
         seenIds.add(id);
+        const thumbnailUrl =
+            getBestThumbnail(lockup || {}, id) ||
+            renderer?.thumbnail?.thumbnails?.slice().sort((left, right) => (right.width ?? 0) - (left.width ?? 0))[0]?.url;
         items.push({
             id,
             title,
             url: `https://www.youtube.com/watch?v=${id}`,
-            thumbnail: getBestThumbnail(lockup, id),
-            duration: getDuration(lockup),
-            publishedText: getRelativePublishedText(lockup),
+            thumbnail: cleanThumbnailUrl(thumbnailUrl, id),
+            duration: getDuration(lockup || {}),
+            publishedText: getRelativePublishedText(lockup || {}) || renderer?.publishedTimeText?.simpleText || null,
+            isUpcoming: Boolean(renderer?.upcomingEventData),
+            scheduledStartTime: renderer?.upcomingEventData?.startTime
+                ? new Date(Number(renderer.upcomingEventData.startTime) * 1000).toISOString()
+                : null,
             originalIndex: items.length
         });
     });
@@ -402,7 +420,7 @@ function selectTodayFeaturedStream(items, now = new Date()) {
         .sort((left, right) => getStreamTime(right) - getStreamTime(left))[0] || null;
 }
 
-function getLiveState(watchHtml) {
+function getLiveState(watchHtml, requestedVideoId = null) {
     const playerResponse = parseInitialPlayerResponse(watchHtml);
     const videoDetails = playerResponse?.videoDetails;
     const playerMicroformat = playerResponse?.microformat?.playerMicroformatRenderer;
@@ -410,18 +428,29 @@ function getLiveState(watchHtml) {
     const liveBroadcastContent = String(playerMicroformat?.liveBroadcastContent ?? "").toUpperCase();
     const isLiveContent = videoDetails?.isLiveContent === true;
     const hasEnded = Boolean(liveDetails?.endTimestamp || liveDetails?.actualEndTime);
-    const hasLiveSignal = liveDetails?.isLiveNow === true || liveBroadcastContent === "LIVE";
-    const isLiveNow =
-        hasLiveSignal &&
-        !hasEnded;
-    const isUpcoming =
-        !isLiveNow &&
-        !hasEnded &&
-        (videoDetails?.isUpcoming === true || liveDetails?.isUpcoming === true || liveBroadcastContent === "UPCOMING");
+    const actualStartTime = liveDetails?.actualStartTime || liveDetails?.startTimestamp || null;
+    const scheduledStartTime = liveDetails?.scheduledStartTime || null;
+    const idMatches = !requestedVideoId || videoDetails?.videoId === requestedVideoId;
+    const isUpcoming = Boolean(!hasEnded && (
+        videoDetails?.isUpcoming === true || liveDetails?.isUpcoming === true || liveBroadcastContent === "UPCOMING" ||
+        (scheduledStartTime && Date.parse(scheduledStartTime) > Date.now() && !actualStartTime)
+    ));
+    const hasLiveSignal =
+        liveDetails?.isLiveNow === true ||
+        liveBroadcastContent === "LIVE" ||
+        (playerMicroformat?.isLiveBroadcast === true && Boolean(actualStartTime));
+    const isLiveNow = idMatches && hasLiveSignal && !hasEnded && !isUpcoming;
     const isLiveLike = Boolean(isLiveContent || liveDetails || hasLiveSignal);
 
     return {
-        hasPlayerMetadata: Boolean(videoDetails?.videoId),
+        hasPlayerMetadata: Boolean(videoDetails?.videoId) && idMatches,
+        videoId: videoDetails?.videoId ?? null,
+        isLiveContent,
+        liveBroadcastContent: liveBroadcastContent || null,
+        isLiveBroadcast: playerMicroformat?.isLiveBroadcast ?? null,
+        liveBroadcastDetails: liveDetails ?? null,
+        actualStartTime,
+        scheduledStartTime,
         isLiveLike,
         isLiveNow,
         isArchived: isLiveLike && hasEnded && !isLiveNow,
@@ -465,39 +494,60 @@ function getStoredActiveLive(...payloads) {
     return null;
 }
 
-async function getActiveLive(streamCandidates, knownLiveId = null) {
-    const page = await fetchPage(channelLiveUrl);
-    const pagePlayerVideoId = getPlayerVideoDetails(page.html)?.videoId;
-    const candidateIds = new Set(
-        [
-            getVideoIdFromUrl(page.finalUrl),
-            pagePlayerVideoId,
-            getCanonicalVideoId(page.html),
-            knownLiveId,
-            ...streamCandidates.map((item) => item.id)
-        ]
-            .filter(Boolean)
-    );
+async function getActiveLive(streamCandidates, knownLiveId = null, channelId = null) {
+    const sourcePages = [];
+    let sourceErrors = 0;
+    for (const url of [channelLiveUrl, channelStreamsUrl, channelHomeUrl, channelVideosUrl]) {
+        try {
+            console.log(`[live] Consultando ${url}`);
+            const page = await fetchPage(url);
+            sourcePages.push({ url, ...page });
+        } catch (error) {
+            sourceErrors += 1;
+            console.warn(`[live] Error consultando ${url}: ${error.message}`);
+        }
+    }
+    if (!sourcePages.length) throw new Error("No se pudo consultar ninguna página oficial del canal para detectar el live.");
+
+    const pageCandidates = sourcePages.flatMap(({ url, html, finalUrl }) => {
+        const playerId = getPlayerVideoDetails(html)?.videoId;
+        const ids = [getVideoIdFromUrl(finalUrl), getVideoIdFromUrl(url), playerId, getCanonicalVideoId(html)];
+        try {
+            ids.push(...getStreamItems(parseInitialData(html)).map((item) => item.id));
+        } catch (error) {
+            console.warn(`[live] No se pudieron extraer candidatos de ${url}: ${error.message}`);
+        }
+        return ids.filter(Boolean);
+    });
+    const candidateIds = new Set([knownLiveId, ...pageCandidates, ...streamCandidates.map((item) => item.id)].filter(Boolean));
+    console.log(`[live] Candidatos de video encontrados: ${candidateIds.size} (${[...candidateIds].join(", ") || "ninguno"})`);
     let knownLiveEnded = false;
+    let verificationErrors = 0;
+    const upcomingLives = [];
 
     for (const videoId of candidateIds) {
         let watchPage;
 
         try {
-            watchPage = await fetchPage(`https://www.youtube.com/watch?v=${videoId}`);
+            const url = `https://www.youtube.com/watch?v=${videoId}`;
+            console.log(`[live] Consultando ${url}`);
+            watchPage = await fetchPage(url);
         } catch (error) {
-            // Un fallo de red no confirma que un LIVE conocido haya terminado.
-            console.warn(`No se pudo verificar el estado de ${videoId}:`, error.message);
+            verificationErrors += 1;
+            console.error(`[live] No se pudo verificar el video ${videoId}: ${error.message}`);
             continue;
         }
 
         const watchMetadata = getWatchMetadata(watchPage.html, videoId);
-
-        // Solo se acepta el reproductor del video solicitado: el HTML del canal puede contener videos sugeridos.
-        if (watchMetadata.id !== videoId) continue;
-
-        const liveState = getLiveState(watchPage.html);
+        const liveState = getLiveState(watchPage.html, videoId);
+        const playerDetails = getPlayerVideoDetails(watchPage.html);
+        if (watchMetadata.id !== videoId || (channelId && playerDetails?.channelId && playerDetails.channelId !== channelId)) {
+            console.log(`[live] Video ${videoId} descartado: ID canónico/canal no corresponde al video solicitado o al canal oficial.`);
+            continue;
+        }
+        console.log(`[live] Video ${videoId}: liveBroadcastContent=${liveState.liveBroadcastContent ?? "n/d"}, isLiveBroadcast=${liveState.isLiveBroadcast ?? "n/d"}, isLiveNow=${liveState.isLiveNow}, isUpcoming=${liveState.isUpcoming}, actualStartTime=${liveState.actualStartTime ?? "n/d"}, scheduledStartTime=${liveState.scheduledStartTime ?? "n/d"}, end=${liveState.isArchived}`);
         if (liveState.hasPlayerMetadata && liveState.isLiveNow) {
+            console.log(`[live] Video activo confirmado: ${videoId} — ${watchMetadata.title}`);
             return {
                 activeLive: buildStreamItem(
                     {
@@ -513,6 +563,11 @@ async function getActiveLive(streamCandidates, knownLiveId = null) {
                     {
                         status: "live",
                         typeLabel: "🔴 EN VIVO AHORA",
+                        isLiveNow: true,
+                        isUpcoming: false,
+                        liveBroadcastContent: liveState.liveBroadcastContent || "LIVE",
+                        isLiveBroadcast: liveState.isLiveBroadcast,
+                        liveBroadcastDetails: liveState.liveBroadcastDetails,
                         startedAt: getLiveStartDate(watchPage.html) || null,
                         actualStartTime: getLiveStartDate(watchPage.html) || null,
                         scheduledStartTime: getScheduledStartDate(watchPage.html) || null,
@@ -523,16 +578,43 @@ async function getActiveLive(streamCandidates, knownLiveId = null) {
             };
         }
 
-        // Solo la metadata del propio reproductor con una hora de cierre es una
-        // confirmacion de YouTube de que el LIVE anterior termino.
+        if (liveState.hasPlayerMetadata && liveState.isUpcoming) {
+            const candidate = streamCandidates.find((item) => item.id === videoId) || {};
+            upcomingLives.push({
+                ...candidate,
+                id: videoId,
+                title: watchMetadata.title,
+                url: `https://www.youtube.com/watch?v=${videoId}`,
+                thumbnail: watchMetadata.thumbnail,
+                isUpcoming: true,
+                isLiveNow: false,
+                isLiveBroadcast: liveState.isLiveBroadcast,
+                liveBroadcastContent: liveState.liveBroadcastContent,
+                actualStartTime: liveState.actualStartTime,
+                scheduledStartTime: liveState.scheduledStartTime
+            });
+            console.log(`[live] Video ${videoId} descartado como live actual: transmisión próxima/programada.`);
+            continue;
+        }
+
+        if (liveState.isArchived) {
+            console.log(`[live] Video ${videoId} descartado como live actual: transmisión archivada (finalizó).`);
+        } else {
+            console.log(`[live] Video ${videoId} descartado: YouTube no confirma una transmisión activa.`);
+        }
         if (videoId === knownLiveId && liveState.hasPlayerMetadata && liveState.isArchived) {
             knownLiveEnded = true;
         }
     }
 
+    if (verificationErrors > 0 || sourceErrors > 0) {
+        throw new Error(`Resultado incompleto: errores en ${verificationErrors} video(s) y ${sourceErrors} página(s); se conservan los JSON anteriores.`);
+    }
+
     return {
         activeLive: null,
-        knownLiveEnded
+        knownLiveEnded,
+        upcomingLive: upcomingLives.sort((left, right) => Date.parse(left.scheduledStartTime || "") - Date.parse(right.scheduledStartTime || ""))[0] || null
     };
 }
 
@@ -540,10 +622,18 @@ async function enrichArchivedStreams(items, protectedLiveId = null) {
     const archivedItems = [];
 
     for (const item of items) {
-        const watchHtml = await fetchText(item.url);
+        let watchHtml;
+        try {
+            console.log(`[archive] Consultando ${item.url}`);
+            watchHtml = await fetchText(item.url);
+        } catch (error) {
+            console.error(`[archive] Error verificando ${item.id}; no se reemplazarán los JSON: ${error.message}`);
+            throw error;
+        }
         const liveState = getLiveState(watchHtml);
 
         if (liveState.isLiveNow || liveState.isUpcoming) {
+            console.log(`[archive] Video ${item.id} excluido del archivo: ${liveState.isUpcoming ? "próximo/programado" : "en vivo"}.`);
             continue;
         }
 
@@ -559,6 +649,7 @@ async function enrichArchivedStreams(items, protectedLiveId = null) {
                 verificationSource: liveState.isLiveLike ? "watch-live-metadata" : "youtube-streams-tab"
             })
         );
+        console.log(`[archive] Video ${item.id} guardado como archivado${liveState.isArchived ? " (YouTube confirma que finalizó)" : " (sin señal de live activo/próximo)"}.`);
     }
 
     return archivedItems;
@@ -585,10 +676,11 @@ async function main() {
     const initialData = parseInitialData(streamsHtml);
     const channelId = getChannelId(streamsHtml);
     const streamCandidates = getStreamItems(initialData);
-    const detectedLive = await getActiveLive(streamCandidates, previouslyActiveLive?.id ?? null);
-    const activeLive =
-        detectedLive.activeLive ||
-        (previouslyActiveLive && !detectedLive.knownLiveEnded ? previouslyActiveLive : null);
+    const detectedLive = await getActiveLive(streamCandidates, previouslyActiveLive?.id ?? null, channelId);
+    const activeLive = detectedLive.activeLive;
+    console.log(
+        `[live] Resultado final: isLiveNow=${Boolean(activeLive)}, activeLiveId=${activeLive?.id ?? "null"}, upcomingLiveId=${detectedLive.upcomingLive?.id ?? "null"}.`
+    );
     const archivedItems = sortByPublicationDate(await enrichArchivedStreams(streamCandidates, activeLive?.id ?? null))
         .slice(0, maxArchivedStreams);
     const featuredLiveToday = selectTodayFeaturedStream(activeLive ? [activeLive, ...archivedItems] : archivedItems);
@@ -608,10 +700,12 @@ async function main() {
         status: {
             isLiveNow: Boolean(activeLive),
             activeLiveId: activeLive?.id ?? null,
+            upcomingLiveId: detectedLive.upcomingLive?.id ?? null,
             featuredLiveTodayId: featuredLiveToday?.id ?? null,
             checkedAt: new Date().toISOString()
         },
         activeLive,
+        upcomingLive: detectedLive.upcomingLive,
         featuredLiveToday,
         items: archivedItems
     };
@@ -620,7 +714,8 @@ async function main() {
         updatedAt: payload.updatedAt,
         source: payload.source,
         status: payload.status,
-        activeLive
+        activeLive,
+        upcomingLive: detectedLive.upcomingLive
     };
 
     await mkdir(outputDirectory, { recursive: true });
@@ -631,10 +726,6 @@ async function main() {
 }
 
 main().catch(async (error) => {
-    console.error("No se pudo actualizar YouTube. Se conserva la ultima informacion valida.", error);
-    const existingLiveStatus = await readJsonFile(liveStatusPath);
-
-    if (!existingLiveStatus) {
-        process.exitCode = 1;
-    }
+    console.error("[live] ERROR: no se pudo completar la actualización de YouTube; se conservan los JSON anteriores.", error);
+    process.exitCode = 1;
 });
