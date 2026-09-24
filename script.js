@@ -383,7 +383,8 @@ function renderFeaturedSermon(item) {
         item.description ||
             "Transmision en vivo archivada en el canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     );
-    const published = formatDate(item.publishedAt);
+    const liveStartedAt = item.actualStartTime || item.startedAt || item.publishedAt;
+    const published = item.status === "live" ? formatDateTime(liveStartedAt) || formatDate(liveStartedAt) : formatDate(item.publishedAt);
     const url = escapeHtml(item.url || YOUTUBE_CHANNEL_URL);
     const thumbnail = escapeHtml(item.thumbnail);
     const duration = escapeHtml(item.duration || "");
@@ -453,6 +454,29 @@ function getActiveLiveFromStatus(data) {
         status: "live",
         typeLabel: data.activeLive.typeLabel || "🔴 EN VIVO AHORA",
         description: data.activeLive.description || "Estamos transmitiendo nuestro servicio en este momento."
+    };
+}
+
+function getFeaturedLiveFromStatus(data) {
+    const activeLive = data?.activeLive;
+    if (data?.status?.isLiveNow !== true || !activeLive || !activeLive.id || !activeLive.title || !activeLive.thumbnail || !activeLive.url) {
+        return null;
+    }
+
+    try {
+        const videoUrl = new URL(activeLive.url);
+        if (!["youtube.com", "www.youtube.com", "m.youtube.com"].includes(videoUrl.hostname)) return null;
+        if (videoUrl.pathname !== "/watch" || videoUrl.searchParams.get("v") !== activeLive.id) return null;
+    } catch {
+        return null;
+    }
+
+    return {
+        ...activeLive,
+        status: "live",
+        typeLabel: activeLive.typeLabel || "🔴 EN VIVO AHORA",
+        description: activeLive.description || "Estamos transmitiendo en vivo ahora mismo.",
+        publishedAt: activeLive.actualStartTime || activeLive.startedAt || activeLive.publishedAt || null
     };
 }
 
@@ -603,15 +627,25 @@ async function loadSermons() {
         const data = await response.json();
         const items = Array.isArray(data.items) ? data.items : [];
         const validItems = items.filter((item) => item?.url && item?.thumbnail && item?.title);
-        const activeLive = getActiveLiveFromStatus(data);
+        let liveStatus = null;
+        try {
+            const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, { cache: "no-store" });
+            if (liveResponse.ok) {
+                liveStatus = await liveResponse.json();
+            } else {
+                console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH} (${liveResponse.status}); se usará la transmisión archivada.`);
+            }
+        } catch (error) {
+            console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH}; se usará la transmisión archivada.`, error);
+        }
+
+        const activeLive = getFeaturedLiveFromStatus(liveStatus);
         const featuredFromPayload =
             data.featuredLiveToday?.url && data.featuredLiveToday?.thumbnail && data.featuredLiveToday?.title
                 ? data.featuredLiveToday
                 : null;
-        const featured =
-            selectTodayFeaturedSermon(
-                [activeLive, featuredFromPayload, ...validItems].filter(Boolean)
-            ) || validItems[0];
+        const featured = activeLive ||
+            selectTodayFeaturedSermon([featuredFromPayload, ...validItems].filter(Boolean)) || validItems[0];
 
         if (!featured) {
             renderSermonsFallback();
@@ -621,7 +655,9 @@ async function loadSermons() {
         sermonsFeatured.innerHTML = renderFeaturedSermon(featured);
         sermonsTrack.innerHTML = validItems.length
             ? validItems.map((item) => renderSermonCard(item)).join("")
-            : renderSermonCard(featured);
+            : activeLive
+              ? ""
+              : renderSermonCard(featured);
 
         setupSermonCards();
         updateRailButtons(sermonsTrack, sermonsPrevButton, sermonsNextButton);
