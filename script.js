@@ -53,6 +53,8 @@ let activeLiveSignature = "";
 let dismissedLiveSignature = "";
 let liveNoticeHideTimer = null;
 let liveNoticeTransitionTimer = null;
+let archivedFeaturedSermon = null;
+let renderedFeaturedSermonSignature = "";
 let navigationFrame = null;
 
 if (currentYearTarget) {
@@ -457,6 +459,17 @@ function getActiveLiveFromStatus(data) {
     };
 }
 
+function updateFeaturedSermon(item) {
+    if (!sermonsFeatured || !item) return;
+
+    const signature = [item.id, item.url, item.title, item.thumbnail, item.publishedAt, item.status].join("|");
+    if (signature === renderedFeaturedSermonSignature) return;
+
+    renderedFeaturedSermonSignature = signature;
+    sermonsFeatured.innerHTML = renderFeaturedSermon(item);
+    setupSermonCards(sermonsFeatured);
+}
+
 function getFeaturedLiveFromStatus(data) {
     const activeLive = data?.activeLive;
     if (data?.status?.isLiveNow !== true || !activeLive || !activeLive.id || !activeLive.title || !activeLive.thumbnail || !activeLive.url) {
@@ -584,6 +597,10 @@ async function refreshLiveStatus() {
 
         const data = await response.json();
         renderLiveStatus(getActiveLiveFromStatus(data));
+
+        const activeLive = getFeaturedLiveFromStatus(data);
+        const featured = activeLive || archivedFeaturedSermon;
+        updateFeaturedSermon(featured);
     } catch (error) {
         return;
     }
@@ -644,15 +661,16 @@ async function loadSermons() {
             data.featuredLiveToday?.url && data.featuredLiveToday?.thumbnail && data.featuredLiveToday?.title
                 ? data.featuredLiveToday
                 : null;
-        const featured = activeLive ||
-            selectTodayFeaturedSermon([featuredFromPayload, ...validItems].filter(Boolean)) || validItems[0];
+        archivedFeaturedSermon =
+            selectTodayFeaturedSermon([featuredFromPayload, ...validItems].filter(Boolean)) || validItems[0] || null;
+        const featured = activeLive || archivedFeaturedSermon;
 
         if (!featured) {
             renderSermonsFallback();
             return;
         }
 
-        sermonsFeatured.innerHTML = renderFeaturedSermon(featured);
+        updateFeaturedSermon(featured);
         sermonsTrack.innerHTML = validItems.length
             ? validItems.map((item) => renderSermonCard(item)).join("")
             : activeLive
