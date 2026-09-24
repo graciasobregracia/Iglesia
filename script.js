@@ -592,7 +592,10 @@ function renderLiveStatus(activeLive) {
 
 async function refreshLiveStatus() {
     try {
-        const response = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
+            cache: "no-store",
+            headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" }
+        });
         if (!response.ok) return;
 
         const data = await response.json();
@@ -646,7 +649,10 @@ async function loadSermons() {
         const validItems = items.filter((item) => item?.url && item?.thumbnail && item?.title);
         let liveStatus = null;
         try {
-            const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, { cache: "no-store" });
+            const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
+                cache: "no-store",
+                headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" }
+            });
             if (liveResponse.ok) {
                 liveStatus = await liveResponse.json();
             } else {
