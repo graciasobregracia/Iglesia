@@ -427,7 +427,8 @@ function getLiveState(watchHtml, requestedVideoId = null) {
     const liveDetails = playerMicroformat?.liveBroadcastDetails;
     const liveBroadcastContent = String(playerMicroformat?.liveBroadcastContent ?? "").toUpperCase();
     const isLiveContent = videoDetails?.isLiveContent === true;
-    const hasEnded = Boolean(liveDetails?.endTimestamp || liveDetails?.actualEndTime);
+    const endTime = liveDetails?.actualEndTime || liveDetails?.endTimestamp || null;
+    const hasEnded = Boolean(endTime);
     const actualStartTime = liveDetails?.actualStartTime || liveDetails?.startTimestamp || null;
     const scheduledStartTime = liveDetails?.scheduledStartTime || null;
     const idMatches = !requestedVideoId || videoDetails?.videoId === requestedVideoId;
@@ -437,8 +438,7 @@ function getLiveState(watchHtml, requestedVideoId = null) {
     ));
     const hasLiveSignal =
         liveDetails?.isLiveNow === true ||
-        liveBroadcastContent === "LIVE" ||
-        (playerMicroformat?.isLiveBroadcast === true && Boolean(actualStartTime));
+        liveBroadcastContent === "LIVE";
     const isLiveNow = idMatches && hasLiveSignal && !hasEnded && !isUpcoming;
     const isLiveLike = Boolean(isLiveContent || liveDetails || hasLiveSignal);
 
@@ -450,6 +450,8 @@ function getLiveState(watchHtml, requestedVideoId = null) {
         isLiveBroadcast: playerMicroformat?.isLiveBroadcast ?? null,
         liveBroadcastDetails: liveDetails ?? null,
         actualStartTime,
+        endTime,
+        hasEnded,
         scheduledStartTime,
         isLiveLike,
         isLiveNow,
@@ -545,7 +547,7 @@ async function getActiveLive(streamCandidates, knownLiveId = null, channelId = n
             console.log(`[live] Video ${videoId} descartado: ID canónico/canal no corresponde al video solicitado o al canal oficial.`);
             continue;
         }
-        console.log(`[live] Video ${videoId}: liveBroadcastContent=${liveState.liveBroadcastContent ?? "n/d"}, isLiveBroadcast=${liveState.isLiveBroadcast ?? "n/d"}, isLiveNow=${liveState.isLiveNow}, isUpcoming=${liveState.isUpcoming}, actualStartTime=${liveState.actualStartTime ?? "n/d"}, scheduledStartTime=${liveState.scheduledStartTime ?? "n/d"}, end=${liveState.isArchived}`);
+        console.log(`[live] Video ${videoId}: liveBroadcastContent=${liveState.liveBroadcastContent ?? "n/d"}, isLiveBroadcast=${liveState.isLiveBroadcast ?? "n/d"}, señal explícita actual=${liveState.liveBroadcastContent === "LIVE" || liveState.liveBroadcastDetails?.isLiveNow === true}, isLiveNow=${liveState.isLiveNow}, isUpcoming=${liveState.isUpcoming}, actualStartTime=${liveState.actualStartTime ?? "n/d"}, scheduledStartTime=${liveState.scheduledStartTime ?? "n/d"}, hasEnded=${liveState.hasEnded}, endTime=${liveState.endTime ?? "n/d"}`);
         if (liveState.hasPlayerMetadata && liveState.isLiveNow) {
             console.log(`[live] Video activo confirmado: ${videoId} — ${watchMetadata.title}`);
             return {
@@ -685,10 +687,6 @@ async function main() {
         .slice(0, maxArchivedStreams);
     const featuredLiveToday = selectTodayFeaturedStream(activeLive ? [activeLive, ...archivedItems] : archivedItems);
 
-    if (!activeLive && !archivedItems.length) {
-        throw new Error("No se encontraron transmisiones en vivo del canal.");
-    }
-
     const payload = {
         channel: {
             name: "Iglesia Cristiana Gracia Sobre Gracia",
@@ -726,6 +724,28 @@ async function main() {
 }
 
 main().catch(async (error) => {
-    console.error("[live] ERROR: no se pudo completar la actualización de YouTube; se conservan los JSON anteriores.", error);
+    const checkedAt = new Date().toISOString();
+    console.error("[live] ERROR: no se pudo confirmar el estado actual en YouTube; se publicará sin live activo y se conservarán los históricos.", error);
+    try {
+        const previousStatus = await readJsonFile(liveStatusPath);
+        const inactivePayload = {
+            ...previousStatus,
+            updatedAt: checkedAt,
+            status: {
+                ...previousStatus?.status,
+                isLiveNow: false,
+                activeLiveId: null,
+                upcomingLiveId: null,
+                checkedAt
+            },
+            activeLive: null,
+            upcomingLive: null
+        };
+        await mkdir(outputDirectory, { recursive: true });
+        await writeFile(liveStatusPath, `${JSON.stringify(inactivePayload, null, 2)}\n`, "utf8");
+        console.error(`[live] Estado no confirmado escrito como inactivo en ${liveStatusPath}.`);
+    } catch (writeError) {
+        console.error(`[live] ERROR: no se pudo escribir el estado inactivo en ${liveStatusPath}.`, writeError);
+    }
     process.exitCode = 1;
 });
