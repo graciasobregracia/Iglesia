@@ -19,18 +19,26 @@ jobs:
 
     steps:
       - name: Checkout repository
+        id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      - name: Test live state logic
+        run: node --test test/live-status-state.test.cjs
+
       - name: Update sermons feed
+        id: update-feed
         run: node scripts/update-sermons.mjs
 
       - name: Commit data changes
         id: commit-data
+        if: ${{ always() && steps.update-feed.outcome != 'skipped' && steps.checkout.outcome == 'success' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -40,11 +48,13 @@ jobs:
             exit 0
           fi
           git commit -m "chore: update sermons feed"
-          git push
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Trigger Render deploy
-        if: steps.commit-data.outputs.changed == 'true'
+        if: ${{ always() && steps.commit-data.outcome == 'success' && steps.commit-data.outputs.changed == 'true' }}
         run: |
           if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
             echo "RENDER_DEPLOY_HOOK_URL is not configured. Skipping Render deploy hook."

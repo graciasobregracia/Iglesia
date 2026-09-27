@@ -4,6 +4,7 @@ const LIVE_STATUS_DATA_PATH = "data/live-status.json";
 const LIVE_STATUS_POLL_INTERVAL = 30000;
 const LIVE_NOTICE_EXIT_DURATION = 420;
 const LIVE_NOTICE_MAX_VISIBLE = 10000;
+const LIVE_STATUS_MAX_AGE_MS = window.LiveStatusState.DEFAULT_MAX_AGE_MS;
 const SITE_TIME_ZONE = "America/Bogota";
 const EVENTS_SOURCE_URL =
     "https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/EventosIglesia";
@@ -55,6 +56,8 @@ let liveNoticeTransitionTimer = null;
 let liveNoticeAutoHideTimer = null;
 let liveStatusRefreshInFlight = false;
 let liveStatusPollTimer = null;
+let latestLiveStatusData = null;
+let lastConfirmedLiveId = null;
 let archivedFeaturedSermon = null;
 let renderedFeaturedSermonSignature = "";
 let navigationFrame = null;
@@ -464,16 +467,10 @@ function updateFeaturedSermon(item) {
     setupSermonCards(sermonsFeatured);
 }
 
-function getFeaturedLiveFromStatus(data) {
-    const activeLive = data?.activeLive;
-    if (
-        data?.status?.isLiveNow !== true ||
-        !activeLive ||
-        !/^[a-zA-Z0-9_-]{11}$/.test(activeLive.id || "") ||
-        data.status.activeLiveId !== activeLive.id
-    ) {
-        return null;
-    }
+function getLiveStatusView(data, now = Date.now()) {
+    const decision = window.LiveStatusState.classifyPublishedStatus(data, now, LIVE_STATUS_MAX_AGE_MS);
+    if (decision.kind !== "live") return decision;
+    const activeLive = decision.activeLive;
 
     const videoUrlFallback = `https://www.youtube.com/watch?v=${activeLive.id}`;
     let videoUrl = videoUrlFallback;
@@ -491,14 +488,17 @@ function getFeaturedLiveFromStatus(data) {
     }
 
     return {
-        ...activeLive,
-        title: activeLive.title || "Transmisión en vivo",
-        url: videoUrl,
-        thumbnail: activeLive.thumbnail || `https://i.ytimg.com/vi/${activeLive.id}/hqdefault.jpg`,
-        status: "live",
-        typeLabel: activeLive.typeLabel || "🔴 EN VIVO AHORA",
-        description: activeLive.description || "Estamos transmitiendo en vivo ahora mismo.",
-        publishedAt: activeLive.actualStartTime || activeLive.startedAt || activeLive.publishedAt || null
+        ...decision,
+        activeLive: {
+            ...activeLive,
+            title: activeLive.title || "Transmisión en vivo",
+            url: videoUrl,
+            thumbnail: activeLive.thumbnail || `https://i.ytimg.com/vi/${activeLive.id}/hqdefault.jpg`,
+            status: "live",
+            typeLabel: activeLive.typeLabel || "🔴 EN VIVO AHORA",
+            description: activeLive.description || "Estamos transmitiendo en vivo ahora mismo.",
+            publishedAt: activeLive.actualStartTime || activeLive.startedAt || activeLive.publishedAt || null
+        }
     };
 }
 
@@ -543,10 +543,72 @@ function hideLiveNotice({ remember = true, immediate = false } = {}) {
     liveNoticeTransitionTimer = window.setTimeout(finishHide, LIVE_NOTICE_EXIT_DURATION);
 }
 
-function renderLiveStatus(activeLive) {
+function renderNeutralLiveStatus(view) {
     const slot = ensureLiveNoticeSlot();
     if (!slot) return;
 
+    const signature = `${view.kind}:${view.upcomingLive?.id || view.reason || "unknown"}`;
+    if (signature === activeLiveSignature && !slot.hidden) return;
+
+    activeLiveSignature = signature;
+    dismissedLiveSignature = "";
+    clearLiveNoticeTimers();
+    slot.hidden = false;
+    slot.classList.remove("is-visible", "is-hiding");
+    slot.classList.add("is-status-neutral");
+
+    if (view.kind === "upcoming") {
+        const upcoming = view.upcomingLive;
+        const url = `https://www.youtube.com/watch?v=${encodeURIComponent(upcoming.id)}`;
+        slot.innerHTML = `
+            <div class="container live-notice-inner live-status-neutral-inner">
+                <div class="live-notice-copy">
+                    <div>
+                        <p class="live-notice-kicker">PRÓXIMA TRANSMISIÓN</p>
+                        <h2>${escapeHtml(upcoming.title || "Transmisión programada")}</h2>
+                        <p>${escapeHtml(upcoming.scheduledStartTime ? formatDateTime(upcoming.scheduledStartTime) : "Consulta el canal oficial para ver el horario.")}</p>
+                    </div>
+                </div>
+                <div class="live-notice-actions">
+                    <a class="button button-secondary" href="${url}" target="_blank" rel="noopener noreferrer">Ver programación</a>
+                </div>
+            </div>
+        `;
+    } else {
+        const lastCheck = Number.isFinite(view.ageMs)
+            ? `La última comprobación correcta fue hace ${Math.max(1, Math.floor(view.ageMs / 60000))} min.`
+            : "No hay una comprobación reciente disponible.";
+        slot.innerHTML = `
+            <div class="container live-notice-inner live-status-neutral-inner">
+                <div class="live-notice-copy">
+                    <div>
+                        <p class="live-notice-kicker">ESTADO SIN VERIFICAR</p>
+                        <h2>No podemos confirmar si la transmisión continúa.</h2>
+                        <p>${escapeHtml(view.lastError ? "Falló la consulta de YouTube. " : "")} ${escapeHtml(lastCheck)}</p>
+                    </div>
+                </div>
+                <div class="live-notice-actions">
+                    <button class="button button-secondary" type="button" data-retry-live-status>Volver a comprobar</button>
+                </div>
+            </div>
+        `;
+        slot.querySelector("[data-retry-live-status]")?.addEventListener("click", refreshLiveStatus);
+    }
+
+    window.requestAnimationFrame(() => slot.classList.add("is-visible"));
+}
+
+function renderLiveStatus(view) {
+    const slot = ensureLiveNoticeSlot();
+    if (!slot) return;
+
+    if (view.kind === "stale" || view.kind === "upcoming") {
+        renderNeutralLiveStatus(view);
+        return;
+    }
+
+    const activeLive = view.kind === "live" ? view.activeLive : null;
+    slot.classList.remove("is-status-neutral");
     if (!activeLive) {
         activeLiveSignature = "";
         dismissedLiveSignature = "";
@@ -605,17 +667,27 @@ async function refreshLiveStatus() {
     try {
         const response = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
             cache: "no-store",
-            headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" }
+            headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" },
+            signal: AbortSignal.timeout(10000)
         });
-        if (!response.ok) return;
+        if (!response.ok) throw new Error(`No se pudo cargar live-status.json (${response.status})`);
 
         const data = await response.json();
-        const activeLive = getFeaturedLiveFromStatus(data);
-        renderLiveStatus(activeLive);
+        latestLiveStatusData = data;
+        const view = getLiveStatusView(data);
+        const activeLive = view.kind === "live" ? view.activeLive : null;
+        renderLiveStatus(view);
+        const nextLiveId = activeLive?.id ?? null;
+        const liveEndedOrChanged = Boolean(lastConfirmedLiveId && lastConfirmedLiveId !== nextLiveId);
+        lastConfirmedLiveId = nextLiveId;
+        if (liveEndedOrChanged) void loadSermons();
         const featured = activeLive || archivedFeaturedSermon;
         updateFeaturedSermon(featured);
     } catch (error) {
-        return;
+        const view = latestLiveStatusData
+            ? getLiveStatusView(latestLiveStatusData)
+            : { kind: "stale", reason: "fetch-error", lastError: error.message };
+        renderLiveStatus({ ...view, kind: "stale", reason: "fetch-error", lastError: error.message });
     } finally {
         liveStatusRefreshInFlight = false;
     }
@@ -665,7 +737,8 @@ async function loadSermons() {
         try {
             const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
                 cache: "no-store",
-                headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" }
+                headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" },
+                signal: AbortSignal.timeout(10000)
             });
             if (liveResponse.ok) {
                 liveStatus = await liveResponse.json();
@@ -676,7 +749,13 @@ async function loadSermons() {
             console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH}; se usará la transmisión archivada.`, error);
         }
 
-        const activeLive = getFeaturedLiveFromStatus(liveStatus);
+        latestLiveStatusData = liveStatus;
+        const view = liveStatus
+            ? getLiveStatusView(liveStatus)
+            : { kind: "stale", reason: "fetch-error" };
+        const activeLive = view.kind === "live" ? view.activeLive : null;
+        renderLiveStatus(view);
+        lastConfirmedLiveId = activeLive?.id ?? null;
         archivedFeaturedSermon = selectTodayFeaturedSermon(validItems) || validItems[0] || null;
         const featured = activeLive || archivedFeaturedSermon;
 

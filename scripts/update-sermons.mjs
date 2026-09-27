@@ -1,6 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+const require = createRequire(import.meta.url);
+const {
+    classifyYouTubeBroadcast,
+    buildVerificationFailureSnapshots
+} = require("../live-status-state.js");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -353,10 +360,8 @@ function getLiveStartDate(watchHtml) {
     return (
         liveDetails?.actualStartTime ||
         liveDetails?.startTimestamp ||
-        liveDetails?.scheduledStartTime ||
         matchFirst(watchHtml, /"actualStartTime":"([^"]+)"/) ||
-        matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/) ||
-        matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/)
+        matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/)
     );
 }
 
@@ -433,17 +438,15 @@ function getLiveState(watchHtml, requestedVideoId = null) {
     const videoDetails = playerResponse?.videoDetails;
     const playerMicroformat = playerResponse?.microformat?.playerMicroformatRenderer;
     const liveDetails = playerMicroformat?.liveBroadcastDetails;
-    const liveBroadcastContent = String(playerMicroformat?.liveBroadcastContent ?? "").toUpperCase();
+    const liveBroadcastContent = playerMicroformat?.liveBroadcastContent ?? null;
     const isLiveContent = videoDetails?.isLiveContent === true;
     const wasLive = videoDetails?.wasLive === true || playerMicroformat?.wasLive === true;
     const isLiveBroadcast = playerMicroformat?.isLiveBroadcast ?? null;
-    const endTime =
+    const actualEndTime =
         liveDetails?.actualEndTime ||
-        liveDetails?.endTimestamp ||
         matchFirst(watchHtml, /"actualEndTime":"([^"]+)"/) ||
-        matchFirst(watchHtml, /"endTimestamp":"([^"]+)"/) ||
         null;
-    const hasEnded = Boolean(endTime);
+    const endTimestamp = liveDetails?.endTimestamp || matchFirst(watchHtml, /"endTimestamp":"([^"]+)"/) || null;
     const actualStartTime =
         liveDetails?.actualStartTime ||
         liveDetails?.startTimestamp ||
@@ -451,33 +454,27 @@ function getLiveState(watchHtml, requestedVideoId = null) {
         matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/) ||
         null;
     const scheduledStartTime = liveDetails?.scheduledStartTime || matchFirst(watchHtml, /"scheduledStartTime":"([^"]+)"/) || null;
-    const idMatches = !requestedVideoId || videoDetails?.videoId === requestedVideoId;
-    const isUpcoming = Boolean(!hasEnded && (
-        videoDetails?.isUpcoming === true || liveDetails?.isUpcoming === true || liveBroadcastContent === "UPCOMING" ||
-        (scheduledStartTime && Date.parse(scheduledStartTime) > Date.now() && !actualStartTime)
-    ));
-    const hasLiveSignal =
-        liveDetails?.isLiveNow === true ||
-        liveBroadcastContent === "LIVE";
-    const isLiveNow = idMatches && hasLiveSignal && !hasEnded && !isUpcoming && (isLiveContent || isLiveBroadcast === true || Boolean(liveDetails));
-    const isLiveLike = Boolean(isLiveContent || isLiveBroadcast === true || wasLive || liveDetails || hasLiveSignal);
-
-    return {
-        hasPlayerMetadata: Boolean(videoDetails?.videoId) && idMatches,
+    const broadcastState = classifyYouTubeBroadcast({
+        requestedVideoId,
         videoId: videoDetails?.videoId ?? null,
         isLiveContent,
-        liveBroadcastContent: liveBroadcastContent || null,
-        isLiveBroadcast,
         wasLive,
-        liveBroadcastDetails: liveDetails ?? null,
+        isLiveBroadcast,
+        liveBroadcastContent,
+        liveBroadcastDetails: liveDetails,
+        actualEndTime,
+        endTimestamp,
         actualStartTime,
-        endTime,
-        hasEnded,
+        startTimestamp: liveDetails?.startTimestamp || matchFirst(watchHtml, /"startTimestamp":"([^"]+)"/) || null,
         scheduledStartTime,
-        isLiveLike,
-        isLiveNow,
-        isArchived: isLiveLike && (hasEnded || wasLive) && !isLiveNow && !isUpcoming,
-        isUpcoming
+        isUpcoming: videoDetails?.isUpcoming === true || liveDetails?.isUpcoming === true
+    });
+
+    return {
+        hasPlayerMetadata: Boolean(videoDetails?.videoId) && broadcastState.idMatches,
+        videoId: videoDetails?.videoId ?? null,
+        ...broadcastState,
+        endTime: broadcastState.actualEndTime
     };
 }
 
@@ -556,6 +553,7 @@ async function getActiveLive(streamCandidates, knownLiveId = null, channelId = n
     let verificationErrors = 0;
     const upcomingLives = [];
     let endedLive = null;
+    let knownLiveUncertain = false;
 
     for (const videoId of candidateIds) {
         let watchPage;
@@ -594,6 +592,7 @@ async function getActiveLive(streamCandidates, knownLiveId = null, channelId = n
                     watchPage.html,
                     {
                         status: "live",
+                        verificationSource: "youtube-watch-live-metadata",
                         typeLabel: "🔴 EN VIVO AHORA",
                         isLiveNow: true,
                         isUpcoming: false,
@@ -648,9 +647,19 @@ async function getActiveLive(streamCandidates, knownLiveId = null, channelId = n
                 status: "archived",
                 verificationSource: "watch-live-metadata"
             });
+        } else if (
+            videoId === knownLiveId &&
+            liveState.hasPlayerMetadata &&
+            !liveState.isLiveNow &&
+            !liveState.isUpcoming
+        ) {
+            knownLiveUncertain = true;
         }
     }
 
+    if (knownLiveUncertain && !knownLiveEnded) {
+        throw new Error(`YouTube no confirmó si terminó el LIVE anterior (${knownLiveId}); se conserva como último estado conocido y se marca sin verificar.`);
+    }
     if (knownLiveId && verificationErrors > 0 && !knownLiveEnded) {
         throw new Error(`No se pudo confirmar el estado de la transmisión activa anterior (${verificationErrors} verificación(es) fallida(s)).`);
     }
@@ -724,6 +733,14 @@ async function main() {
     // Publicar primero el estado LIVE; el enriquecimiento del archivo puede tardar
     // varios requests secuenciales y no debe retrasar el aviso del frontend.
     const checkedAt = new Date().toISOString();
+    const verifiedStatus = {
+        isLiveNow: Boolean(activeLive),
+        activeLiveId: activeLive?.id ?? null,
+        upcomingLiveId: detectedLive.upcomingLive?.id ?? null,
+        checkedAt,
+        lastAttemptAt: checkedAt,
+        verificationStatus: "verified"
+    };
     const liveStatusPayload = {
         channel: {
             name: "Iglesia Cristiana Gracia Sobre Gracia",
@@ -732,12 +749,7 @@ async function main() {
         },
         updatedAt: checkedAt,
         source: "youtube-streams-and-live-pages",
-        status: {
-            isLiveNow: Boolean(activeLive),
-            activeLiveId: activeLive?.id ?? null,
-            upcomingLiveId: detectedLive.upcomingLive?.id ?? null,
-            checkedAt
-        },
+        status: verifiedStatus,
         activeLive,
         upcomingLive: detectedLive.upcomingLive
     };
@@ -775,11 +787,9 @@ async function main() {
         updatedAt: checkedAt,
         source: "youtube-streams-and-live-pages",
         status: {
-            isLiveNow: Boolean(activeLive),
-            activeLiveId: activeLive?.id ?? null,
+            ...verifiedStatus,
             upcomingLiveId: detectedLive.upcomingLive?.id ?? null,
             featuredLiveTodayId: featuredLiveToday?.id ?? null,
-            checkedAt
         },
         activeLive,
         upcomingLive: detectedLive.upcomingLive,
@@ -792,5 +802,21 @@ async function main() {
 
 main().catch(async (error) => {
     console.error("[live] ERROR: estado no confirmado. Se conserva el último estado válido para no publicar un falso inactivo.", error);
+    const attemptedAt = new Date().toISOString();
+    try {
+        const [previousLive, previousSermons] = await Promise.all([
+            readJsonFile(liveStatusPath),
+            readJsonFile(outputPath)
+        ]);
+        const snapshots = buildVerificationFailureSnapshots(previousLive, previousSermons, attemptedAt, error);
+        await mkdir(outputDirectory, { recursive: true });
+        await Promise.all([
+            writeFile(liveStatusPath, `${JSON.stringify(snapshots.liveStatus, null, 2)}\n`, "utf8"),
+            writeFile(outputPath, `${JSON.stringify(snapshots.sermons, null, 2)}\n`, "utf8")
+        ]);
+        console.error(`[live] Ambos JSON conservan el último resultado, sincronizan verificationStatus=error y registran lastAttemptAt=${attemptedAt}.`);
+    } catch (writeError) {
+        console.error("[live] No se pudo publicar el resultado de verificación fallida.", writeError);
+    }
     process.exitCode = 1;
 });

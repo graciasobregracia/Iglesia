@@ -350,6 +350,21 @@ section[id] {
     pointer-events: auto;
 }
 
+.live-notice.is-status-neutral .live-status-neutral-inner {
+    border-color: rgba(7, 26, 47, 0.12);
+    background: rgba(248, 250, 252, 0.97);
+    color: var(--color-navy-900);
+}
+
+.live-notice.is-status-neutral .live-notice-kicker {
+    color: var(--color-blue-700);
+}
+
+.live-notice.is-status-neutral h2,
+.live-notice.is-status-neutral p:not(.live-notice-kicker) {
+    color: var(--color-navy-800);
+}
+
 .live-notice-copy {
     display: flex;
     align-items: center;
