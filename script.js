@@ -569,7 +569,7 @@ function renderLiveStatus(activeLive) {
                 <div>
                     <p class="live-notice-kicker">ESTAMOS EN VIVO AHORA MISMO</p>
                     <h2>${escapeHtml(activeLive.title || "Transmisión en vivo")}</h2>
-                    <p>Acompáñanos en nuestra transmisión actual.</p>
+                    <p>Conéctate y comparte un momento con Dios.</p>
                 </div>
             </div>
             <div class="live-notice-actions">
