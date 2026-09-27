@@ -4,15 +4,49 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
+<<<<<<< HEAD
   "updatedAt": "2026-09-26T22:58:58.865Z",
+=======
+  "updatedAt": "2026-09-27T00:17:29.440Z",
+>>>>>>> 9d0c958 (Corregir deteccion y aviso de transmisiones en vivo)
   "source": "youtube-streams-and-live-pages",
   "status": {
-    "isLiveNow": false,
-    "activeLiveId": null,
+    "isLiveNow": true,
+    "activeLiveId": "AREicxKfd5U",
     "upcomingLiveId": null,
+<<<<<<< HEAD
     "featuredLiveTodayId": null,
     "checkedAt": "2026-09-26T22:58:58.865Z"
+=======
+    "checkedAt": "2026-09-27T00:17:29.440Z"
+>>>>>>> 9d0c958 (Corregir deteccion y aviso de transmisiones en vivo)
   },
-  "activeLive": null,
-  "upcomingLive": null
+  "activeLive": {
+    "id": "AREicxKfd5U",
+    "title": "Servicio Principal | Sábado 26 De Septiembre del 2026.",
+    "url": "https://www.youtube.com/watch?v=AREicxKfd5U",
+    "thumbnail": "https://i.ytimg.com/vi/AREicxKfd5U/maxresdefault.jpg?v=6ab85611",
+    "duration": null,
+    "publishedText": "Comenzó a transmitir hace 18 minutos",
+    "originalIndex": -1,
+    "status": "live",
+    "typeLabel": "🔴 EN VIVO AHORA",
+    "isLiveNow": true,
+    "isUpcoming": false,
+    "liveBroadcastContent": "LIVE",
+    "isLiveBroadcast": true,
+    "liveBroadcastDetails": {
+      "isLiveNow": true,
+      "startTimestamp": "2026-09-26T23:58:46+00:00"
+    },
+    "startedAt": "2026-09-26T23:58:46+00:00",
+    "actualStartTime": "2026-09-26T23:58:46+00:00",
+    "scheduledStartTime": null,
+    "description": "Estamos transmitiendo nuestro servicio en este momento.",
+    "type": "live",
+    "typePriority": 1,
+    "publishedAt": "2026-09-26T23:58:46+00:00",
+    "endedAt": null,
+    "actualEndTime": null
+  }
 }

@@ -1,8 +1,9 @@
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
 const SERMONS_DATA_PATH = "data/predicaciones.json";
 const LIVE_STATUS_DATA_PATH = "data/live-status.json";
-const LIVE_STATUS_POLL_INTERVAL = 60000;
+const LIVE_STATUS_POLL_INTERVAL = 30000;
 const LIVE_NOTICE_EXIT_DURATION = 420;
+const LIVE_NOTICE_MAX_VISIBLE = 10000;
 const SITE_TIME_ZONE = "America/Bogota";
 const EVENTS_SOURCE_URL =
     "https://opensheet.elk.sh/1TfP9dNPo8P_-r0EsPVXxNlcWao0whLU5VeGt0GjiXpw/EventosIglesia";
@@ -51,6 +52,9 @@ let liveNoticeSlot = null;
 let activeLiveSignature = "";
 let dismissedLiveSignature = "";
 let liveNoticeTransitionTimer = null;
+let liveNoticeAutoHideTimer = null;
+let liveStatusRefreshInFlight = false;
+let liveStatusPollTimer = null;
 let archivedFeaturedSermon = null;
 let renderedFeaturedSermonSignature = "";
 let navigationFrame = null;
@@ -462,7 +466,12 @@ function updateFeaturedSermon(item) {
 
 function getFeaturedLiveFromStatus(data) {
     const activeLive = data?.activeLive;
-    if (data?.status?.isLiveNow !== true || !activeLive || !/^[a-zA-Z0-9_-]{11}$/.test(activeLive.id || "")) {
+    if (
+        data?.status?.isLiveNow !== true ||
+        !activeLive ||
+        !/^[a-zA-Z0-9_-]{11}$/.test(activeLive.id || "") ||
+        data.status.activeLiveId !== activeLive.id
+    ) {
         return null;
     }
 
@@ -494,13 +503,17 @@ function getFeaturedLiveFromStatus(data) {
 }
 
 function getLiveSignature(activeLive) {
-    return `${activeLive.id || activeLive.url}:${activeLive.startedAt || activeLive.publishedAt || ""}`;
+    return activeLive.id || activeLive.url;
 }
 
 function clearLiveNoticeTimers() {
     if (liveNoticeTransitionTimer) {
         window.clearTimeout(liveNoticeTransitionTimer);
         liveNoticeTransitionTimer = null;
+    }
+    if (liveNoticeAutoHideTimer) {
+        window.clearTimeout(liveNoticeAutoHideTimer);
+        liveNoticeAutoHideTimer = null;
     }
 }
 
@@ -579,10 +592,16 @@ function renderLiveStatus(activeLive) {
     window.requestAnimationFrame(() => {
         slot.classList.add("is-visible");
     });
+    liveNoticeAutoHideTimer = window.setTimeout(() => {
+        liveNoticeAutoHideTimer = null;
+        hideLiveNotice({ remember: true });
+    }, LIVE_NOTICE_MAX_VISIBLE - LIVE_NOTICE_EXIT_DURATION);
 
 }
 
 async function refreshLiveStatus() {
+    if (liveStatusRefreshInFlight) return;
+    liveStatusRefreshInFlight = true;
     try {
         const response = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
             cache: "no-store",
@@ -597,6 +616,8 @@ async function refreshLiveStatus() {
         updateFeaturedSermon(featured);
     } catch (error) {
         return;
+    } finally {
+        liveStatusRefreshInFlight = false;
     }
 }
 
@@ -1460,4 +1481,6 @@ setupModalDismiss();
 setupSermonRail();
 loadSermons();
 refreshLiveStatus();
-window.setInterval(refreshLiveStatus, LIVE_STATUS_POLL_INTERVAL);
+if (liveStatusPollTimer === null) {
+    liveStatusPollTimer = window.setInterval(refreshLiveStatus, LIVE_STATUS_POLL_INTERVAL);
+}
