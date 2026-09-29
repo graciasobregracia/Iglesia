@@ -4,7 +4,7 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-29T00:18:23.194Z",
+  "updatedAt": "2026-09-29T01:02:12.674Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": true,
@@ -12,8 +12,9 @@
     "upcomingLiveId": null,
     "checkedAt": "2026-09-29T00:18:23.194Z",
     "lastSuccessfulCheck": "2026-09-29T00:18:23.194Z",
-    "lastAttemptAt": "2026-09-29T00:18:23.194Z",
-    "verificationStatus": "verified"
+    "lastAttemptAt": "2026-09-29T01:02:12.674Z",
+    "verificationStatus": "error",
+    "lastError": "No se pudo confirmar el estado de la transmisión activa anterior (10 verificación(es) fallida(s))."
   },
   "activeLive": {
     "id": "qiP_WB_kRcw",
@@ -43,5 +44,6 @@
     "publishedAt": "2026-09-28T23:57:00+00:00",
     "endedAt": null,
     "actualEndTime": null
-  }
+  },
+  "upcomingLive": null
 }
