@@ -602,11 +602,17 @@ function renderLiveStatus(view) {
     const slot = ensureLiveNoticeSlot();
     if (!slot) return;
 
+    if (view.kind === "none") {
+        activeLiveSignature = "";
+        dismissedLiveSignature = "";
+        hideLiveNotice({ remember: false, immediate: true });
+        return;
+    }
+
     if (view.kind === "stale" || view.kind === "upcoming") {
         renderNeutralLiveStatus(view);
         return;
     }
-
     const activeLive = view.kind === "live" ? view.activeLive : null;
     slot.classList.remove("is-status-neutral");
     if (!activeLive) {
