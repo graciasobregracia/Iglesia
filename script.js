@@ -388,7 +388,7 @@ function renderFeaturedSermon(item) {
     const title = escapeHtml(item.title || "Canal oficial de transmisiones");
     const description = escapeHtml(
         item.description ||
-            "Transmision en vivo archivada en el canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+        "Transmision en vivo archivada en el canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     );
     const liveStartedAt = item.actualStartTime || item.startedAt || item.publishedAt;
     const published = item.status === "live" ? formatDateTime(liveStartedAt) || formatDate(liveStartedAt) : formatDate(item.publishedAt);
@@ -424,8 +424,8 @@ function renderFeaturedSermon(item) {
                 <div class="hero-actions">
                     <a class="button button-primary" href="${url}" target="_blank" rel="noopener noreferrer">${primaryAction}</a>
                     <a class="button button-secondary" href="${escapeHtml(
-                        YOUTUBE_CHANNEL_URL
-                    )}" target="_blank" rel="noopener noreferrer">Ir al canal oficial</a>
+        YOUTUBE_CHANNEL_URL
+    )}" target="_blank" rel="noopener noreferrer">Ir al canal oficial</a>
                 </div>
             </div>
         </article>
@@ -609,7 +609,23 @@ function renderLiveStatus(view) {
         return;
     }
 
-    if (view.kind === "stale" || view.kind === "upcoming") {
+    if (view.kind === "upcoming") {
+        activeLiveSignature = "";
+        dismissedLiveSignature = "";
+        hideLiveNotice({ remember: false, immediate: true });
+        return;
+    }
+
+    if (view.kind === "stale") {
+        // Un estado stale por sí solo no significa que haya un LIVE.
+        // Solo mostramos el aviso si existe un LIVE confirmado previamente.
+        if (!view.activeLive) {
+            activeLiveSignature = "";
+            dismissedLiveSignature = "";
+            hideLiveNotice({ remember: false, immediate: true });
+            return;
+        }
+
         renderNeutralLiveStatus(view);
         return;
     }
@@ -642,8 +658,8 @@ function renderLiveStatus(view) {
             </div>
             <div class="live-notice-actions">
                 <a class="button button-primary" href="${escapeHtml(
-                    activeLive.url
-                )}" target="_blank" rel="noopener noreferrer" aria-label="Ver transmisión en vivo ahora mismo">
+        activeLive.url
+    )}" target="_blank" rel="noopener noreferrer" aria-label="Ver transmisión en vivo ahora mismo">
                     Ver transmisión
                 </a>
                 <button class="live-notice-close" type="button" data-close-live-notice aria-label="Cerrar aviso de transmisión en vivo">
@@ -777,8 +793,8 @@ async function loadSermons() {
         sermonsTrack.innerHTML = validItems.length
             ? validItems.map((item) => renderSermonCard(item)).join("")
             : activeLive
-              ? ""
-              : renderSermonCard(featured);
+                ? ""
+                : renderSermonCard(featured);
 
         setupSermonCards();
         updateRailButtons(sermonsTrack, sermonsPrevButton, sermonsNextButton);
@@ -1270,10 +1286,10 @@ function renderCurrentEvent() {
 
     const mediaMarkup =
         item.embedMode === "video"
-              ? `<video src="${escapeHtml(item.previewUrl)}" controls preload="metadata" playsinline aria-label="${escapeHtml(
-                    item.alt
-                )}"></video>`
-              : `<img src="${escapeHtml(item.previewUrl)}" alt="${escapeHtml(item.alt)}" loading="lazy" data-event-stage-image>`;
+            ? `<video src="${escapeHtml(item.previewUrl)}" controls preload="metadata" playsinline aria-label="${escapeHtml(
+                item.alt
+            )}"></video>`
+            : `<img src="${escapeHtml(item.previewUrl)}" alt="${escapeHtml(item.alt)}" loading="lazy" data-event-stage-image>`;
 
     eventsStage.innerHTML = `
         <article class="event-stage-card event-stage-card-${escapeHtml(item.type)}">
