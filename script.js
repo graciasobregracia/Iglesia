@@ -672,7 +672,8 @@ async function refreshLiveStatus() {
         });
         if (!response.ok) throw new Error(`No se pudo cargar live-status.json (${response.status})`);
 
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = window.LiveStatusState.preservePreviousLiveOnUnconfirmedUpdate(latestLiveStatusData, responseData);
         latestLiveStatusData = data;
         const view = getLiveStatusView(data);
         const activeLive = view.kind === "live" ? view.activeLive : null;
@@ -743,7 +744,7 @@ async function loadSermons() {
                 signal: AbortSignal.timeout(10000)
             });
             if (liveResponse.ok) {
-                liveStatus = await liveResponse.json();
+                liveStatus = window.LiveStatusState.preservePreviousLiveOnUnconfirmedUpdate(latestLiveStatusData, await liveResponse.json());
                 latestLiveStatusData = liveStatus;
             } else {
                 console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH} (${liveResponse.status}); se usará la transmisión archivada.`);

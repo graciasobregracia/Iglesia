@@ -4,46 +4,20 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-29T01:02:12.674Z",
+  "updatedAt": "2026-09-29T01:32:08.144Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
-    "isLiveNow": true,
-    "activeLiveId": "qiP_WB_kRcw",
+    "isLiveNow": false,
+    "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-09-29T00:18:23.194Z",
-    "lastSuccessfulCheck": "2026-09-29T00:18:23.194Z",
-    "lastAttemptAt": "2026-09-29T01:02:12.674Z",
-    "verificationStatus": "error",
-    "lastError": "No se pudo confirmar el estado de la transmisión activa anterior (10 verificación(es) fallida(s))."
+    "checkedAt": "2026-09-29T01:32:08.144Z",
+    "lastSuccessfulCheck": "2026-09-29T01:32:08.144Z",
+    "lastAttemptAt": "2026-09-29T01:32:08.144Z",
+    "verificationStatus": "ok",
+    "lastEndedLiveId": "qiP_WB_kRcw",
+    "lastEndedAt": "2026-09-29T01:27:18.362Z",
+    "lastError": null
   },
-  "activeLive": {
-    "id": "qiP_WB_kRcw",
-    "title": "Tiempo De Oración",
-    "url": "https://www.youtube.com/watch?v=qiP_WB_kRcw",
-    "thumbnail": "https://i.ytimg.com/vi/qiP_WB_kRcw/maxresdefault.jpg?v=6abafeaf",
-    "duration": null,
-    "publishedText": "Comenzó a transmitir hace 21 minutos",
-    "originalIndex": -1,
-    "status": "live",
-    "verificationSource": "youtube-watch-live-metadata",
-    "typeLabel": "🔴 EN VIVO AHORA",
-    "isLiveNow": true,
-    "isUpcoming": false,
-    "liveBroadcastContent": "LIVE",
-    "isLiveBroadcast": true,
-    "liveBroadcastDetails": {
-      "isLiveNow": true,
-      "startTimestamp": "2026-09-28T23:57:00+00:00"
-    },
-    "startedAt": "2026-09-28T23:57:00+00:00",
-    "actualStartTime": "2026-09-28T23:57:00+00:00",
-    "scheduledStartTime": null,
-    "description": "Estamos transmitiendo nuestro servicio en este momento.",
-    "type": "live",
-    "typePriority": 1,
-    "publishedAt": "2026-09-28T23:57:00+00:00",
-    "endedAt": null,
-    "actualEndTime": null
-  },
+  "activeLive": null,
   "upcomingLive": null
 }
