@@ -14,6 +14,8 @@
         const {
             requestedVideoId = null,
             videoId = null,
+            expectedChannelId = null,
+            channelId = null,
             isLiveContent = false,
             wasLive = false,
             isLiveBroadcast = null,
@@ -33,6 +35,7 @@
         const startedAt = actualStartTime || startTimestamp || liveBroadcastDetails?.actualStartTime || liveBroadcastDetails?.startTimestamp || null;
         const scheduledAt = scheduledStartTime || liveBroadcastDetails?.scheduledStartTime || null;
         const idMatches = !requestedVideoId || videoId === requestedVideoId;
+        const channelMatches = !expectedChannelId || channelId === expectedChannelId;
         const upcoming = Boolean(
             !hasEnded &&
                 (isUpcoming || liveBroadcastDetails?.isUpcoming === true || ["UPCOMING", "PRÓXIMO", "PROGRAMADO"].includes(content) ||
@@ -40,11 +43,12 @@
         );
         const hasExplicitLiveSignal = liveBroadcastDetails?.isLiveNow === true || saysLive;
         const hasBroadcastIdentity = isLiveContent === true || isLiveBroadcast === true || Boolean(liveBroadcastDetails);
-        const liveNow = Boolean(idMatches && hasExplicitLiveSignal && hasBroadcastIdentity && !hasEnded && !upcoming);
+        const liveNow = Boolean(idMatches && channelMatches && hasExplicitLiveSignal && hasBroadcastIdentity && !hasEnded && !upcoming);
         const liveLike = Boolean(isLiveContent || isLiveBroadcast === true || wasLive || liveBroadcastDetails || hasExplicitLiveSignal);
 
         return {
             idMatches,
+            channelMatches,
             isLiveContent: isLiveContent === true,
             wasLive: wasLive === true,
             isLiveBroadcast,
@@ -66,12 +70,8 @@
 
         const checkedAt = Date.parse(status.checkedAt || payload.updatedAt || "");
         const ageMs = now - checkedAt;
-        if (!Number.isFinite(checkedAt) || ageMs < -MAX_FUTURE_CLOCK_SKEW_MS || ageMs > maxAgeMs) {
-            return { kind: "stale", reason: "expired", ageMs };
-        }
-        if (status.verificationStatus && status.verificationStatus !== "verified") {
-            return { kind: "stale", reason: "verification-error", ageMs, lastError: status.lastError || null };
-        }
+        const fresh = Number.isFinite(checkedAt) && ageMs >= -MAX_FUTURE_CLOCK_SKEW_MS && ageMs <= maxAgeMs;
+        const verificationStatus = status.verificationStatus || "verified";
 
         if (status.isLiveNow === true) {
             const activeLive = payload.activeLive;
@@ -82,8 +82,20 @@
                 activeLive.isUpcoming !== true &&
                 activeLive.status !== "archived";
             return valid
-                ? { kind: "live", activeLive, ageMs }
-                : { kind: "stale", reason: "contradictory-live-state", ageMs };
+                ? {
+                    kind: "live",
+                    activeLive,
+                    ageMs,
+                    freshness: fresh && verificationStatus === "verified" ? "fresh" : "stale",
+                    verificationStatus,
+                    lastError: status.lastError || null
+                }
+                : { kind: "stale", reason: "contradictory-live-state", ageMs, lastError: status.lastError || null };
+        }
+
+        if (!fresh) return { kind: "stale", reason: "expired", ageMs };
+        if (verificationStatus !== "verified") {
+            return { kind: "stale", reason: "verification-error", ageMs, lastError: status.lastError || null };
         }
 
         if (status.isLiveNow !== false || status.activeLiveId != null || payload.activeLive != null) {
@@ -118,6 +130,7 @@
             ...previousStatus,
             isLiveNow: Boolean(activeLive),
             activeLiveId: activeLive?.id ?? null,
+            lastSuccessfulCheck: previousStatus.lastSuccessfulCheck || previousStatus.checkedAt || null,
             verificationStatus: "error",
             lastAttemptAt: attemptedAt,
             lastError: String(error?.message || error || "Error de verificación").slice(0, 300)

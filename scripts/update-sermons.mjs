@@ -457,6 +457,8 @@ function getLiveState(watchHtml, requestedVideoId = null) {
     const broadcastState = classifyYouTubeBroadcast({
         requestedVideoId,
         videoId: videoDetails?.videoId ?? null,
+        expectedChannelId: officialChannelId,
+        channelId: videoDetails?.channelId ?? null,
         isLiveContent,
         wasLive,
         isLiveBroadcast,
@@ -568,11 +570,27 @@ async function getActiveLive(streamCandidates, knownLiveId = null, channelId = n
             continue;
         }
 
+        const playerDetails = getPlayerVideoDetails(watchPage.html);
+        if (!playerDetails?.videoId || !playerDetails?.channelId) {
+            verificationErrors += 1;
+            console.warn(`[live] Video ${videoId} no tiene metadata completa de video/canal; no se interpreta como NO LIVE.`);
+            continue;
+        }
+        if (playerDetails.channelId !== officialChannelId) {
+            console.log(`[live] Video ${videoId} descartado: pertenece al canal ${playerDetails.channelId}, no al canal oficial ${officialChannelId}.`);
+            if (videoId === knownLiveId) {
+                throw new Error(`El video LIVE previamente confirmado (${videoId}) ahora responde con un canal distinto; no se puede confirmar el cierre.`);
+            }
+            continue;
+        }
+
         const watchMetadata = getWatchMetadata(watchPage.html, videoId);
         const liveState = getLiveState(watchPage.html, videoId);
-        const playerDetails = getPlayerVideoDetails(watchPage.html);
-        if (watchMetadata.id !== videoId || (channelId && playerDetails?.channelId && playerDetails.channelId !== channelId)) {
+        if (watchMetadata.id !== videoId) {
             console.log(`[live] Video ${videoId} descartado: ID canónico/canal no corresponde al video solicitado o al canal oficial.`);
+            if (videoId === knownLiveId) {
+                throw new Error(`YouTube devolvió un video distinto al LIVE previamente confirmado (${videoId}).`);
+            }
             continue;
         }
         console.log(`[live] Video ${videoId}: liveBroadcastContent=${liveState.liveBroadcastContent ?? "n/d"}, isLiveBroadcast=${liveState.isLiveBroadcast ?? "n/d"}, señal explícita actual=${liveState.liveBroadcastContent === "LIVE" || liveState.liveBroadcastDetails?.isLiveNow === true}, isLiveNow=${liveState.isLiveNow}, isUpcoming=${liveState.isUpcoming}, actualStartTime=${liveState.actualStartTime ?? "n/d"}, scheduledStartTime=${liveState.scheduledStartTime ?? "n/d"}, hasEnded=${liveState.hasEnded}, endTime=${liveState.endTime ?? "n/d"}`);
@@ -724,7 +742,7 @@ async function main() {
     } catch (error) {
         console.warn(`[archive] No se pudo cargar /streams; la detección del live continuará con /live, canal y video conocido: ${error.message}`);
     }
-    const channelId = (streamsHtml ? getChannelId(streamsHtml) : null) || existingPayload?.channel?.channelId || officialChannelId;
+    const channelId = officialChannelId;
     const detectedLive = await getActiveLive(streamCandidates, previouslyActiveLive?.id ?? null, channelId);
     const activeLive = detectedLive.activeLive;
     console.log(
@@ -738,6 +756,7 @@ async function main() {
         activeLiveId: activeLive?.id ?? null,
         upcomingLiveId: detectedLive.upcomingLive?.id ?? null,
         checkedAt,
+        lastSuccessfulCheck: checkedAt,
         lastAttemptAt: checkedAt,
         verificationStatus: "verified"
     };
@@ -759,7 +778,7 @@ async function main() {
 
     const archiveCandidates = detectedLive.endedLive
         ? streamCandidates.filter((item) => item.id !== detectedLive.endedLive.id).slice(0, maxArchivedStreams - 1)
-        : streamCandidates.slice(0, maxArchivedStreams);
+        : streamCandidates.slice(0, maxArchivedStreams + (activeLive ? 1 : 0));
     let archivedItems = Array.isArray(existingPayload?.items) ? existingPayload.items : [];
     try {
         archivedItems = sortByPublicationDate([

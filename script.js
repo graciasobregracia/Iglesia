@@ -687,7 +687,9 @@ async function refreshLiveStatus() {
         const view = latestLiveStatusData
             ? getLiveStatusView(latestLiveStatusData)
             : { kind: "stale", reason: "fetch-error", lastError: error.message };
-        renderLiveStatus({ ...view, kind: "stale", reason: "fetch-error", lastError: error.message });
+        renderLiveStatus(view.kind === "live"
+            ? view
+            : { ...view, kind: "stale", reason: "fetch-error", lastError: error.message });
     } finally {
         liveStatusRefreshInFlight = false;
     }
@@ -733,7 +735,7 @@ async function loadSermons() {
         const validItems = items.filter(
             (item) => item?.url && item?.thumbnail && item?.title && item.status !== "live" && item.isLiveNow !== true && item.isUpcoming !== true
         );
-        let liveStatus = null;
+        let liveStatus = latestLiveStatusData;
         try {
             const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
                 cache: "no-store",
@@ -742,6 +744,7 @@ async function loadSermons() {
             });
             if (liveResponse.ok) {
                 liveStatus = await liveResponse.json();
+                latestLiveStatusData = liveStatus;
             } else {
                 console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH} (${liveResponse.status}); se usará la transmisión archivada.`);
             }
@@ -749,7 +752,6 @@ async function loadSermons() {
             console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH}; se usará la transmisión archivada.`, error);
         }
 
-        latestLiveStatusData = liveStatus;
         const view = liveStatus
             ? getLiveStatusView(liveStatus)
             : { kind: "stale", reason: "fetch-error" };
