@@ -201,8 +201,8 @@
         const channelMatches = !expectedChannelId || channelId === expectedChannelId;
         const upcoming = Boolean(
             !hasEnded &&
-                (isUpcoming || liveBroadcastDetails?.isUpcoming === true || ["UPCOMING", "PRÓXIMO", "PROGRAMADO"].includes(content) ||
-                    (scheduledAt && Date.parse(scheduledAt) > now && !startedAt))
+            (isUpcoming || liveBroadcastDetails?.isUpcoming === true || ["UPCOMING", "PRÓXIMO", "PROGRAMADO"].includes(content) ||
+                (scheduledAt && Date.parse(scheduledAt) > now && !startedAt))
         );
         const hasExplicitLiveSignal = liveBroadcastDetails?.isLiveNow === true || saysLive;
         const hasBroadcastIdentity = isLiveContent === true || isLiveBroadcast === true || Boolean(liveBroadcastDetails);
@@ -258,7 +258,18 @@
                 : { kind: "stale", reason: "contradictory-live-state", ageMs, lastError: status.lastError || null };
         }
 
-        if (!fresh) return { kind: "stale", reason: "expired", ageMs };
+        if (!fresh) {
+            if (
+                status.isLiveNow === false &&
+                status.activeLiveId == null &&
+                payload.activeLive == null &&
+                ["ok", "verified"].includes(verificationStatus)
+            ) {
+                return { kind: "none", ageMs, freshness: "stale" };
+            }
+
+            return { kind: "stale", reason: "expired", ageMs };
+        }
         if (!(["ok", "verified"].includes(verificationStatus))) {
             return { kind: "stale", reason: "verification-error", ageMs, lastError: status.lastError || null };
         }
