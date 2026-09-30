@@ -2,6 +2,15 @@ name: Update Sermons
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-sermons.yml"
+      - "scripts/update-sermons.mjs"
+      - "live-status-state.js"
+      - "script.js"
+      - "test/**"
+      - ".env.example"
   schedule:
     - cron: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
 
