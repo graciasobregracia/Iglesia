@@ -2,6 +2,11 @@ name: Update Sermons
 
 on:
   workflow_dispatch:
+    inputs:
+      diagnose_video_id:
+        description: "Optional videoId to inspect videos.list without writing JSON"
+        required: false
+        type: string
   push:
     branches: [main]
     paths:
@@ -45,6 +50,13 @@ jobs:
       - name: Test live status and end-to-end pipeline
         run: node --test test/*.test.cjs
 
+      - name: Diagnose one YouTube video
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.diagnose_video_id != '' }}
+        run: node scripts/update-sermons.mjs --diagnose-video "$VIDEO_ID"
+        env:
+          VIDEO_ID: ${{ inputs.diagnose_video_id }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+
       - name: Update sermons feed
         id: update-feed
         run: node scripts/update-sermons.mjs
@@ -53,7 +65,7 @@ jobs:
 
       - name: Commit data changes
         id: commit-data
-        if: ${{ always() && steps.update-feed.outcome != 'skipped' && steps.checkout.outcome == 'success' }}
+        if: ${{ steps.update-feed.outcome == 'success' && steps.checkout.outcome == 'success' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

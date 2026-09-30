@@ -341,3 +341,153 @@ test("una respuesta videos.list incompleta falla explícitamente en lugar de pub
     };
     await assert.rejects(fetchUploadsFromYouTubeDataApi("test-key", fetchImpl), /videos.list omitió 1 video/);
 });
+
+test("diagnóstico videos.list separa video público sin liveStreamingDetails de un error y registra campos sin exponer la clave", async () => {
+    const { diagnoseVideo } = await import("../scripts/update-sermons.mjs");
+    const secret = "never-log-this-test-key";
+    let requestedUrl;
+    const messages = [];
+    const originalInfo = console.info;
+    console.info = (message) => messages.push(String(message));
+    try {
+        const result = await diagnoseVideo(fixture.videoId, secret, async (url) => {
+            requestedUrl = new URL(String(url));
+            return new Response(JSON.stringify({ items: [{
+                id: fixture.videoId,
+                snippet: { channelId: CHANNEL_ID, title: fixture.reportedTitle, publishedAt: fixture.publishedAt, liveBroadcastContent: "none" },
+                contentDetails: { duration: "PT1H12M" },
+                status: { privacyStatus: "public", uploadStatus: "processed" }
+            }] }), { status: 200 });
+        });
+        assert.equal(requestedUrl.pathname, "/youtube/v3/videos");
+        assert.equal(requestedUrl.searchParams.get("id"), fixture.videoId);
+        assert.equal(requestedUrl.searchParams.get("part"), "snippet,contentDetails,status,liveStreamingDetails");
+        assert.equal(requestedUrl.pathname.includes("channels"), false);
+        assert.equal(result.returned, true);
+        assert.equal(result.classification, "present-without-live-details");
+        assert.ok(result.fieldsPresent.includes("snippet.channelId"));
+        assert.ok(result.fieldsAbsent.includes("liveStreamingDetails.actualEndTime"));
+        assert.ok(messages.every((message) => !message.includes(secret)));
+    } finally {
+        console.info = originalInfo;
+    }
+});
+
+test("diagnóstico videos.list conserva razón y details de error API sin imprimir la clave", async () => {
+    const { diagnoseVideo } = await import("../scripts/update-sermons.mjs");
+    const secret = "never-log-this-test-key";
+    const messages = [];
+    const originalInfo = console.info;
+    console.info = (message) => messages.push(String(message));
+    try {
+        await assert.rejects(diagnoseVideo(fixture.videoId, secret, async () => new Response(JSON.stringify({
+            error: { code: 403, status: "quotaExceeded", message: `Quota exceeded ${secret}`, errors: [{ reason: "quotaExceeded" }], details: [{ reason: "dailyLimitExceeded", metadata: { note: secret, key: secret } }] }
+        }), { status: 403 })), /quotaExceeded.*Quota exceeded.*quotaExceeded/);
+        assert.ok(messages.some((message) => message.includes("dailyLimitExceeded")));
+        assert.ok(messages.some((message) => message.includes("[REDACTED]")));
+        assert.ok(messages.every((message) => !message.includes(secret)));
+    } finally {
+        console.info = originalInfo;
+    }
+});
+
+test("diagnóstico videos.list distingue item no devuelto de item público sin liveStreamingDetails", async () => {
+    const { diagnoseVideo } = await import("../scripts/update-sermons.mjs");
+    const result = await diagnoseVideo(fixture.videoId, "safe-test-key", async () => new Response(JSON.stringify({ items: [] }), { status: 200 }));
+    assert.equal(result.returned, false);
+    assert.equal(result.classification, "not-returned");
+    assert.match(result.absenceMeaning, /eliminado, privado o inaccesible/);
+});
+
+test("uploads no degrada channelId o liveBroadcastContent ausentes a filtro silencioso o NONE", async () => {
+    const { fetchUploadsFromYouTubeDataApi } = await import("../scripts/update-sermons.mjs");
+    const fetchImpl = async (url) => {
+        const parsed = new URL(String(url));
+        if (parsed.pathname.endsWith("/playlistItems")) {
+            return new Response(JSON.stringify({ items: [{ contentDetails: { videoId: fixture.videoId }, snippet: { publishedAt: fixture.publishedAt } }] }), { status: 200 });
+        }
+        return new Response(JSON.stringify({ items: [{ id: fixture.videoId, snippet: { title: fixture.reportedTitle } }] }), { status: 200 });
+    };
+    await assert.rejects(fetchUploadsFromYouTubeDataApi("test-key", fetchImpl), /falta metadata necesaria.*snippet.channelId,snippet.liveBroadcastContent/);
+});
+
+test("diagnóstico videos.list separa un cuerpo JSON malformado de un error HTTP/API", async () => {
+    const { diagnoseVideo } = await import("../scripts/update-sermons.mjs");
+    await assert.rejects(diagnoseVideo(fixture.videoId, "safe-test-key", async () => new Response("not-json", { status: 200 })), /JSON.parse falló/);
+});
+
+test("un video público de /streams sin liveStreamingDetails se conserva como archivo si videos.list confirma none", async () => {
+    const { enrichArchivedStreams } = await import("../scripts/update-sermons.mjs");
+    const [archive] = await enrichArchivedStreams([{
+        id: fixture.videoId,
+        title: fixture.reportedTitle,
+        source: "youtube-data-api-uploads",
+        listedOnStreamsPage: true,
+        channelId: CHANNEL_ID,
+        liveBroadcastContent: "none",
+        liveStreamingDetails: {},
+        publishedAt: fixture.publishedAt,
+        url: `https://www.youtube.com/watch?v=${fixture.videoId}`
+    }]);
+    assert.equal(archive.id, fixture.videoId);
+    assert.equal(archive.status, "archived");
+    assert.equal(archive.isLiveNow, false);
+    assert.equal(archive.verificationSource, "youtube-streams-page-and-videos-list");
+    assert.equal(archive.actualEndTime, undefined);
+});
+
+test("el detector usa videos.list aunque falte videoDetails.channelId en HTML y no eleva falso error", async () => {
+    const { getActiveLive } = await import("../scripts/update-sermons.mjs");
+    const originalFetch = global.fetch;
+    const requested = [];
+    global.fetch = async (url) => {
+        requested.push(String(url));
+        return new Response("var ytInitialData = {};", { status: 200 });
+    };
+    try {
+        const detected = await getActiveLive([
+            { id: fixture.videoId, title: fixture.reportedTitle, source: "youtube-streams-page" },
+            {
+                id: fixture.videoId,
+                title: fixture.reportedTitle,
+                source: "youtube-data-api-uploads",
+                channelId: CHANNEL_ID,
+                liveBroadcastContent: "none",
+                liveStreamingDetails: {}
+            }
+        ]);
+        assert.equal(detected.activeLive, null);
+        assert.equal(detected.verificationStatus, "ok");
+        assert.equal(requested.some((url) => url.includes("/watch?v=")), false);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test("videos.list del candidato conocido confirma ENDED con metadata obtenida por lookup directo", async () => {
+    const { getActiveLive } = await import("../scripts/update-sermons.mjs");
+    const originalFetch = global.fetch;
+    const originalKey = process.env.YOUTUBE_API_KEY;
+    process.env.YOUTUBE_API_KEY = "safe-test-key";
+    global.fetch = async (url) => {
+        const parsed = new URL(String(url));
+        if (parsed.hostname === "www.googleapis.com") {
+            return new Response(JSON.stringify({ items: [{
+                id: fixture.videoId,
+                snippet: { channelId: CHANNEL_ID, title: fixture.reportedTitle, publishedAt: fixture.publishedAt, liveBroadcastContent: "none" },
+                liveStreamingDetails: { actualStartTime: fixture.actualStartTime, actualEndTime: fixture.actualEndTime }
+            }] }), { status: 200 });
+        }
+        return new Response("var ytInitialData = {};", { status: 200 });
+    };
+    try {
+        const detected = await getActiveLive([{ id: fixture.videoId, source: "youtube-streams-page" }], fixture.videoId);
+        assert.equal(detected.knownLiveEnded, true);
+        assert.equal(detected.endedLive.id, fixture.videoId);
+        assert.equal(detected.endedLive.status, "archived");
+    } finally {
+        global.fetch = originalFetch;
+        if (originalKey === undefined) delete process.env.YOUTUBE_API_KEY;
+        else process.env.YOUTUBE_API_KEY = originalKey;
+    }
+});
