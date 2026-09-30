@@ -731,6 +731,244 @@ section[id] {
     padding-bottom: 2rem;
 }
 
+.section.yarumal-section {
+    padding: clamp(4rem, 7vw, 6rem) 0;
+    border-top: 1px solid rgba(14, 39, 68, 0.08);
+    background:
+        radial-gradient(circle at 78% 42%,
+            rgba(198, 215, 228, 0.55) 0%,
+            rgba(198, 215, 228, 0) 42%),
+        linear-gradient(115deg,
+            #F5F1E8 0%,
+            #F1F0EC 42%,
+            #E5EDF2 100%);
+    color: var(--color-text);
+    font-family: "Montserrat", "Marcellus", Georgia, serif;
+}
+
+.yarumal-invitation {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+    align-items: center;
+    gap: clamp(2.5rem, 8vw, 7rem);
+}
+
+.yarumal-invitation-copy {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    justify-items: start;
+    gap: 0.35rem;
+}
+
+.yarumal-invitation-copy::before {
+    position: absolute;
+    z-index: -1;
+    inset: -2rem -2.5rem;
+    background: radial-gradient(ellipse at 34% 48%, rgba(198, 215, 228, 0.4), rgba(198, 215, 228, 0) 70%);
+    content: "";
+    pointer-events: none;
+}
+
+.yarumal-section .yarumal-invitation-copy h2 {
+    color: var(--color-text);
+    font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    font-size: clamp(4.5rem, 8vw, 6.25rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+    text-transform: none;
+}
+
+.yarumal-expansion-copy {
+    max-width: 28rem;
+    padding-left: clamp(1.5rem, 3.5vw, 3rem);
+    border-left: 1px solid rgba(14, 39, 68, 0.14);
+}
+
+.yarumal-section .yarumal-kicker,
+.yarumal-section .yarumal-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.65rem;
+    color: var(--color-navy-900);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.yarumal-section .yarumal-label {
+    margin-bottom: 0.15rem;
+}
+
+.yarumal-kicker::before,
+.yarumal-label::before {
+    width: 1.45rem;
+    height: 1px;
+    background: #D6AE45;
+    content: "";
+}
+
+.yarumal-expansion-copy .yarumal-invitation-message {
+    max-width: 30ch;
+    margin-bottom: 1.2rem;
+    color: var(--color-text-soft);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.55;
+}
+
+.yarumal-schedule {
+    display: grid;
+    max-width: 25rem;
+    padding: 0;
+    list-style: none;
+}
+
+.yarumal-schedule li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.45rem 0;
+    border-top: 1px solid rgba(14, 39, 68, 0.12);
+    font-size: 0.88rem;
+}
+
+.yarumal-schedule span {
+    color: var(--color-text-soft);
+    font-weight: 500;
+}
+
+.yarumal-schedule strong {
+    color: var(--color-text);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.yarumal-details>summary,
+.yarumal-map-details>summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    font-size: 0.86rem;
+    font-weight: 600;
+    list-style: none;
+}
+
+.yarumal-details>summary::-webkit-details-marker,
+.yarumal-map-details>summary::-webkit-details-marker {
+    display: none;
+}
+
+.yarumal-details>summary {
+    margin-top: 1.2rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(14, 39, 68, 0.25);
+    color: var(--color-navy-900);
+    transition: color var(--transition-base), border-color var(--transition-base);
+}
+
+.yarumal-details>summary:hover,
+.yarumal-map-details>summary:hover {
+    border-color: #D6AE45;
+    color: var(--color-navy-950);
+}
+
+.yarumal-details summary:focus-visible,
+.yarumal-map-details summary:focus-visible {
+    outline: 3px solid var(--color-gold-500);
+    outline-offset: 4px;
+}
+
+.yarumal-details summary svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--transition-base);
+}
+
+.yarumal-details>summary svg {
+    transform: translateX(0);
+}
+
+.yarumal-details[open]>summary svg {
+    transform: translateX(3px) rotate(90deg);
+}
+
+.yarumal-map-details>summary {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.8rem 0;
+    border-block: 1px solid rgba(14, 39, 68, 0.12);
+    color: var(--color-navy-900);
+}
+
+.yarumal-map-details>summary svg {
+    transform: rotate(0);
+}
+
+.yarumal-map-details[open]>summary svg {
+    transform: rotate(180deg);
+}
+
+.yarumal-details-content {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(14, 39, 68, 0.12);
+}
+
+.yarumal-location {
+    color: var(--color-text-soft);
+    font-size: 0.92rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.yarumal-section .yarumal-gatherings-label {
+    margin-bottom: 0.25rem;
+    color: var(--color-navy-900);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.yarumal-map-frame {
+    overflow: hidden;
+    margin-top: 0.85rem;
+    border: 1px solid rgba(14, 39, 68, 0.14);
+    border-radius: var(--radius-sm);
+}
+
+.yarumal-map-frame iframe {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 30vw, 300px);
+    border: 0;
+}
+
+@keyframes yarumal-map-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.yarumal-map-details[open] .yarumal-map-frame {
+    animation: yarumal-map-reveal var(--transition-base) both;
+}
+
 .info-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2260,6 +2498,43 @@ body.modal-open {
         --container-width: min(100% - 24px, 1200px);
     }
 
+    .yarumal-invitation {
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 1.7rem;
+    }
+
+    .yarumal-section .yarumal-invitation-copy h2 {
+        font-size: clamp(3.8rem, 14vw, 5.4rem);
+    }
+
+    .yarumal-expansion-copy {
+        max-width: none;
+        padding-left: 1rem;
+        border-left: 1px solid rgba(14, 39, 68, 0.18);
+    }
+
+    .yarumal-details-content {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
+
+    .yarumal-map-details {
+        grid-column: auto;
+    }
+
+    .yarumal-schedule {
+        max-width: none;
+    }
+
+    .yarumal-map-frame iframe {
+        height: clamp(220px, 70vw, 280px);
+    }
+
+    .section.yarumal-section {
+        padding-block: 3.5rem;
+    }
+
     section[id] {
         scroll-margin-top: 90px;
     }
@@ -2500,6 +2775,7 @@ body.modal-open {
 }
 
 @media (max-width: 680px) {
+
     .no-break,
     .hero-second-line {
         white-space: normal;
