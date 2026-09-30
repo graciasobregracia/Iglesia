@@ -36,6 +36,8 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 *,
@@ -56,14 +58,22 @@ ul {
 }
 
 body {
-    min-width: 320px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     overflow-x: hidden;
+    overflow-x: clip;
     background:
         radial-gradient(circle at top, rgba(242, 201, 76, 0.1), transparent 22%),
         linear-gradient(180deg, #ffffff 0%, #f6f8fd 100%);
     color: var(--color-text);
     font-family: "Marcellus", Georgia, serif;
     line-height: 1.65;
+}
+
+main {
+    max-width: 100%;
+    min-width: 0;
 }
 
 img {
