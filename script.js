@@ -100,20 +100,6 @@ function formatDateTime(dateString) {
     }).format(date);
 }
 
-function getColombiaDateKey(value) {
-    if (!value) return null;
-
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return null;
-
-    return new Intl.DateTimeFormat("en-CA", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        timeZone: SITE_TIME_ZONE
-    }).format(date);
-}
-
 function getStreamTime(item) {
     const candidates = [
         item?.actualStartTime,
@@ -130,36 +116,6 @@ function getStreamTime(item) {
     }
 
     return Number.NEGATIVE_INFINITY;
-}
-
-function isLiveStreamItem(item) {
-    if (!item) return false;
-    if (item.type === "live" || item.typePriority === 1 || item.isLiveBroadcast === true) return true;
-
-    const label = String(item.typeLabel ?? "").toLowerCase();
-    return label.includes("directo") || label.includes("live") || label.includes("en vivo");
-}
-
-function getStreamDateKey(item) {
-    return (
-        getColombiaDateKey(item?.actualStartTime) ||
-        getColombiaDateKey(item?.startedAt) ||
-        getColombiaDateKey(item?.scheduledStartTime) ||
-        getColombiaDateKey(item?.publishedAt) ||
-        getColombiaDateKey(item?.actualEndTime) ||
-        getColombiaDateKey(item?.endedAt)
-    );
-}
-
-function selectTodayFeaturedSermon(items, now = new Date()) {
-    const todayKey = getColombiaDateKey(now);
-    if (!todayKey) return null;
-
-    return [...items]
-        .filter((item) => item?.url && item?.thumbnail && item?.title)
-        .filter(isLiveStreamItem)
-        .filter((item) => getStreamDateKey(item) === todayKey)
-        .sort((left, right) => getStreamTime(right) - getStreamTime(left))[0] || null;
 }
 
 function updateHeaderState() {
@@ -756,8 +712,10 @@ async function loadSermons() {
         const data = await response.json();
         const items = Array.isArray(data.items) ? data.items : [];
         const validItems = items.filter(
-            (item) => item?.url && item?.thumbnail && item?.title && item.status !== "live" && item.isLiveNow !== true && item.isUpcoming !== true
-        );
+            (item) => item?.url && item?.thumbnail && item?.title &&
+                item.status !== "live" && item.isLiveNow !== true && item.isUpcoming !== true &&
+                (item.status === "archived" || item.type === "live" || item.isLiveBroadcast === true)
+        ).sort((left, right) => getStreamTime(right) - getStreamTime(left));
         let liveStatus = latestLiveStatusData;
         try {
             const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
@@ -781,7 +739,10 @@ async function loadSermons() {
         const activeLive = view.kind === "live" ? view.activeLive : null;
         renderLiveStatus(view);
         lastConfirmedLiveId = activeLive?.id ?? null;
-        archivedFeaturedSermon = selectTodayFeaturedSermon(validItems) || validItems[0] || null;
+        archivedFeaturedSermon = window.LiveStatusState.selectFeaturedSermon(
+            validItems,
+            data.featuredLiveToday?.id || null
+        );
         const featured = activeLive || archivedFeaturedSermon;
 
         if (!featured) {

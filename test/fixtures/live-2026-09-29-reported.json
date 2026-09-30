@@ -1,0 +1,14 @@
+{
+  "fixtureType": "synthetic-regression",
+  "description": "Synthetic reproduction of the user-reported 2026-09-29 livestream. Video ID and UTC start/end times are test data, not YouTube observations.",
+  "reportedTitle": "Créelo, Es Contigo | Servicio De Enseñanza Yarumal | Prédicas Cristianas",
+  "videoId": "C29Sep2026X",
+  "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+  "publishedAt": "2026-09-30T00:15:00Z",
+  "actualStartTime": "2026-09-30T00:15:00Z",
+  "actualEndTime": "2026-09-30T01:27:00Z",
+  "localDate": "2026-09-29",
+  "durationSeconds": 4320,
+  "liveBroadcastContent": "live",
+  "statusAfterEnd": "completed"
+}

@@ -246,16 +246,27 @@
                 status.activeLiveId === activeLive.id &&
                 activeLive.isUpcoming !== true &&
                 activeLive.status !== "archived";
-            return valid
-                ? {
-                    kind: "live",
-                    activeLive: { ...activeLive, isLiveNow: true, isUpcoming: false, status: "live" },
+            if (!valid) return { kind: "stale", reason: "contradictory-live-state", ageMs, lastError: status.lastError || null };
+            const active = { ...activeLive, isLiveNow: true, isUpcoming: false, status: "live" };
+            if (!fresh) {
+                return {
+                    kind: "stale",
+                    reason: verificationStatus === "error" ? "verification-error" : "expired-live-confirmation",
+                    activeLive: active,
                     ageMs,
-                    freshness: fresh && ["ok", "verified"].includes(verificationStatus) ? "fresh" : "stale",
+                    freshness: "stale",
                     verificationStatus,
                     lastError: status.lastError || null
-                }
-                : { kind: "stale", reason: "contradictory-live-state", ageMs, lastError: status.lastError || null };
+                };
+            }
+            return {
+                    kind: "live",
+                    activeLive: active,
+                    ageMs,
+                    freshness: ["ok", "verified"].includes(verificationStatus) ? "fresh" : "degraded",
+                    verificationStatus,
+                    lastError: status.lastError || null
+                };
         }
 
         if (!fresh) {
@@ -289,6 +300,27 @@
         return { kind: "none", ageMs };
     }
 
+    function selectFeaturedSermon(items, preferredId = null) {
+        const archives = (Array.isArray(items) ? items : []).filter((item) =>
+            item &&
+            item.status !== "live" &&
+            item.isLiveNow !== true &&
+            item.isUpcoming !== true &&
+            (item.status === "archived" || item.type === "live" || item.isLiveBroadcast === true)
+        );
+        const preferred = preferredId ? archives.find((item) => item.id === preferredId) : null;
+        if (preferred) return preferred;
+        return archives.sort((left, right) => {
+            const timeOf = (item) => Date.parse(
+                item.actualStartTime || item.startedAt || item.publishedAt || item.actualEndTime || item.endedAt || ""
+            );
+            const leftTime = timeOf(left);
+            const rightTime = timeOf(right);
+            return (Number.isFinite(rightTime) ? rightTime : Number.NEGATIVE_INFINITY) -
+                (Number.isFinite(leftTime) ? leftTime : Number.NEGATIVE_INFINITY);
+        })[0] || null;
+    }
+
     function buildVerificationFailureSnapshots(livePayload, sermonsPayload, attemptedAt, error) {
         const previous = getLatestCoherentPayload(livePayload, sermonsPayload);
         const liveStatus = buildLiveStatusSnapshot(previous, { error, verificationStatus: "error" }, attemptedAt);
@@ -318,6 +350,7 @@
         getLatestCoherentPayload,
         classifyYouTubeBroadcast,
         classifyPublishedStatus,
+        selectFeaturedSermon,
         buildVerificationFailureSnapshots
     };
 });

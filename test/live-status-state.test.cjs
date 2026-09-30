@@ -125,8 +125,8 @@ test("estado publicado: frescura separada de LIVE, error temporal, finalizado y 
     };
     assert.equal(classifyPublishedStatus(live, NOW).kind, "live");
     const staleLive = classifyPublishedStatus(live, NOW + DEFAULT_MAX_AGE_MS + 1);
-    assert.equal(staleLive.kind, "live");
-    assert.equal(staleLive.freshness, "stale");
+    assert.equal(staleLive.kind, "stale");
+    assert.equal(staleLive.activeLive.id, VIDEO_ID, "se conserva la referencia conocida para mostrar estado sin verificar");
 
     const failed = { ...live, status: { ...live.status, verificationStatus: "error", lastError: "YouTube 429" } };
     const failedLive = classifyPublishedStatus(failed, NOW);
@@ -136,7 +136,9 @@ test("estado publicado: frescura separada de LIVE, error temporal, finalizado y 
         ...failed,
         status: { ...failed.status, checkedAt: new Date(NOW - 170 * 60 * 1000).toISOString() }
     };
-    assert.equal(classifyPublishedStatus(failedAndOld, NOW).kind, "live");
+    const failedAndOldView = classifyPublishedStatus(failedAndOld, NOW);
+    assert.equal(failedAndOldView.kind, "stale");
+    assert.equal(failedAndOldView.activeLive.id, VIDEO_ID);
 
     const contradictory = { ...live, activeLive: null };
     assert.equal(classifyPublishedStatus(contradictory, NOW).kind, "stale");
@@ -160,7 +162,7 @@ test("estado publicado: frescura separada de LIVE, error temporal, finalizado y 
     assert.equal(classifyPublishedStatus(freshStatus(), NOW).kind, "none");
 });
 
-test("la decisión real del frontend anuncia un LIVE aunque la verificación sea vieja o haya fallado", () => {
+test("la decisión real del frontend conserva LIVE durante error temporal y pasa a neutral al vencer la confirmación", () => {
     const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
     const start = source.indexOf("function getLiveStatusView(");
     const end = source.indexOf("\nfunction getLiveSignature(", start);
@@ -178,7 +180,9 @@ test("la decisión real del frontend anuncia un LIVE aunque la verificación sea
         activeLive: { id: VIDEO_ID, title: "Servicio", isUpcoming: false, status: "live" }
     };
     assert.equal(context.getLiveStatusView(active, NOW).kind, "live");
-    assert.equal(context.getLiveStatusView(active, NOW + DEFAULT_MAX_AGE_MS + 1).kind, "live");
+    const stale = context.getLiveStatusView(active, NOW + DEFAULT_MAX_AGE_MS + 1);
+    assert.equal(stale.kind, "stale");
+    assert.equal(stale.activeLive.id, VIDEO_ID);
     active.status.verificationStatus = "error";
     assert.equal(context.getLiveStatusView(active, NOW).kind, "live");
     assert.equal(classifyPublishedStatus(freshStatus(), NOW).kind, "none");
