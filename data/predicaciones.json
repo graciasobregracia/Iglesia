@@ -4,7 +4,7 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-09-30T13:49:35.982Z",
+  "updatedAt": "2026-09-30T18:20:38.357Z",
   "source": "youtube-streams-and-live-pages",
   "status": {
     "isLiveNow": false,
@@ -12,11 +12,11 @@
     "upcomingLiveId": null,
     "checkedAt": "2026-09-29T01:32:08.144Z",
     "lastSuccessfulCheck": "2026-09-29T01:32:08.144Z",
-    "lastAttemptAt": "2026-09-30T13:49:35.982Z",
+    "lastAttemptAt": "2026-09-30T18:20:38.357Z",
     "verificationStatus": "error",
     "lastEndedLiveId": "qiP_WB_kRcw",
     "lastEndedAt": "2026-09-29T01:27:18.362Z",
-    "lastError": "Resultado incompleto: errores en 10 video(s) y 0 página(s); se conservan los JSON anteriores."
+    "lastError": "Falta YOUTUBE_API_KEY. Configure el secreto del workflow para reconstruir las transmisiones desde uploads con paginación; RSS solo expone una ventana limitada."
   },
   "activeLive": null,
   "upcomingLive": null,
