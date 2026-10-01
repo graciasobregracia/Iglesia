@@ -1,6 +1,9 @@
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@icgraciasobregracia";
-const SERMONS_DATA_PATH = "data/predicaciones.json";
-const LIVE_STATUS_DATA_PATH = "data/live-status.json";
+// The workflow commits these JSON snapshots to the public branch. Reading the
+// raw files avoids waiting for either Render or GitHub Pages to rebuild.
+const LIVE_DATA_BASE_URL = "https://raw.githubusercontent.com/graciasobregracia/Iglesia/main/data";
+const SERMONS_DATA_PATH = `${LIVE_DATA_BASE_URL}/predicaciones.json`;
+const LIVE_STATUS_DATA_PATH = `${LIVE_DATA_BASE_URL}/live-status.json`;
 const LIVE_STATUS_POLL_INTERVAL = 30000;
 const LIVE_NOTICE_EXIT_DURATION = 420;
 const LIVE_NOTICE_MAX_VISIBLE = 10000;
@@ -585,6 +588,11 @@ function renderLiveStatus(view) {
         renderNeutralLiveStatus(view);
         return;
     }
+
+    if (view.kind === "error") {
+        renderNeutralLiveStatus(view);
+        return;
+    }
     const activeLive = view.kind === "live" ? view.activeLive : null;
     slot.classList.remove("is-status-neutral");
     if (!activeLive) {
@@ -645,13 +653,12 @@ async function refreshLiveStatus() {
     try {
         const response = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
             cache: "no-store",
-            headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" },
             signal: AbortSignal.timeout(10000)
         });
         if (!response.ok) throw new Error(`No se pudo cargar live-status.json (${response.status})`);
 
         const responseData = await response.json();
-        const data = window.LiveStatusState.preservePreviousLiveOnUnconfirmedUpdate(latestLiveStatusData, responseData);
+        const data = window.LiveStatusState.getLatestCoherentPayload(latestLiveStatusData, responseData);
         latestLiveStatusData = data;
         const view = getLiveStatusView(data);
         const activeLive = view.kind === "live" ? view.activeLive : null;
@@ -663,12 +670,8 @@ async function refreshLiveStatus() {
         const featured = activeLive || archivedFeaturedSermon;
         updateFeaturedSermon(featured);
     } catch (error) {
-        const view = latestLiveStatusData
-            ? getLiveStatusView(latestLiveStatusData)
-            : { kind: "stale", reason: "fetch-error", lastError: error.message };
-        renderLiveStatus(view.kind === "live"
-            ? view
-            : { ...view, kind: "stale", reason: "fetch-error", lastError: error.message });
+        renderLiveStatus({ kind: "error", reason: "fetch-error", lastError: error.message });
+        updateFeaturedSermon(archivedFeaturedSermon);
     } finally {
         liveStatusRefreshInFlight = false;
     }
@@ -717,23 +720,27 @@ async function loadSermons() {
                 (item.status === "archived" || item.type === "live" || item.isLiveBroadcast === true)
         ).sort((left, right) => getStreamTime(right) - getStreamTime(left));
         let liveStatus = latestLiveStatusData;
+        let liveStatusError = null;
         try {
             const liveResponse = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
                 cache: "no-store",
-                headers: { "Cache-Control": "no-cache, no-store, max-age=0", Pragma: "no-cache" },
                 signal: AbortSignal.timeout(10000)
             });
             if (liveResponse.ok) {
-                liveStatus = window.LiveStatusState.preservePreviousLiveOnUnconfirmedUpdate(latestLiveStatusData, await liveResponse.json());
+                liveStatus = window.LiveStatusState.getLatestCoherentPayload(latestLiveStatusData, await liveResponse.json());
                 latestLiveStatusData = liveStatus;
             } else {
-                console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH} (${liveResponse.status}); se usará la transmisión archivada.`);
+                liveStatusError = new Error(`No se pudo cargar ${LIVE_STATUS_DATA_PATH} (${liveResponse.status})`);
+                console.warn(`${liveStatusError.message}; se usará la transmisión archivada.`);
             }
         } catch (error) {
+            liveStatusError = error;
             console.warn(`No se pudo cargar ${LIVE_STATUS_DATA_PATH}; se usará la transmisión archivada.`, error);
         }
 
-        const view = liveStatus
+        const view = liveStatusError
+            ? { kind: "error", reason: "fetch-error", lastError: liveStatusError.message }
+            : liveStatus
             ? getLiveStatusView(liveStatus)
             : { kind: "stale", reason: "fetch-error" };
         const activeLive = view.kind === "live" ? view.activeLive : null;
@@ -1549,3 +1556,6 @@ refreshLiveStatus();
 if (liveStatusPollTimer === null) {
     liveStatusPollTimer = window.setInterval(refreshLiveStatus, LIVE_STATUS_POLL_INTERVAL);
 }
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") void refreshLiveStatus();
+});

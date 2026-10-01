@@ -32,6 +32,9 @@
     }
 
     function getAuthoritativeActiveLive(primaryPayload, ...fallbackPayloads) {
+        if (primaryPayload?.status?.state === "ERROR" || ["error", "unknown"].includes(primaryPayload?.status?.verificationStatus)) {
+            return null;
+        }
         if (typeof primaryPayload?.status?.isLiveNow === "boolean") {
             return getConfirmedActiveLive(primaryPayload);
         }
@@ -90,15 +93,18 @@
             }
             upcomingLive = observation?.upcomingLive || null;
         } else if (scanFailed || scanUnknown) {
-            activeLive = previousLive;
             verificationStatus = scanFailed ? "error" : "unknown";
             successfulCheckAt = previousStatus.lastSuccessfulCheck || previousStatus.checkedAt || null;
             upcomingLive = observation?.upcomingLive || previous.upcomingLive || null;
         }
 
+        const hasUnconfirmedState = !foundLive && (scanFailed || scanUnknown);
+        const state = hasUnconfirmedState ? "ERROR" : activeLive ? "LIVE" : "NO_LIVE";
+
         const status = {
             ...previousStatus,
-            isLiveNow: Boolean(activeLive),
+            state,
+            isLiveNow: hasUnconfirmedState ? null : Boolean(activeLive),
             activeLiveId: activeLive?.id ?? null,
             upcomingLiveId: upcomingLive?.id ?? null,
             checkedAt: successfulCheckAt,
@@ -111,11 +117,6 @@
                 ? String(observation?.error?.message || observation?.error || previousStatus.lastError || "Error de verificación").slice(0, 300)
                 : null
         };
-
-        if (verificationStatus === "error" && activeLive) {
-            status.checkedAt = previousStatus.checkedAt || successfulCheckAt;
-            status.lastSuccessfulCheck = previousStatus.lastSuccessfulCheck || previousStatus.checkedAt || null;
-        }
 
         const channel = previous.channel || { channelId: OFFICIAL_CHANNEL_ID };
         const payload = {
@@ -130,29 +131,11 @@
         return payload;
     }
 
-    function preservePreviousLiveOnUnconfirmedUpdate(previousPayload, nextPayload) {
-        const nextStatus = nextPayload?.status;
-        if (nextStatus?.isLiveNow !== false || !["error", "unknown"].includes(nextStatus.verificationStatus)) return nextPayload;
-
-        const previousLive = getConfirmedActiveLive(previousPayload);
-        if (!previousLive || nextStatus.lastEndedLiveId === previousLive.id) return nextPayload;
-
-        const previousStatus = previousPayload.status || {};
-        return {
-            ...nextPayload,
-            status: {
-                ...nextStatus,
-                isLiveNow: true,
-                activeLiveId: previousLive.id,
-                checkedAt: previousStatus.checkedAt || nextStatus.checkedAt || null,
-                lastSuccessfulCheck: previousStatus.lastSuccessfulCheck || previousStatus.checkedAt || null
-            },
-            activeLive: previousLive
-        };
-    }
-
     function isCoherentPublishedPayload(payload) {
         const status = payload?.status;
+        if (status?.state === "ERROR" || ["error", "unknown"].includes(status?.verificationStatus)) {
+            return true;
+        }
         if (status?.isLiveNow === true) return Boolean(getConfirmedActiveLive(payload));
         return Boolean(
             status?.isLiveNow === false &&
@@ -229,7 +212,7 @@
 
     function classifyPublishedStatus(payload, now = Date.now(), maxAgeMs = DEFAULT_MAX_AGE_MS) {
         const status = payload?.status;
-        if (!status || typeof status !== "object") return { kind: "stale", reason: "missing-status" };
+        if (!status || typeof status !== "object") return { kind: "error", reason: "missing-status" };
 
         const verificationStatus = status.verificationStatus || "unknown";
         const successfulTimestamp = status.lastSuccessfulCheck || status.checkedAt ||
@@ -237,6 +220,10 @@
         const checkedAt = Date.parse(successfulTimestamp || "");
         const ageMs = now - checkedAt;
         const fresh = Number.isFinite(checkedAt) && ageMs >= -MAX_FUTURE_CLOCK_SKEW_MS && ageMs <= maxAgeMs;
+
+        if (status.state === "ERROR" || ["error", "unknown"].includes(verificationStatus)) {
+            return { kind: "error", reason: verificationStatus, ageMs, freshness: fresh ? "recent" : "stale", lastError: status.lastError || null };
+        }
 
         if (status.isLiveNow === true) {
             const activeLive = payload.activeLive;
@@ -246,13 +233,12 @@
                 status.activeLiveId === activeLive.id &&
                 activeLive.isUpcoming !== true &&
                 activeLive.status !== "archived";
-            if (!valid) return { kind: "stale", reason: "contradictory-live-state", ageMs, lastError: status.lastError || null };
+            if (!valid) return { kind: "error", reason: "contradictory-live-state", ageMs, lastError: status.lastError || null };
             const active = { ...activeLive, isLiveNow: true, isUpcoming: false, status: "live" };
             if (!fresh) {
                 return {
-                    kind: "stale",
+                    kind: "error",
                     reason: verificationStatus === "error" ? "verification-error" : "expired-live-confirmation",
-                    activeLive: active,
                     ageMs,
                     freshness: "stale",
                     verificationStatus,
@@ -260,13 +246,13 @@
                 };
             }
             return {
-                    kind: "live",
-                    activeLive: active,
-                    ageMs,
-                    freshness: ["ok", "verified"].includes(verificationStatus) ? "fresh" : "degraded",
-                    verificationStatus,
-                    lastError: status.lastError || null
-                };
+                kind: "live",
+                activeLive: active,
+                ageMs,
+                freshness: ["ok", "verified"].includes(verificationStatus) ? "fresh" : "degraded",
+                verificationStatus,
+                lastError: status.lastError || null
+            };
         }
 
         if (!fresh) {
@@ -279,14 +265,14 @@
                 return { kind: "none", ageMs, freshness: "stale" };
             }
 
-            return { kind: "stale", reason: "expired", ageMs };
+            return { kind: "error", reason: "expired", ageMs, freshness: "stale", lastError: status.lastError || null };
         }
         if (!(["ok", "verified"].includes(verificationStatus))) {
-            return { kind: "stale", reason: "verification-error", ageMs, lastError: status.lastError || null };
+            return { kind: "error", reason: "verification-error", ageMs, lastError: status.lastError || null };
         }
 
         if (status.isLiveNow !== false || status.activeLiveId != null || payload.activeLive != null) {
-            return { kind: "stale", reason: "contradictory-inactive-state", ageMs };
+            return { kind: "error", reason: "contradictory-inactive-state", ageMs };
         }
 
         const upcomingLive = payload.upcomingLive;
@@ -345,7 +331,6 @@
         getConfirmedActiveLive,
         getAuthoritativeActiveLive,
         buildLiveStatusSnapshot,
-        preservePreviousLiveOnUnconfirmedUpdate,
         isCoherentPublishedPayload,
         getLatestCoherentPayload,
         classifyYouTubeBroadcast,

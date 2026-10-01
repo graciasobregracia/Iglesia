@@ -1392,8 +1392,8 @@ async function main({ writeOutput = true } = {}) {
         };
         console.log(`[diagnostic-result] ${JSON.stringify(preview)}`);
         if (!archiveError) return preview;
+        throw new Error(`La detección activa terminó, pero la verificación del archivo quedó incompleta: ${archiveError.message}`);
     }
-    if (archiveError) throw new Error(`La detección activa terminó, pero la verificación del archivo quedó incompleta: ${archiveError.message}`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename && process.argv.includes("--diagnose-video")) {
@@ -1408,7 +1408,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === __filename && process.a
         process.exitCode = 1;
         return;
     }
-    console.error("[live] ERROR: estado no confirmado. Se conserva el último estado válido para no publicar un falso inactivo.", error);
+    console.error("[live] ERROR: estado no confirmado; se publicará como ERROR para no presentar el último LIVE como activo.", error);
     const attemptedAt = new Date().toISOString();
     try {
         const [previousLive, previousSermons] = await Promise.all([
@@ -1421,9 +1421,9 @@ if (process.argv[1] && path.resolve(process.argv[1]) === __filename && process.a
             writeFile(liveStatusPath, `${JSON.stringify(snapshots.liveStatus, null, 2)}\n`, "utf8"),
             writeFile(outputPath, `${JSON.stringify(snapshots.sermons, null, 2)}\n`, "utf8")
         ]);
-        console.error(`[live] Ambos JSON conservan el último resultado, sincronizan verificationStatus=error y registran lastAttemptAt=${attemptedAt}.`);
+        console.error(`[live] Ambos JSON publican state=ERROR y registran lastAttemptAt=${attemptedAt}.`);
     } catch (writeError) {
         console.error("[live] No se pudo publicar el resultado de verificación fallida.", writeError);
+        process.exitCode = 1;
     }
-    process.exitCode = 1;
 });

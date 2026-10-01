@@ -8,7 +8,6 @@ const {
     classifyPublishedStatus,
     buildVerificationFailureSnapshots,
     buildLiveStatusSnapshot,
-    preservePreviousLiveOnUnconfirmedUpdate,
     getAuthoritativeActiveLive
 } = require("../live-status-state.js");
 
@@ -125,27 +124,27 @@ test("estado publicado: frescura separada de LIVE, error temporal, finalizado y 
     };
     assert.equal(classifyPublishedStatus(live, NOW).kind, "live");
     const staleLive = classifyPublishedStatus(live, NOW + DEFAULT_MAX_AGE_MS + 1);
-    assert.equal(staleLive.kind, "stale");
-    assert.equal(staleLive.activeLive.id, VIDEO_ID, "se conserva la referencia conocida para mostrar estado sin verificar");
+    assert.equal(staleLive.kind, "error");
+    assert.equal(staleLive.activeLive, undefined, "un snapshot expirado no se presenta como LIVE");
 
     const failed = { ...live, status: { ...live.status, verificationStatus: "error", lastError: "YouTube 429" } };
     const failedLive = classifyPublishedStatus(failed, NOW);
-    assert.equal(failedLive.kind, "live");
+    assert.equal(failedLive.kind, "error");
     assert.equal(failedLive.lastError, "YouTube 429");
     const failedAndOld = {
         ...failed,
         status: { ...failed.status, checkedAt: new Date(NOW - 170 * 60 * 1000).toISOString() }
     };
     const failedAndOldView = classifyPublishedStatus(failedAndOld, NOW);
-    assert.equal(failedAndOldView.kind, "stale");
-    assert.equal(failedAndOldView.activeLive.id, VIDEO_ID);
+    assert.equal(failedAndOldView.kind, "error");
+    assert.equal(failedAndOldView.activeLive, undefined);
 
     const contradictory = { ...live, activeLive: null };
-    assert.equal(classifyPublishedStatus(contradictory, NOW).kind, "stale");
+    assert.equal(classifyPublishedStatus(contradictory, NOW).kind, "error");
     assert.equal(classifyPublishedStatus({
         ...freshStatus({ isLiveNow: false, activeLiveId: null }),
         activeLive
-    }, NOW).kind, "stale");
+    }, NOW).kind, "error");
     const innerFlagMismatch = {
         ...live,
         activeLive: { ...activeLive, isLiveNow: false }
@@ -162,7 +161,7 @@ test("estado publicado: frescura separada de LIVE, error temporal, finalizado y 
     assert.equal(classifyPublishedStatus(freshStatus(), NOW).kind, "none");
 });
 
-test("la decisión real del frontend conserva LIVE durante error temporal y pasa a neutral al vencer la confirmación", () => {
+test("la decisión del frontend convierte un LIVE erróneo o vencido en estado neutral", () => {
     const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
     const start = source.indexOf("function getLiveStatusView(");
     const end = source.indexOf("\nfunction getLiveSignature(", start);
@@ -181,10 +180,10 @@ test("la decisión real del frontend conserva LIVE durante error temporal y pasa
     };
     assert.equal(context.getLiveStatusView(active, NOW).kind, "live");
     const stale = context.getLiveStatusView(active, NOW + DEFAULT_MAX_AGE_MS + 1);
-    assert.equal(stale.kind, "stale");
-    assert.equal(stale.activeLive.id, VIDEO_ID);
+    assert.equal(stale.kind, "error");
+    assert.equal(stale.activeLive, undefined);
     active.status.verificationStatus = "error";
-    assert.equal(context.getLiveStatusView(active, NOW).kind, "live");
+    assert.equal(context.getLiveStatusView(active, NOW).kind, "error");
     assert.equal(classifyPublishedStatus(freshStatus(), NOW).kind, "none");
 });
 
@@ -227,6 +226,11 @@ test("aviso del frontend: false → true → mismo live → false → nuevo live
     context.renderLiveStatus({ kind: "none" });
     assert.equal(slot.hidden, true);
 
+    context.renderLiveStatus({ kind: "error", reason: "fetch-error", lastError: "offline" });
+    assert.equal(slot.hidden, false);
+    assert.match(slot.innerHTML, /ESTADO SIN VERIFICAR/);
+    assert.doesNotMatch(slot.innerHTML, /ESTAMOS EN VIVO AHORA MISMO/);
+
     const live = { id: VIDEO_ID, title: "Servicio", url: `https://www.youtube.com/watch?v=${VIDEO_ID}` };
     context.renderLiveStatus({ kind: "live", activeLive: live });
     assert.equal(slot.hidden, false);
@@ -253,16 +257,17 @@ test("aviso del frontend: false → true → mismo live → false → nuevo live
     assert.match(slot.innerHTML, /watch\?v=rpedjLDqPqU/);
 });
 
-test("error de consulta conserva el último live, marca verificación error y sincroniza ambos JSON", () => {
+test("error de consulta publica ERROR sin conservar el último LIVE como activo", () => {
     const live = {
         ...freshStatus({ isLiveNow: true, activeLiveId: VIDEO_ID }),
         activeLive: { id: VIDEO_ID, status: "live" }
     };
     const sermons = { ...live, items: [{ id: "archived123" }] };
     const failed = buildVerificationFailureSnapshots(live, sermons, new Date(NOW + 1000).toISOString(), new Error("YouTube 429"));
-    assert.equal(failed.liveStatus.status.isLiveNow, true);
-    assert.equal(failed.liveStatus.status.activeLiveId, VIDEO_ID);
-    assert.equal(failed.liveStatus.activeLive.id, VIDEO_ID);
+    assert.equal(failed.liveStatus.status.state, "ERROR");
+    assert.equal(failed.liveStatus.status.isLiveNow, null);
+    assert.equal(failed.liveStatus.status.activeLiveId, null);
+    assert.equal(failed.liveStatus.activeLive, null);
     assert.equal(failed.liveStatus.status.checkedAt, live.status.checkedAt, "checkedAt permanece como última comprobación correcta");
     assert.equal(failed.liveStatus.status.lastSuccessfulCheck, live.status.checkedAt);
     assert.equal(failed.liveStatus.status.verificationStatus, "error");
@@ -271,28 +276,30 @@ test("error de consulta conserva el último live, marca verificación error y si
 
     const malformedLiveStatus = { ...live, status: { ...live.status, lastAttemptAt: atOrNow() }, activeLive: null };
     const recoveredFromSermons = buildVerificationFailureSnapshots(malformedLiveStatus, sermons, new Date(NOW + 2000).toISOString(), new Error("respuesta JSON incompleta"));
-    assert.equal(recoveredFromSermons.liveStatus.activeLive.id, VIDEO_ID);
-    assert.equal(recoveredFromSermons.liveStatus.status.isLiveNow, true);
+    assert.equal(recoveredFromSermons.liveStatus.activeLive, null);
+    assert.equal(recoveredFromSermons.liveStatus.status.state, "ERROR");
 
     const endedNewer = {
         ...freshStatus({ lastEndedLiveId: VIDEO_ID, lastAttemptAt: atOrNow() }),
         updatedAt: atOrNow()
     };
     const noResurrection = buildVerificationFailureSnapshots(endedNewer, live, new Date(NOW + 3000).toISOString(), new Error("timeout"));
-    assert.equal(noResurrection.liveStatus.status.isLiveNow, false);
+    assert.equal(noResurrection.liveStatus.status.isLiveNow, null);
+    assert.equal(noResurrection.liveStatus.status.state, "ERROR");
     assert.equal(noResurrection.liveStatus.activeLive, null);
 });
 
 test("un error temporal con estado inactivo previo no afirma una comprobación exitosa", () => {
     const inactive = freshStatus();
     const failed = buildVerificationFailureSnapshots(inactive, { ...inactive, items: [] }, new Date(NOW + 1000).toISOString(), new Error("timeout"));
-    assert.equal(failed.liveStatus.status.isLiveNow, false);
+    assert.equal(failed.liveStatus.status.isLiveNow, null);
+    assert.equal(failed.liveStatus.status.state, "ERROR");
     assert.equal(failed.liveStatus.status.verificationStatus, "error");
     assert.equal(failed.liveStatus.status.checkedAt, inactive.status.checkedAt);
     assert.equal(failed.liveStatus.status.lastAttemptAt, new Date(NOW + 1000).toISOString());
 });
 
-test("máquina completa: X sobrevive errores repetidos, termina, y Y la reemplaza sin mezclar datos", () => {
+test("máquina completa: NO LIVE → LIVE → ERROR → LIVE → NO LIVE → LIVE", () => {
     const at = (minutes) => new Date(NOW + minutes * 60_000).toISOString();
     const liveX = { id: VIDEO_ID, title: "LIVE X", isLiveNow: true, status: "live", channelId: "UCX0kEGTVJtlkrIxXk9tSF6A" };
     const liveY = { id: "rpedjLDqPqU", title: "LIVE Y", isLiveNow: true, status: "live", channelId: "UCX0kEGTVJtlkrIxXk9tSF6A" };
@@ -300,23 +307,26 @@ test("máquina completa: X sobrevive errores repetidos, termina, y Y la reemplaz
 
     // A → B: SIN LIVE → LIVE X
     assert.equal(state.status.isLiveNow, false);
+    assert.equal(buildLiveStatusSnapshot(state, { verificationStatus: "ok" }, at(0)).status.state, "NO_LIVE");
     state = buildLiveStatusSnapshot(state, { activeLive: liveX }, at(1));
+    assert.equal(state.status.state, "LIVE");
     assert.equal(state.status.isLiveNow, true);
     assert.equal(state.status.activeLiveId, VIDEO_ID);
     assert.equal(state.activeLive.id, VIDEO_ID);
     assert.equal(state.activeLive.isLiveNow, true);
 
-    // C → D → E: X continúa durante uno o muchos fallos de YouTube.
+    // C → D → E: un fallo nunca prolonga X como un LIVE confirmado.
     state = buildLiveStatusSnapshot(state, { activeLive: liveX }, at(2));
     state = buildLiveStatusSnapshot(state, { error: new Error("HTTP 429") }, at(3));
-    assert.equal(state.status.isLiveNow, true);
-    assert.equal(state.status.activeLiveId, VIDEO_ID);
-    assert.equal(state.activeLive.id, VIDEO_ID);
+    assert.equal(state.status.isLiveNow, null);
+    assert.equal(state.status.state, "ERROR");
+    assert.equal(state.status.activeLiveId, null);
+    assert.equal(state.activeLive, null);
     assert.equal(state.status.verificationStatus, "error");
     const lastSuccessBeforeRepeatedFailure = state.status.lastSuccessfulCheck;
     state = buildLiveStatusSnapshot(state, { error: new Error("timeout") }, at(4));
-    assert.equal(state.status.isLiveNow, true);
-    assert.equal(state.activeLive.id, VIDEO_ID);
+    assert.equal(state.status.isLiveNow, null);
+    assert.equal(state.activeLive, null);
     assert.equal(state.status.lastSuccessfulCheck, lastSuccessBeforeRepeatedFailure);
     assert.equal(state.status.lastAttemptAt, at(4));
 
@@ -328,6 +338,7 @@ test("máquina completa: X sobrevive errores repetidos, termina, y Y la reemplaz
 
     // G → H: YouTube confirma el cierre de X; el mismo sondeo sigue buscando Y.
     state = buildLiveStatusSnapshot(state, { endedLiveId: VIDEO_ID }, at(6));
+    assert.equal(state.status.state, "NO_LIVE");
     assert.equal(state.status.isLiveNow, false);
     assert.equal(state.status.activeLiveId, null);
     assert.equal(state.activeLive, null);
@@ -351,6 +362,13 @@ test("máquina completa: X sobrevive errores repetidos, termina, y Y la reemplaz
     assert.equal(state.status.verificationStatus, "ok");
 });
 
+test("el frontend consulta snapshots publicados fuera del build de Render y evita caché HTTP", () => {
+    const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
+    assert.match(source, /LIVE_DATA_BASE_URL = "https:\/\/raw\.githubusercontent\.com\/graciasobregracia\/Iglesia\/main\/data"/);
+    assert.match(source, /cache: "no-store"/);
+    assert.match(source, /updated=\$\{Date\.now\(\)\}/);
+});
+
 test("cierre confirmado conserva la causa de fin aunque falle la búsqueda del siguiente LIVE", () => {
     const liveX = {
         ...freshStatus({ isLiveNow: true, activeLiveId: VIDEO_ID }),
@@ -360,15 +378,15 @@ test("cierre confirmado conserva la causa de fin aunque falle la búsqueda del s
         endedLiveId: VIDEO_ID,
         error: new Error("/live y /streams temporalmente indisponibles")
     }, new Date(NOW + 1000).toISOString());
-    assert.equal(ended.status.isLiveNow, false);
+    assert.equal(ended.status.isLiveNow, null);
     assert.equal(ended.status.activeLiveId, null);
     assert.equal(ended.activeLive, null);
     assert.equal(ended.status.lastEndedLiveId, VIDEO_ID);
     assert.equal(ended.status.verificationStatus, "error");
-    assert.equal(classifyPublishedStatus(ended, NOW + 1000).kind, "stale", "estado de Y queda sin verificar; X no reaparece");
+    assert.equal(classifyPublishedStatus(ended, NOW + 1000).kind, "error", "estado de Y queda sin verificar; X no reaparece");
 });
 
-test("un false/error publicado no termina un LIVE en memoria sin lastEndedLiveId del mismo ID", () => {
+test("una respuesta ERROR más nueva prevalece sobre un LIVE almacenado anterior", () => {
     const liveX = {
         ...freshStatus({ isLiveNow: true, activeLiveId: VIDEO_ID }),
         activeLive: { id: VIDEO_ID, isLiveNow: true, status: "live" }
@@ -379,21 +397,12 @@ test("un false/error publicado no termina un LIVE en memoria sin lastEndedLiveId
         status: { ...freshStatus().status, isLiveNow: false, activeLiveId: null, verificationStatus: "error" },
         activeLive: null
     };
-    const retained = preservePreviousLiveOnUnconfirmedUpdate(liveX, failedInactive);
-    assert.equal(retained.status.isLiveNow, true);
-    assert.equal(retained.status.activeLiveId, VIDEO_ID);
-    assert.equal(retained.activeLive.id, VIDEO_ID);
-
-    failedInactive.status.verificationStatus = "unknown";
-    const unknownRetained = preservePreviousLiveOnUnconfirmedUpdate(liveX, failedInactive);
-    assert.equal(unknownRetained.status.isLiveNow, true);
-    assert.equal(unknownRetained.activeLive.id, VIDEO_ID);
-
-    failedInactive.status.verificationStatus = "error";
-    failedInactive.status.lastEndedLiveId = VIDEO_ID;
-    const ended = preservePreviousLiveOnUnconfirmedUpdate(liveX, failedInactive);
-    assert.equal(ended.status.isLiveNow, false);
-    assert.equal(ended.activeLive, null);
+    failedInactive.status.state = "ERROR";
+    failedInactive.status.lastAttemptAt = atOrNow();
+    const newest = require("../live-status-state.js").getLatestCoherentPayload(liveX, failedInactive);
+    assert.equal(newest.status.state, "ERROR");
+    assert.equal(classifyPublishedStatus(newest, NOW + 1000).kind, "error");
+    assert.equal(getAuthoritativeActiveLive(newest, liveX), null);
 });
 
 test("un candidato malformado no reemplaza un LIVE conocido y la salida nunca contradice sus IDs", () => {
@@ -403,10 +412,9 @@ test("un candidato malformado no reemplaza un LIVE conocido y la salida nunca co
     };
     const invalidY = { id: "wrong", title: "otro video", isLiveNow: true, status: "live" };
     const next = buildLiveStatusSnapshot(liveX, { activeLive: invalidY }, new Date(NOW + 1000).toISOString());
-    assert.equal(next.status.isLiveNow, true);
-    assert.equal(next.status.activeLiveId, VIDEO_ID);
-    assert.equal(next.activeLive.id, VIDEO_ID);
-    assert.equal(next.activeLive.isLiveNow, true);
+    assert.equal(next.status.isLiveNow, null);
+    assert.equal(next.status.activeLiveId, null);
+    assert.equal(next.activeLive, null);
 
     const wrongChannel = {
         id: "rpedjLDqPqU",
@@ -416,13 +424,13 @@ test("un candidato malformado no reemplaza un LIVE conocido y la salida nunca co
         status: "live"
     };
     const wrongChannelResult = buildLiveStatusSnapshot(liveX, { activeLive: wrongChannel }, new Date(NOW + 1500).toISOString());
-    assert.equal(wrongChannelResult.status.isLiveNow, true);
-    assert.equal(wrongChannelResult.activeLive.id, VIDEO_ID);
+    assert.equal(wrongChannelResult.status.isLiveNow, null);
+    assert.equal(wrongChannelResult.activeLive, null);
     assert.equal(wrongChannelResult.status.verificationStatus, "error");
 
     const inconsistent = { ...liveX, activeLive: { ...liveX.activeLive, id: "rpedjLDqPqU" } };
     const failed = buildLiveStatusSnapshot(inconsistent, { error: new Error("metadata incompleta") }, atOrNow());
-    assert.equal(failed.status.isLiveNow, false);
+    assert.equal(failed.status.isLiveNow, null);
     assert.equal(failed.status.activeLiveId, null);
     assert.equal(failed.activeLive, null);
     assert.equal(failed.status.verificationStatus, "error");
@@ -444,7 +452,7 @@ function atOrNow() {
     return new Date(NOW + 1000).toISOString();
 }
 
-test("fallo de fetch del frontend conserva el LIVE válido en memoria", async () => {
+test("fallo de fetch del frontend se representa como ERROR y quita el LIVE de interfaz", async () => {
     const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
     const start = source.indexOf("async function refreshLiveStatus()");
     const end = source.indexOf("\nfunction renderSermonsFallback()", start);
@@ -476,8 +484,8 @@ test("fallo de fetch del frontend conserva el LIVE válido en memoria", async ()
     vm.runInContext(source.slice(start, end), context);
     try {
         await context.refreshLiveStatus();
-        assert.equal(renderedViews.at(-1).kind, "live");
-        assert.equal(renderedViews.at(-1).activeLive.id, VIDEO_ID);
+        assert.equal(renderedViews.at(-1).kind, "error");
+        assert.equal(renderedViews.at(-1).activeLive, undefined);
     } finally {
         global.fetch = oldFetch;
     }
@@ -556,7 +564,7 @@ test("el detector, tras confirmar el final de X, consulta otro candidato y publi
             error: incompleteSearch.verificationError,
             verificationStatus: incompleteSearch.verificationStatus
         }, new Date(NOW + 2000).toISOString());
-        assert.equal(afterEndAnd429.status.isLiveNow, false);
+        assert.equal(afterEndAnd429.status.isLiveNow, null);
         assert.equal(afterEndAnd429.activeLive, null);
         assert.equal(afterEndAnd429.status.lastEndedLiveId, VIDEO_ID);
     } finally {

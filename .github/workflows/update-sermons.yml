@@ -26,14 +26,10 @@ concurrency:
   group: update-sermons-feed
   cancel-in-progress: false
 
-env:
-  PRODUCTION_SITE_URL: https://graciasobregracia.onrender.com
-  GITHUB_PAGES_SITE_URL: https://graciasobregracia.github.io/Iglesia
-
 jobs:
   update-sermons:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -80,23 +76,7 @@ jobs:
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Trigger Render deploy
-        if: ${{ always() && steps.update-feed.outcome == 'success' && steps.commit-data.outcome == 'success' && steps.commit-data.outputs.changed == 'true' }}
-        run: |
-          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
-            echo "::error::RENDER_DEPLOY_HOOK_URL is not configured; production deploy was not triggered."
-            exit 1
-          fi
-
-          if ! curl -fsS -X POST "$RENDER_DEPLOY_HOOK_URL" -o /dev/null 2>/dev/null; then
-            echo "::error::Render deploy hook failed; response details were redacted."
-            exit 1
-          fi
-          echo "Render deploy hook accepted the update."
-        env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-
-      - name: Verify deployed JSON on Render and GitHub Pages
+      - name: Verify committed JSON is served from the Git branch
         if: ${{ always() && steps.update-feed.outcome == 'success' && steps.commit-data.outcome == 'success' && steps.commit-data.outputs.changed == 'true' }}
         run: |
           expected_live=$(jq -cS . data/live-status.json)
@@ -104,24 +84,22 @@ jobs:
           all_match=false
           for attempt in $(seq 1 9); do
             all_match=true
-            for host in "$PRODUCTION_SITE_URL" "$GITHUB_PAGES_SITE_URL"; do
-              for file in live-status.json predicaciones.json; do
-                expected="$expected_live"
-                if [ "$file" = "predicaciones.json" ]; then expected="$expected_sermons"; fi
-                response=$(curl -fsS -H 'Cache-Control: no-cache' -H 'Pragma: no-cache' \
-                  "$host/data/$file?verify=$GITHUB_RUN_ID-$attempt" 2>/dev/null || true)
-                actual=$(printf '%s' "$response" | jq -cS . 2>/dev/null || true)
-                if [ "$actual" != "$expected" ]; then
-                  echo "Waiting for $host/data/$file to match the generated JSON (attempt $attempt)."
-                  all_match=false
-                else
-                  echo "$host/data/$file matches the generated JSON."
-                fi
-              done
+            for file in live-status.json predicaciones.json; do
+              expected="$expected_live"
+              if [ "$file" = "predicaciones.json" ]; then expected="$expected_sermons"; fi
+              response=$(curl -fsS \
+                "https://raw.githubusercontent.com/graciasobregracia/Iglesia/main/data/$file?verify=$GITHUB_RUN_ID-$attempt" 2>/dev/null || true)
+              actual=$(printf '%s' "$response" | jq -cS . 2>/dev/null || true)
+              if [ "$actual" != "$expected" ]; then
+                echo "Waiting for raw GitHub /data/$file to match the committed JSON (attempt $attempt)."
+                all_match=false
+              else
+                echo "raw GitHub /data/$file matches the committed JSON."
+              fi
             done
             if [ "$all_match" = "true" ]; then exit 0; fi
             sleep 10
           done
 
-          echo "::error::Render or GitHub Pages JSON did not match the generated files after deployment."
+          echo "::error::raw GitHub JSON did not match the committed files."
           exit 1

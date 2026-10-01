@@ -129,6 +129,50 @@ test("E2E frontend loadSermons: archived del 29/09 desplaza featured del 28/09",
     assert.ok(context.sermonsTrack.innerHTML.indexOf(fixture.videoId) < context.sermonsTrack.innerHTML.indexOf(oldPrayer.id));
 });
 
+test("E2E frontend: un fetch fallido no restaura un LIVE viejo desde latestLiveStatusData", async () => {
+    const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
+    const start = source.indexOf("async function loadSermons()");
+    const end = source.indexOf("\nfunction setupSermonCards(", start);
+    const oldLive = buildLiveStatusSnapshot(previousNone("2026-09-30T02:00:00Z"), { activeLive: LIVE }, "2026-09-30T02:00:00Z");
+    const archived = { ...LIVE, status: "archived", isLiveNow: false, actualEndTime: fixture.actualEndTime };
+    const renderedViews = [];
+    let renderedFeatured = null;
+    const stateApi = require("../live-status-state.js");
+    const context = {
+        Date,
+        AbortSignal,
+        SERMONS_DATA_PATH: "https://data.example/predicaciones.json",
+        LIVE_STATUS_DATA_PATH: "https://data.example/live-status.json",
+        fetch: async (url) => {
+            if (String(url).includes("predicaciones")) return { ok: true, json: async () => ({ items: [archived] }) };
+            throw new Error("offline");
+        },
+        window: { LiveStatusState: stateApi },
+        sermonsFeatured: { innerHTML: "" },
+        sermonsTrack: { innerHTML: "" },
+        sermonsPrevButton: null,
+        sermonsNextButton: null,
+        latestLiveStatusData: oldLive,
+        archivedFeaturedSermon: null,
+        lastConfirmedLiveId: fixture.videoId,
+        getStreamTime(item) { return Date.parse(item.actualStartTime || item.publishedAt); },
+        getLiveStatusView(data) { return stateApi.classifyPublishedStatus(data, Date.parse("2026-09-30T02:00:00Z")); },
+        renderLiveStatus(view) { renderedViews.push(view); },
+        updateFeaturedSermon(item) { renderedFeatured = item; },
+        renderSermonCard(item) { return `<article>${item.id}</article>`; },
+        setupSermonCards() {},
+        updateRailButtons() {},
+        renderSermonsFallback() { throw new Error("No debe usar fallback con feed válido"); },
+        console
+    };
+    vm.createContext(context);
+    vm.runInContext(source.slice(start, end), context);
+    await context.loadSermons();
+    assert.equal(renderedViews.at(-1).kind, "error");
+    assert.equal(renderedFeatured.id, fixture.videoId);
+    assert.equal(renderedFeatured.status, "archived");
+});
+
 test("E2E detector: respuesta live de videos.list produce activeLive para el frontend", async () => {
     const { getActiveLive } = await import("../scripts/update-sermons.mjs");
     const previousFetch = global.fetch;
@@ -150,14 +194,16 @@ test("E2E detector: respuesta live de videos.list produce activeLive para el fro
     }
 });
 
-test("E2E: un fallo temporal conserva el LIVE confirmado y deja diagnóstico", () => {
+test("E2E: un fallo temporal publica ERROR y evita mostrar el LIVE anterior", () => {
     const observedAt = "2026-09-30T00:20:00Z";
     const snapshot = buildLiveStatusSnapshot(previousNone(observedAt), { activeLive: LIVE }, observedAt);
     const failed = buildVerificationFailureSnapshots(snapshot, { items: [] }, "2026-09-30T00:25:00Z", new Error("HTTP 503"));
     const view = classifyPublishedStatus(failed.liveStatus, Date.parse("2026-09-30T00:25:00Z"));
     assert.equal(failed.liveStatus.status.lastError, "HTTP 503");
-    assert.equal(view.kind, "live");
-    assert.equal(view.activeLive.id, fixture.videoId);
+    assert.equal(failed.liveStatus.status.state, "ERROR");
+    assert.equal(failed.liveStatus.activeLive, null);
+    assert.equal(view.kind, "error");
+    assert.equal(view.activeLive, undefined);
 });
 
 test("E2E: fin confirmado -> ARCHIVED_RECENT -> recientes y featured", () => {
@@ -262,16 +308,16 @@ test("E2E: upcoming y NONE no generan banner LIVE", () => {
     assert.equal(selectFeaturedSermon([upcoming.upcomingLive]), null);
 });
 
-test("E2E: stale sin LIVE confirmado no inventa estado y LIVE stale envejecido pasa a sin verificar", () => {
+test("E2E: errores y LIVE vencidos nunca aparecen como transmisiones activas", () => {
     const neverLive = {
         ...previousNone("2026-09-30T00:00:00Z"),
         status: { ...previousNone("2026-09-30T00:00:00Z").status, verificationStatus: "error" }
     };
-    assert.equal(classifyPublishedStatus(neverLive, Date.parse("2026-09-30T00:01:00Z")).kind, "stale");
+    assert.equal(classifyPublishedStatus(neverLive, Date.parse("2026-09-30T00:01:00Z")).kind, "error");
     const confirmed = buildLiveStatusSnapshot(previousNone("2026-09-30T00:00:00Z"), { activeLive: LIVE }, "2026-09-30T00:00:00Z");
     const staleView = classifyPublishedStatus(confirmed, Date.parse("2026-09-30T01:00:00Z"));
-    assert.equal(staleView.kind, "stale");
-    assert.equal(staleView.activeLive.id, fixture.videoId);
+    assert.equal(staleView.kind, "error");
+    assert.equal(staleView.activeLive, undefined);
 });
 
 test("featured elige el livestream archivado por inicio real, no un video normal subido después", () => {
