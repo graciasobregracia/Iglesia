@@ -108,6 +108,7 @@ test("E2E frontend loadSermons: archived del 29/09 desplaza featured del 28/09",
         sermonsPrevButton: null,
         sermonsNextButton: null,
         latestLiveStatusData: null,
+        liveStatusRequestSequence: 0,
         archivedFeaturedSermon: null,
         lastConfirmedLiveId: null,
         getStreamTime(item) { return Date.parse(item.actualStartTime || item.publishedAt); },
@@ -153,6 +154,7 @@ test("E2E frontend: un fetch fallido no restaura un LIVE viejo desde latestLiveS
         sermonsPrevButton: null,
         sermonsNextButton: null,
         latestLiveStatusData: oldLive,
+        liveStatusRequestSequence: 0,
         archivedFeaturedSermon: null,
         lastConfirmedLiveId: fixture.videoId,
         getStreamTime(item) { return Date.parse(item.actualStartTime || item.publishedAt); },
@@ -171,6 +173,66 @@ test("E2E frontend: un fetch fallido no restaura un LIVE viejo desde latestLiveS
     assert.equal(renderedViews.at(-1).kind, "error");
     assert.equal(renderedFeatured.id, fixture.videoId);
     assert.equal(renderedFeatured.status, "archived");
+});
+
+test("E2E frontend: respuesta LIVE tardía de loadSermons no reemplaza el ERROR de refreshLiveStatus", async () => {
+    const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
+    const refreshStart = source.indexOf("async function refreshLiveStatus()");
+    const loadStart = source.indexOf("async function loadSermons()");
+    const loadEnd = source.indexOf("\nfunction setupSermonCards(", loadStart);
+    const oldLive = buildLiveStatusSnapshot(previousNone("2026-09-30T02:00:00Z"), { activeLive: LIVE }, "2026-09-30T02:00:00Z");
+    const archived = { ...LIVE, status: "archived", isLiveNow: false, actualEndTime: fixture.actualEndTime };
+    let resolveSermons;
+    let liveRequests = 0;
+    const renderedViews = [];
+    const stateApi = require("../live-status-state.js");
+    const now = Date.parse("2026-09-30T02:00:00Z");
+    const context = {
+        Date,
+        AbortSignal,
+        LIVE_STATUS_DATA_PATH: "https://data.example/live-status.json",
+        SERMONS_DATA_PATH: "https://data.example/predicaciones.json",
+        LIVE_STATUS_MAX_AGE_MS: stateApi.DEFAULT_MAX_AGE_MS,
+        liveStatusRefreshInFlight: false,
+        liveStatusRequestSequence: 0,
+        latestLiveStatusData: oldLive,
+        lastConfirmedLiveId: LIVE.id,
+        archivedFeaturedSermon: null,
+        sermonsFeatured: { innerHTML: "" },
+        sermonsTrack: { innerHTML: "" },
+        sermonsPrevButton: null,
+        sermonsNextButton: null,
+        window: { LiveStatusState: stateApi },
+        fetch: async (url) => {
+            if (String(url).includes("predicaciones")) {
+                return new Promise((resolve) => { resolveSermons = resolve; });
+            }
+            liveRequests += 1;
+            if (liveRequests === 1) throw new Error("offline");
+            return { ok: true, json: async () => oldLive };
+        },
+        getStreamTime(item) { return Date.parse(item.actualStartTime || item.publishedAt); },
+        getLiveStatusView(data) { return stateApi.classifyPublishedStatus(data, now); },
+        renderLiveStatus(view) { renderedViews.push(view); },
+        updateFeaturedSermon() {},
+        renderSermonCard(item) { return `<article>${item.id}</article>`; },
+        setupSermonCards() {},
+        updateRailButtons() {},
+        renderSermonsFallback() { throw new Error("No debe usar fallback con feed válido"); },
+        console
+    };
+    vm.createContext(context);
+    vm.runInContext(source.slice(refreshStart, loadStart) + source.slice(loadStart, loadEnd), context);
+
+    const loadPromise = context.loadSermons();
+    const refreshPromise = context.refreshLiveStatus();
+    await refreshPromise;
+    assert.equal(renderedViews.at(-1).kind, "error", "el fallo más reciente deja la UI en estado ERROR");
+
+    resolveSermons({ ok: true, json: async () => ({ items: [archived] }) });
+    await loadPromise;
+    assert.deepEqual(renderedViews.map((view) => view.kind), ["error"], "la respuesta LIVE iniciada antes del error no lo revierte");
+    assert.equal(context.latestLiveStatusData, oldLive, "la respuesta obsoleta no sustituye el snapshot compartido");
 });
 
 test("E2E detector: respuesta live de videos.list produce activeLive para el frontend", async () => {

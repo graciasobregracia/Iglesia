@@ -8,7 +8,8 @@ const {
     classifyPublishedStatus,
     buildVerificationFailureSnapshots,
     buildLiveStatusSnapshot,
-    getAuthoritativeActiveLive
+    getAuthoritativeActiveLive,
+    getLatestCoherentPayload
 } = require("../live-status-state.js");
 
 const VIDEO_ID = "AREicxKfd5U";
@@ -185,6 +186,73 @@ test("la decisión del frontend convierte un LIVE erróneo o vencido en estado n
     active.status.verificationStatus = "error";
     assert.equal(context.getLiveStatusView(active, NOW).kind, "error");
     assert.equal(classifyPublishedStatus(freshStatus(), NOW).kind, "none");
+});
+
+test("regresión frontend: snapshots sucesivos aceptan NO_LIVE, ERROR y LIVE nuevo sin resucitar el anterior", () => {
+    const source = fs.readFileSync(require.resolve("../script.js"), "utf8");
+    const start = source.indexOf("function getLiveStatusView(");
+    const end = source.indexOf("\nfunction getLiveSignature(", start);
+    const context = {
+        Date,
+        URL,
+        LIVE_STATUS_MAX_AGE_MS: DEFAULT_MAX_AGE_MS,
+        window: { LiveStatusState: require("../live-status-state.js") }
+    };
+    vm.createContext(context);
+    vm.runInContext(source.slice(start, end), context);
+
+    const at = (value) => new Date(value).toISOString();
+    const snapshot = (timestamp, state, id = null) => ({
+        updatedAt: at(timestamp),
+        status: {
+            isLiveNow: state === "LIVE" ? true : state === "ERROR" ? null : false,
+            activeLiveId: state === "LIVE" ? id : null,
+            upcomingLiveId: null,
+            checkedAt: at(timestamp),
+            lastSuccessfulCheck: state === "ERROR" ? at(timestamp - 60_000) : at(timestamp),
+            lastAttemptAt: at(timestamp),
+            verificationStatus: state === "ERROR" ? "error" : "ok",
+            state,
+            lastError: state === "ERROR" ? "HTTP 503" : null
+        },
+        activeLive: state === "LIVE" ? { id, title: id, status: "live", isUpcoming: false } : null,
+        upcomingLive: null
+    });
+    const liveA = snapshot(Date.parse("2026-10-01T02:00:00.000Z"), "LIVE", VIDEO_ID);
+    const noLiveBefore = snapshot(Date.parse("2026-10-01T01:59:00.000Z"), "NO_LIVE");
+    const noLive = {
+        updatedAt: "2026-10-01T02:03:05.505Z",
+        status: {
+            isLiveNow: false,
+            activeLiveId: null,
+            upcomingLiveId: null,
+            checkedAt: "2026-10-01T02:03:05.505Z",
+            lastSuccessfulCheck: "2026-10-01T02:03:05.505Z",
+            lastAttemptAt: "2026-10-01T02:03:05.505Z",
+            verificationStatus: "ok",
+            state: "NO_LIVE",
+            lastError: null
+        },
+        activeLive: null,
+        upcomingLive: null
+    };
+    const error = snapshot(Date.parse("2026-10-01T02:04:05.505Z"), "ERROR");
+    const liveB = snapshot(Date.parse("2026-10-01T02:05:05.505Z"), "LIVE", "rpedjLDqPqU");
+    const now = Date.parse("2026-10-01T02:05:06.000Z");
+    const view = (previous, incoming) => context.getLiveStatusView(
+        getLatestCoherentPayload(previous, incoming), now
+    );
+
+    assert.equal(view(noLiveBefore, liveA).kind, "live", "NO_LIVE → LIVE acepta el snapshot posterior");
+    const ended = getLatestCoherentPayload(liveA, noLive);
+    assert.equal(ended, noLive, "LIVE → NO_LIVE selecciona el payload exacto y más reciente");
+    assert.equal(context.getLiveStatusView(ended, now).kind, "none");
+    assert.equal(view(liveA, error).kind, "error", "LIVE → ERROR invalida el LIVE confirmado anterior");
+    const recovered = getLatestCoherentPayload(error, liveB);
+    assert.equal(recovered, liveB, "ERROR → LIVE acepta una comprobación nueva");
+    assert.equal(context.getLiveStatusView(recovered, now).activeLive.id, liveB.activeLive.id);
+    assert.equal(view(liveA, liveB).activeLive.id, liveB.activeLive.id, "LIVE A → LIVE B sustituye el ID");
+    assert.equal(getLatestCoherentPayload(noLive, { ...noLive }), noLive, "NO_LIVE → NO_LIVE conserva el primero ante empate de timestamps");
 });
 
 test("aviso del frontend: false → true → mismo live → false → nuevo live", () => {
@@ -470,6 +538,7 @@ test("fallo de fetch del frontend se representa como ERROR y quita el LIVE de in
             activeLive: { id: VIDEO_ID, title: "LIVE X", isLiveNow: true, status: "live" }
         },
         liveStatusRefreshInFlight: false,
+        liveStatusRequestSequence: 0,
         liveStatusPollTimer: null,
         liveNoticeSlot: slot,
         lastConfirmedLiveId: VIDEO_ID,

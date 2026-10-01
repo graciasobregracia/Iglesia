@@ -58,6 +58,7 @@ let dismissedLiveSignature = "";
 let liveNoticeTransitionTimer = null;
 let liveNoticeAutoHideTimer = null;
 let liveStatusRefreshInFlight = false;
+let liveStatusRequestSequence = 0;
 let liveStatusPollTimer = null;
 let latestLiveStatusData = null;
 let lastConfirmedLiveId = null;
@@ -650,6 +651,7 @@ function renderLiveStatus(view) {
 async function refreshLiveStatus() {
     if (liveStatusRefreshInFlight) return;
     liveStatusRefreshInFlight = true;
+    const requestSequence = ++liveStatusRequestSequence;
     try {
         const response = await fetch(`${LIVE_STATUS_DATA_PATH}?updated=${Date.now()}`, {
             cache: "no-store",
@@ -658,6 +660,7 @@ async function refreshLiveStatus() {
         if (!response.ok) throw new Error(`No se pudo cargar live-status.json (${response.status})`);
 
         const responseData = await response.json();
+        if (requestSequence !== liveStatusRequestSequence) return;
         const data = window.LiveStatusState.getLatestCoherentPayload(latestLiveStatusData, responseData);
         latestLiveStatusData = data;
         const view = getLiveStatusView(data);
@@ -670,6 +673,7 @@ async function refreshLiveStatus() {
         const featured = activeLive || archivedFeaturedSermon;
         updateFeaturedSermon(featured);
     } catch (error) {
+        if (requestSequence !== liveStatusRequestSequence) return;
         renderLiveStatus({ kind: "error", reason: "fetch-error", lastError: error.message });
         updateFeaturedSermon(archivedFeaturedSermon);
     } finally {
@@ -705,6 +709,7 @@ function renderSermonsFallback() {
 
 async function loadSermons() {
     if (!sermonsFeatured || !sermonsTrack) return;
+    const requestSequence = ++liveStatusRequestSequence;
 
     try {
         const response = await fetch(`${SERMONS_DATA_PATH}?updated=${Date.now()}`, { cache: "no-store" });
@@ -727,8 +732,11 @@ async function loadSermons() {
                 signal: AbortSignal.timeout(10000)
             });
             if (liveResponse.ok) {
-                liveStatus = window.LiveStatusState.getLatestCoherentPayload(latestLiveStatusData, await liveResponse.json());
-                latestLiveStatusData = liveStatus;
+                const responseData = await liveResponse.json();
+                if (requestSequence === liveStatusRequestSequence) {
+                    liveStatus = window.LiveStatusState.getLatestCoherentPayload(latestLiveStatusData, responseData);
+                    latestLiveStatusData = liveStatus;
+                }
             } else {
                 liveStatusError = new Error(`No se pudo cargar ${LIVE_STATUS_DATA_PATH} (${liveResponse.status})`);
                 console.warn(`${liveStatusError.message}; se usará la transmisión archivada.`);
@@ -744,13 +752,15 @@ async function loadSermons() {
             ? getLiveStatusView(liveStatus)
             : { kind: "stale", reason: "fetch-error" };
         const activeLive = view.kind === "live" ? view.activeLive : null;
-        renderLiveStatus(view);
-        lastConfirmedLiveId = activeLive?.id ?? null;
+        if (requestSequence === liveStatusRequestSequence) {
+            renderLiveStatus(view);
+            lastConfirmedLiveId = activeLive?.id ?? null;
+        }
         archivedFeaturedSermon = window.LiveStatusState.selectFeaturedSermon(
             validItems,
             data.featuredLiveToday?.id || null
         );
-        const featured = activeLive || archivedFeaturedSermon;
+        const featured = (requestSequence === liveStatusRequestSequence ? activeLive : null) || archivedFeaturedSermon;
 
         if (!featured) {
             renderSermonsFallback();
