@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-03T02:05:32.850Z",
+  "updatedAt": "2026-10-03T08:00:14.341Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-03T02:05:32.850Z",
-    "lastSuccessfulCheck": "2026-10-03T02:05:32.850Z",
-    "lastAttemptAt": "2026-10-03T02:05:32.850Z",
+    "checkedAt": "2026-10-03T08:00:14.341Z",
+    "lastSuccessfulCheck": "2026-10-03T08:00:14.341Z",
+    "lastAttemptAt": "2026-10-03T08:00:14.341Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "qiP_WB_kRcw",
     "lastEndedAt": "2026-09-29T01:27:18.362Z",
@@ -35,6 +35,7 @@
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
+      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
@@ -73,6 +74,7 @@
       "originalIndex": 0,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -110,6 +112,7 @@
       "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -147,6 +150,7 @@
       "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -184,6 +188,7 @@
       "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -221,6 +226,7 @@
       "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -258,6 +264,7 @@
       "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -295,6 +302,7 @@
       "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -332,6 +340,7 @@
       "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -369,6 +378,7 @@
       "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -406,6 +416,7 @@
       "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -443,6 +454,7 @@
       "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
