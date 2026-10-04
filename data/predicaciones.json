@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-04T01:49:00.468Z",
+  "updatedAt": "2026-10-04T07:27:22.990Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-04T01:49:00.468Z",
-    "lastSuccessfulCheck": "2026-10-04T01:49:00.468Z",
-    "lastAttemptAt": "2026-10-04T01:49:00.468Z",
+    "checkedAt": "2026-10-04T07:27:22.990Z",
+    "lastSuccessfulCheck": "2026-10-04T07:27:22.990Z",
+    "lastAttemptAt": "2026-10-04T07:27:22.990Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "qiP_WB_kRcw",
     "lastEndedAt": "2026-09-29T01:27:18.362Z",
@@ -35,6 +35,7 @@
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
+      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
@@ -44,8 +45,7 @@
     "liveStreamingDetails": {
       "actualStartTime": "2026-10-03T23:59:45Z",
       "actualEndTime": "2026-10-04T01:47:24Z",
-      "scheduledStartTime": "2026-10-03T23:54:04Z",
-      "activeLiveChatId": "Cg0KCzFxX0NXbi14YlNnKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILMXFfQ1duLXhiU2c"
+      "scheduledStartTime": "2026-10-03T23:54:04Z"
     },
     "actualStartTime": "2026-10-03T23:59:45Z",
     "actualEndTime": "2026-10-04T01:47:24Z",
@@ -74,6 +74,7 @@
       "originalIndex": 0,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -83,8 +84,7 @@
       "liveStreamingDetails": {
         "actualStartTime": "2026-10-03T23:59:45Z",
         "actualEndTime": "2026-10-04T01:47:24Z",
-        "scheduledStartTime": "2026-10-03T23:54:04Z",
-        "activeLiveChatId": "Cg0KCzFxX0NXbi14YlNnKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILMXFfQ1duLXhiU2c"
+        "scheduledStartTime": "2026-10-03T23:54:04Z"
       },
       "actualStartTime": "2026-10-03T23:59:45Z",
       "actualEndTime": "2026-10-04T01:47:24Z",
@@ -112,6 +112,7 @@
       "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -149,6 +150,7 @@
       "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -186,6 +188,7 @@
       "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -223,6 +226,7 @@
       "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -260,6 +264,7 @@
       "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -297,6 +302,7 @@
       "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -334,6 +340,7 @@
       "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -371,6 +378,7 @@
       "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -408,6 +416,7 @@
       "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -445,6 +454,7 @@
       "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
