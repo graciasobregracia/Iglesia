@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-07T06:32:38.359Z",
+  "updatedAt": "2026-10-07T13:48:20.158Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-07T06:32:38.359Z",
-    "lastSuccessfulCheck": "2026-10-07T06:32:38.359Z",
-    "lastAttemptAt": "2026-10-07T06:32:38.359Z",
+    "checkedAt": "2026-10-07T13:48:20.158Z",
+    "lastSuccessfulCheck": "2026-10-07T13:48:20.158Z",
+    "lastAttemptAt": "2026-10-07T13:48:20.158Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "DNHSWUN_RuA",
     "lastEndedAt": "2026-10-07T06:32:38.359Z",
@@ -26,8 +26,8 @@
     "id": "DNHSWUN_RuA",
     "title": "Servicio De Enseñanza",
     "url": "https://www.youtube.com/watch?v=DNHSWUN_RuA",
-    "thumbnail": "https://i.ytimg.com/vi/DNHSWUN_RuA/maxresdefault_live.jpg",
-    "duration": "57:17",
+    "thumbnail": "https://i.ytimg.com/vi/DNHSWUN_RuA/maxresdefault.jpg",
+    "duration": "57:08",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
@@ -35,6 +35,7 @@
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
+      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
@@ -56,15 +57,16 @@
     "isLiveBroadcast": true,
     "isLiveNow": false,
     "status": "archived",
-    "verificationSource": "youtube-data-api-videos-list"
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
   },
   "items": [
     {
       "id": "DNHSWUN_RuA",
       "title": "Servicio De Enseñanza",
       "url": "https://www.youtube.com/watch?v=DNHSWUN_RuA",
-      "thumbnail": "https://i.ytimg.com/vi/DNHSWUN_RuA/maxresdefault_live.jpg",
-      "duration": "57:17",
+      "thumbnail": "https://i.ytimg.com/vi/DNHSWUN_RuA/maxresdefault.jpg",
+      "duration": "57:08",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
@@ -72,6 +74,7 @@
       "originalIndex": 0,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -93,7 +96,8 @@
       "isLiveBroadcast": true,
       "isLiveNow": false,
       "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list"
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     },
     {
       "id": "ALTpiYjjurs",
@@ -137,14 +141,15 @@
       "title": "Servicio de sanidad y Milagros | sábado 03 De Octubre del 2026.",
       "url": "https://www.youtube.com/watch?v=1q_CWn-xbSg",
       "thumbnail": "https://i.ytimg.com/vi/1q_CWn-xbSg/maxresdefault.jpg",
-      "duration": "1:47:33",
+      "duration": "1:14:20",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-03T23:54:04Z",
-      "originalIndex": 2,
+      "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -171,7 +176,7 @@
     },
     {
       "id": "JnSKHZEVr-E",
-      "title": "Servicio Evangelista",
+      "title": "Vivamos En Esperanza | Servicio Evangelista Yarumal | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=JnSKHZEVr-E",
       "thumbnail": "https://i.ytimg.com/vi/JnSKHZEVr-E/maxresdefault.jpg",
       "duration": "38:31",
@@ -179,9 +184,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-03T00:15:00Z",
-      "originalIndex": 4,
+      "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -216,9 +222,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-30T23:48:47Z",
-      "originalIndex": 5,
+      "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -253,9 +260,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-30T00:24:41Z",
-      "originalIndex": 6,
+      "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -290,9 +298,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-28T23:57:03Z",
-      "originalIndex": 7,
+      "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -327,9 +336,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-27T00:00:00Z",
-      "originalIndex": 8,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -364,9 +374,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-26T00:09:08Z",
-      "originalIndex": 9,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -401,9 +412,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-24T00:54:16Z",
-      "originalIndex": 11,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -438,9 +450,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-24T00:00:00Z",
-      "originalIndex": 12,
+      "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -475,9 +488,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-21T23:57:56Z",
-      "originalIndex": 13,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -512,9 +526,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-19T23:57:39Z",
-      "originalIndex": 15,
+      "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -549,7 +564,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-19T00:35:07Z",
-      "originalIndex": 18,
+      "originalIndex": 17,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -586,7 +601,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-16T23:44:58Z",
-      "originalIndex": 20,
+      "originalIndex": 19,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
