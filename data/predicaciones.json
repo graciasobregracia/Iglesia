@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-17T17:56:22.797Z",
+  "updatedAt": "2026-10-17T19:57:38.543Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-17T17:56:22.797Z",
-    "lastSuccessfulCheck": "2026-10-17T17:56:22.797Z",
-    "lastAttemptAt": "2026-10-17T17:56:22.797Z",
+    "checkedAt": "2026-10-17T19:57:38.543Z",
+    "lastSuccessfulCheck": "2026-10-17T19:57:38.543Z",
+    "lastAttemptAt": "2026-10-17T19:57:38.543Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "DNHSWUN_RuA",
     "lastEndedAt": "2026-10-07T06:32:38.359Z",
@@ -631,6 +631,6 @@
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     }
   ],
-  "archiveVerificationStatus": "ok",
-  "archiveError": null
+  "archiveVerificationStatus": "error",
+  "archiveError": "No se verificaron 10 candidato(s) de archivo; se preserva el feed previo. IDs: 3GD2FCOZsVE, F1zVJBY669E, FjzhVnoIf0k, gFvkBrpxT4Y, AP_dNSmwEP4, phGF3xZJRew, bLMf511eL_o, HZA0ynnFvsA, jS6-Kw9Rkuc, kXmdYRuMzYQ"
 }
