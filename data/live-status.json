@@ -4,21 +4,56 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-17T23:44:20.530Z",
+  "updatedAt": "2026-10-18T01:33:08.273Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": false,
-    "activeLiveId": null,
+    "isLiveNow": true,
+    "activeLiveId": "ojnbIQhuagI",
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-17T23:44:20.530Z",
-    "lastSuccessfulCheck": "2026-10-17T23:44:20.530Z",
-    "lastAttemptAt": "2026-10-17T23:44:20.530Z",
+    "checkedAt": "2026-10-18T01:33:08.273Z",
+    "lastSuccessfulCheck": "2026-10-18T01:33:08.273Z",
+    "lastAttemptAt": "2026-10-18T01:33:08.273Z",
     "verificationStatus": "ok",
-    "lastEndedLiveId": "DNHSWUN_RuA",
-    "lastEndedAt": "2026-10-07T06:32:38.359Z",
+    "lastEndedLiveId": null,
+    "lastEndedAt": null,
     "lastError": null,
-    "state": "NO_LIVE"
+    "state": "LIVE"
   },
-  "activeLive": null,
+  "activeLive": {
+    "id": "ojnbIQhuagI",
+    "title": "Servicio Familiar | Sábado 17 de Octubre del 2026.",
+    "url": "https://www.youtube.com/watch?v=ojnbIQhuagI",
+    "thumbnail": "https://i.ytimg.com/vi/ojnbIQhuagI/maxresdefault_live.jpg",
+    "duration": null,
+    "publishedText": null,
+    "source": "youtube-data-api-uploads",
+    "isUpcoming": false,
+    "scheduledStartTime": "2026-10-18T00:00:00Z",
+    "originalIndex": 0,
+    "sources": [
+      "youtube-streams-page",
+      "youtube-data-api-uploads"
+    ],
+    "listedOnStreamsPage": true,
+    "publishedAt": "2026-10-17T23:58:50Z",
+    "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+    "liveBroadcastContent": "live",
+    "liveStreamingDetails": {
+      "actualStartTime": "2026-10-17T23:58:50Z",
+      "scheduledStartTime": "2026-10-18T00:00:00Z",
+      "concurrentViewers": "8",
+      "activeLiveChatId": "Cg0KC29qbmJJUWh1YWdJKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILb2puYklRaHVhZ0k"
+    },
+    "actualStartTime": "2026-10-17T23:58:50Z",
+    "actualEndTime": null,
+    "type": "live",
+    "typePriority": 1,
+    "typeLabel": "🔴 EN VIVO AHORA",
+    "isLiveBroadcast": true,
+    "isLiveNow": true,
+    "status": "live",
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Estamos transmitiendo nuestro servicio en este momento."
+  },
   "upcomingLive": null
 }
