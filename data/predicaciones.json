@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-19T14:05:21.649Z",
+  "updatedAt": "2026-10-19T19:48:42.741Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-19T14:05:21.649Z",
-    "lastSuccessfulCheck": "2026-10-19T14:05:21.649Z",
-    "lastAttemptAt": "2026-10-19T14:05:21.649Z",
+    "checkedAt": "2026-10-19T19:48:42.741Z",
+    "lastSuccessfulCheck": "2026-10-19T19:48:42.741Z",
+    "lastAttemptAt": "2026-10-19T19:48:42.741Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "ojnbIQhuagI",
     "lastEndedAt": "2026-10-18T06:31:49.824Z",
@@ -24,7 +24,7 @@
   "upcomingLive": null,
   "featuredLiveToday": {
     "id": "ojnbIQhuagI",
-    "title": "Servicio Familiar | Sábado 17 de Octubre del 2026.",
+    "title": "Servicio De Familias | Prédicas Cristianas",
     "url": "https://www.youtube.com/watch?v=ojnbIQhuagI",
     "thumbnail": "https://i.ytimg.com/vi/ojnbIQhuagI/maxresdefault.jpg",
     "duration": "1:00:56",
@@ -63,7 +63,7 @@
   "items": [
     {
       "id": "ojnbIQhuagI",
-      "title": "Servicio Familiar | Sábado 17 de Octubre del 2026.",
+      "title": "Servicio De Familias | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=ojnbIQhuagI",
       "thumbnail": "https://i.ytimg.com/vi/ojnbIQhuagI/maxresdefault.jpg",
       "duration": "1:00:56",
@@ -101,7 +101,7 @@
     },
     {
       "id": "gaXKlJzAsjQ",
-      "title": "Servicio Evangelista Yarumal | Viernes 16 de Octubre del 2026.",
+      "title": "El Secreto Es Con Él | Servicio Evangelista Yarumal | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=gaXKlJzAsjQ",
       "thumbnail": "https://i.ytimg.com/vi/gaXKlJzAsjQ/maxresdefault.jpg",
       "duration": "48:24",
