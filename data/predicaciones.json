@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-21T06:30:42.183Z",
+  "updatedAt": "2026-10-21T12:14:10.211Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-21T06:30:42.183Z",
-    "lastSuccessfulCheck": "2026-10-21T06:30:42.183Z",
-    "lastAttemptAt": "2026-10-21T06:30:42.183Z",
+    "checkedAt": "2026-10-21T12:14:10.211Z",
+    "lastSuccessfulCheck": "2026-10-21T12:14:10.211Z",
+    "lastAttemptAt": "2026-10-21T12:14:10.211Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "ojnbIQhuagI",
     "lastEndedAt": "2026-10-18T06:31:49.824Z",
@@ -28,9 +28,18 @@
     "url": "https://www.youtube.com/watch?v=pMA1rRRE0e4",
     "thumbnail": "https://i.ytimg.com/vi/pMA1rRRE0e4/maxresdefault_live.jpg",
     "duration": "1:02:30",
-    "publishedAt": "2026-10-21T00:13:17Z",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
+    "isUpcoming": false,
+    "scheduledStartTime": "2026-10-21T00:13:22Z",
+    "originalIndex": 0,
+    "sources": [
+      "youtube-streams-page",
+      "youtube-uploads-rss",
+      "youtube-data-api-uploads"
+    ],
+    "listedOnStreamsPage": true,
+    "publishedAt": "2026-10-21T00:13:17Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
     "liveBroadcastContent": "none",
     "liveStreamingDetails": {
@@ -40,12 +49,6 @@
     },
     "actualStartTime": "2026-10-21T00:13:17Z",
     "actualEndTime": "2026-10-21T01:15:48Z",
-    "scheduledStartTime": "2026-10-21T00:13:22Z",
-    "originalIndex": 0,
-    "sources": [
-      "youtube-data-api-uploads"
-    ],
-    "listedOnStreamsPage": false,
     "startedAt": "2026-10-21T00:13:17Z",
     "endedAt": "2026-10-21T01:15:48Z",
     "type": "live",
@@ -53,7 +56,6 @@
     "typePriority": 1,
     "isLiveBroadcast": true,
     "isLiveNow": false,
-    "isUpcoming": false,
     "status": "archived",
     "verificationSource": "youtube-data-api-videos-list",
     "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -65,9 +67,18 @@
       "url": "https://www.youtube.com/watch?v=pMA1rRRE0e4",
       "thumbnail": "https://i.ytimg.com/vi/pMA1rRRE0e4/maxresdefault_live.jpg",
       "duration": "1:02:30",
-      "publishedAt": "2026-10-21T00:13:17Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-21T00:13:22Z",
+      "originalIndex": 0,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-21T00:13:17Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -77,12 +88,6 @@
       },
       "actualStartTime": "2026-10-21T00:13:17Z",
       "actualEndTime": "2026-10-21T01:15:48Z",
-      "scheduledStartTime": "2026-10-21T00:13:22Z",
-      "originalIndex": 0,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-21T00:13:17Z",
       "endedAt": "2026-10-21T01:15:48Z",
       "type": "live",
@@ -90,7 +95,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -101,9 +105,18 @@
       "url": "https://www.youtube.com/watch?v=LkM-zZEHEK0",
       "thumbnail": "https://i.ytimg.com/vi/LkM-zZEHEK0/maxresdefault.jpg",
       "duration": "34:24",
-      "publishedAt": "2026-10-19T23:59:01Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-19T23:59:32Z",
+      "originalIndex": 1,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-19T23:59:01Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -113,12 +126,6 @@
       },
       "actualStartTime": "2026-10-19T23:59:01Z",
       "actualEndTime": "2026-10-20T01:05:33Z",
-      "scheduledStartTime": "2026-10-19T23:59:32Z",
-      "originalIndex": 1,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-19T23:59:01Z",
       "endedAt": "2026-10-20T01:05:33Z",
       "type": "live",
@@ -126,7 +133,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -175,9 +181,18 @@
       "url": "https://www.youtube.com/watch?v=ojnbIQhuagI",
       "thumbnail": "https://i.ytimg.com/vi/ojnbIQhuagI/maxresdefault.jpg",
       "duration": "1:00:56",
-      "publishedAt": "2026-10-17T23:58:50Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-18T00:00:00Z",
+      "originalIndex": 2,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-17T23:58:50Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -187,12 +202,6 @@
       },
       "actualStartTime": "2026-10-17T23:58:50Z",
       "actualEndTime": "2026-10-18T01:37:15Z",
-      "scheduledStartTime": "2026-10-18T00:00:00Z",
-      "originalIndex": 2,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-17T23:58:50Z",
       "endedAt": "2026-10-18T01:37:15Z",
       "type": "live",
@@ -200,7 +209,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -211,9 +219,18 @@
       "url": "https://www.youtube.com/watch?v=gaXKlJzAsjQ",
       "thumbnail": "https://i.ytimg.com/vi/gaXKlJzAsjQ/maxresdefault.jpg",
       "duration": "48:24",
-      "publishedAt": "2026-10-17T00:08:28Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-17T00:08:21Z",
+      "originalIndex": 3,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-17T00:08:28Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -223,12 +240,6 @@
       },
       "actualStartTime": "2026-10-17T00:08:28Z",
       "actualEndTime": "2026-10-17T01:22:52Z",
-      "scheduledStartTime": "2026-10-17T00:08:21Z",
-      "originalIndex": 3,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-17T00:08:28Z",
       "endedAt": "2026-10-17T01:22:52Z",
       "type": "live",
@@ -236,7 +247,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -247,9 +257,18 @@
       "url": "https://www.youtube.com/watch?v=iX36KkoG0QY",
       "thumbnail": "https://i.ytimg.com/vi/iX36KkoG0QY/maxresdefault.jpg",
       "duration": "50:17",
-      "publishedAt": "2026-10-15T00:20:59Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-14T23:51:47Z",
+      "originalIndex": 4,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-15T00:20:59Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -259,12 +278,6 @@
       },
       "actualStartTime": "2026-10-15T00:20:59Z",
       "actualEndTime": "2026-10-15T01:27:26Z",
-      "scheduledStartTime": "2026-10-14T23:51:47Z",
-      "originalIndex": 4,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-15T00:20:59Z",
       "endedAt": "2026-10-15T01:27:26Z",
       "type": "live",
@@ -272,7 +285,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -283,9 +295,18 @@
       "url": "https://www.youtube.com/watch?v=AxxtuCxJ5Tw",
       "thumbnail": "https://i.ytimg.com/vi/AxxtuCxJ5Tw/maxresdefault.jpg",
       "duration": "55:02",
-      "publishedAt": "2026-10-14T00:19:26Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-14T00:17:27Z",
+      "originalIndex": 5,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-14T00:19:26Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -295,12 +316,6 @@
       },
       "actualStartTime": "2026-10-14T00:19:26Z",
       "actualEndTime": "2026-10-14T01:28:18Z",
-      "scheduledStartTime": "2026-10-14T00:17:27Z",
-      "originalIndex": 5,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-14T00:19:26Z",
       "endedAt": "2026-10-14T01:28:18Z",
       "type": "live",
@@ -308,7 +323,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -319,9 +333,18 @@
       "url": "https://www.youtube.com/watch?v=lMQrjdjWjcQ",
       "thumbnail": "https://i.ytimg.com/vi/lMQrjdjWjcQ/maxresdefault.jpg",
       "duration": "1:13:07",
-      "publishedAt": "2026-10-11T00:02:35Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-11T00:00:00Z",
+      "originalIndex": 6,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-11T00:02:35Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -331,12 +354,6 @@
       },
       "actualStartTime": "2026-10-11T00:02:35Z",
       "actualEndTime": "2026-10-11T01:50:30Z",
-      "scheduledStartTime": "2026-10-11T00:00:00Z",
-      "originalIndex": 6,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-11T00:02:35Z",
       "endedAt": "2026-10-11T01:50:30Z",
       "type": "live",
@@ -344,7 +361,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -355,9 +371,18 @@
       "url": "https://www.youtube.com/watch?v=usiWe86VFoQ",
       "thumbnail": "https://i.ytimg.com/vi/usiWe86VFoQ/maxresdefault.jpg",
       "duration": "52:03",
-      "publishedAt": "2026-10-10T00:12:47Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-10T00:12:21Z",
+      "originalIndex": 7,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-10T00:12:47Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -367,12 +392,6 @@
       },
       "actualStartTime": "2026-10-10T00:12:47Z",
       "actualEndTime": "2026-10-10T01:26:21Z",
-      "scheduledStartTime": "2026-10-10T00:12:21Z",
-      "originalIndex": 7,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-10T00:12:47Z",
       "endedAt": "2026-10-10T01:26:21Z",
       "type": "live",
@@ -380,7 +399,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -391,9 +409,18 @@
       "url": "https://www.youtube.com/watch?v=_h9Jrjp7Ztg",
       "thumbnail": "https://i.ytimg.com/vi/_h9Jrjp7Ztg/maxresdefault.jpg",
       "duration": "1:00:16",
-      "publishedAt": "2026-10-08T00:02:34Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-08T00:00:00Z",
+      "originalIndex": 8,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-08T00:02:34Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -403,12 +430,6 @@
       },
       "actualStartTime": "2026-10-08T00:02:34Z",
       "actualEndTime": "2026-10-08T01:35:51Z",
-      "scheduledStartTime": "2026-10-08T00:00:00Z",
-      "originalIndex": 8,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-08T00:02:34Z",
       "endedAt": "2026-10-08T01:35:51Z",
       "type": "live",
@@ -416,7 +437,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -427,9 +447,18 @@
       "url": "https://www.youtube.com/watch?v=DNHSWUN_RuA",
       "thumbnail": "https://i.ytimg.com/vi/DNHSWUN_RuA/maxresdefault.jpg",
       "duration": "43:15",
-      "publishedAt": "2026-10-07T00:20:22Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-07T00:20:07Z",
+      "originalIndex": 9,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-07T00:20:22Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -439,12 +468,6 @@
       },
       "actualStartTime": "2026-10-07T00:20:22Z",
       "actualEndTime": "2026-10-07T01:17:39Z",
-      "scheduledStartTime": "2026-10-07T00:20:07Z",
-      "originalIndex": 9,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-07T00:20:22Z",
       "endedAt": "2026-10-07T01:17:39Z",
       "type": "live",
@@ -452,7 +475,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -500,9 +522,18 @@
       "url": "https://www.youtube.com/watch?v=1q_CWn-xbSg",
       "thumbnail": "https://i.ytimg.com/vi/1q_CWn-xbSg/maxresdefault.jpg",
       "duration": "1:14:20",
-      "publishedAt": "2026-10-03T23:59:45Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-03T23:54:04Z",
+      "originalIndex": 10,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-03T23:59:45Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -512,12 +543,6 @@
       },
       "actualStartTime": "2026-10-03T23:59:45Z",
       "actualEndTime": "2026-10-04T01:47:24Z",
-      "scheduledStartTime": "2026-10-03T23:54:04Z",
-      "originalIndex": 10,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-03T23:59:45Z",
       "endedAt": "2026-10-04T01:47:24Z",
       "type": "live",
@@ -525,7 +550,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -536,9 +560,18 @@
       "url": "https://www.youtube.com/watch?v=JnSKHZEVr-E",
       "thumbnail": "https://i.ytimg.com/vi/JnSKHZEVr-E/maxresdefault.jpg",
       "duration": "38:31",
-      "publishedAt": "2026-10-03T00:13:06Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-03T00:15:00Z",
+      "originalIndex": 12,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-03T00:13:06Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -548,12 +581,6 @@
       },
       "actualStartTime": "2026-10-03T00:13:06Z",
       "actualEndTime": "2026-10-03T01:40:33Z",
-      "scheduledStartTime": "2026-10-03T00:15:00Z",
-      "originalIndex": 12,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-03T00:13:06Z",
       "endedAt": "2026-10-03T01:40:33Z",
       "type": "live",
@@ -561,7 +588,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
@@ -572,9 +598,18 @@
       "url": "https://www.youtube.com/watch?v=swSLSDAQZjg",
       "thumbnail": "https://i.ytimg.com/vi/swSLSDAQZjg/maxresdefault.jpg",
       "duration": "55:47",
-      "publishedAt": "2026-10-01T00:00:18Z",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-09-30T23:48:47Z",
+      "originalIndex": 13,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-01T00:00:18Z",
       "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
       "liveBroadcastContent": "none",
       "liveStreamingDetails": {
@@ -584,12 +619,6 @@
       },
       "actualStartTime": "2026-10-01T00:00:18Z",
       "actualEndTime": "2026-10-01T01:28:33Z",
-      "scheduledStartTime": "2026-09-30T23:48:47Z",
-      "originalIndex": 13,
-      "sources": [
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": false,
       "startedAt": "2026-10-01T00:00:18Z",
       "endedAt": "2026-10-01T01:28:33Z",
       "type": "live",
@@ -597,7 +626,6 @@
       "typePriority": 1,
       "isLiveBroadcast": true,
       "isLiveNow": false,
-      "isUpcoming": false,
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
