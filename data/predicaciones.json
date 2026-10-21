@@ -4,53 +4,52 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-20T23:12:30.899Z",
+  "updatedAt": "2026-10-21T01:34:55.163Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-20T23:12:30.899Z",
-    "lastSuccessfulCheck": "2026-10-20T23:12:30.899Z",
-    "lastAttemptAt": "2026-10-20T23:12:30.899Z",
+    "checkedAt": "2026-10-21T01:34:55.163Z",
+    "lastSuccessfulCheck": "2026-10-21T01:34:55.163Z",
+    "lastAttemptAt": "2026-10-21T01:34:55.163Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "ojnbIQhuagI",
     "lastEndedAt": "2026-10-18T06:31:49.824Z",
     "lastError": null,
     "state": "NO_LIVE",
-    "featuredLiveTodayId": "LkM-zZEHEK0"
+    "featuredLiveTodayId": "pMA1rRRE0e4"
   },
   "activeLive": null,
   "upcomingLive": null,
   "featuredLiveToday": {
-    "id": "LkM-zZEHEK0",
-    "title": "Tiempo De Oración | Prédicas Cristianas",
-    "url": "https://www.youtube.com/watch?v=LkM-zZEHEK0",
-    "thumbnail": "https://i.ytimg.com/vi/LkM-zZEHEK0/maxresdefault.jpg",
-    "duration": "34:24",
+    "id": "pMA1rRRE0e4",
+    "title": "Servicio De Enseñanza | Yarumal 20 De Octubre 2026",
+    "url": "https://www.youtube.com/watch?v=pMA1rRRE0e4",
+    "thumbnail": "https://i.ytimg.com/vi/pMA1rRRE0e4/maxresdefault_live.jpg",
+    "duration": "1:02:30",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
-    "scheduledStartTime": "2026-10-19T23:59:32Z",
+    "scheduledStartTime": "2026-10-21T00:13:22Z",
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
-      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-10-19T23:59:01Z",
+    "publishedAt": "2026-10-21T00:13:17Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
     "liveBroadcastContent": "none",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-10-19T23:59:01Z",
-      "actualEndTime": "2026-10-20T01:05:33Z",
-      "scheduledStartTime": "2026-10-19T23:59:32Z"
+      "actualStartTime": "2026-10-21T00:13:17Z",
+      "actualEndTime": "2026-10-21T01:15:48Z",
+      "scheduledStartTime": "2026-10-21T00:13:22Z"
     },
-    "actualStartTime": "2026-10-19T23:59:01Z",
-    "actualEndTime": "2026-10-20T01:05:33Z",
-    "startedAt": "2026-10-19T23:59:01Z",
-    "endedAt": "2026-10-20T01:05:33Z",
+    "actualStartTime": "2026-10-21T00:13:17Z",
+    "actualEndTime": "2026-10-21T01:15:48Z",
+    "startedAt": "2026-10-21T00:13:17Z",
+    "endedAt": "2026-10-21T01:15:48Z",
     "type": "live",
     "typeLabel": "Directo",
     "typePriority": 1,
@@ -62,6 +61,43 @@
   },
   "items": [
     {
+      "id": "pMA1rRRE0e4",
+      "title": "Servicio De Enseñanza | Yarumal 20 De Octubre 2026",
+      "url": "https://www.youtube.com/watch?v=pMA1rRRE0e4",
+      "thumbnail": "https://i.ytimg.com/vi/pMA1rRRE0e4/maxresdefault_live.jpg",
+      "duration": "1:02:30",
+      "publishedText": null,
+      "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-21T00:13:22Z",
+      "originalIndex": 0,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-21T00:13:17Z",
+      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+      "liveBroadcastContent": "none",
+      "liveStreamingDetails": {
+        "actualStartTime": "2026-10-21T00:13:17Z",
+        "actualEndTime": "2026-10-21T01:15:48Z",
+        "scheduledStartTime": "2026-10-21T00:13:22Z"
+      },
+      "actualStartTime": "2026-10-21T00:13:17Z",
+      "actualEndTime": "2026-10-21T01:15:48Z",
+      "startedAt": "2026-10-21T00:13:17Z",
+      "endedAt": "2026-10-21T01:15:48Z",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "isLiveNow": false,
+      "status": "archived",
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+    },
+    {
       "id": "LkM-zZEHEK0",
       "title": "Tiempo De Oración | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=LkM-zZEHEK0",
@@ -71,10 +107,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-19T23:59:32Z",
-      "originalIndex": 0,
+      "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -147,10 +182,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-18T00:00:00Z",
-      "originalIndex": 1,
+      "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -185,10 +219,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-17T00:08:21Z",
-      "originalIndex": 2,
+      "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -223,10 +256,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-14T23:51:47Z",
-      "originalIndex": 3,
+      "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -261,10 +293,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-14T00:17:27Z",
-      "originalIndex": 4,
+      "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -299,10 +330,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-11T00:00:00Z",
-      "originalIndex": 5,
+      "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -337,10 +367,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-10T00:12:21Z",
-      "originalIndex": 6,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -375,10 +404,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-08T00:00:00Z",
-      "originalIndex": 7,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -413,10 +441,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-07T00:20:07Z",
-      "originalIndex": 8,
+      "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -488,10 +515,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-03T23:54:04Z",
-      "originalIndex": 9,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -526,10 +552,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-03T00:15:00Z",
-      "originalIndex": 11,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -564,10 +589,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-09-30T23:48:47Z",
-      "originalIndex": 12,
+      "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -583,44 +607,6 @@
       "actualEndTime": "2026-10-01T01:28:33Z",
       "startedAt": "2026-10-01T00:00:18Z",
       "endedAt": "2026-10-01T01:28:33Z",
-      "type": "live",
-      "typeLabel": "Directo",
-      "typePriority": 1,
-      "isLiveBroadcast": true,
-      "isLiveNow": false,
-      "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list",
-      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
-    },
-    {
-      "id": "NPm0aGSdB1U",
-      "title": "Créelo, Es Contigo | Servicio De Enseñanza Yarumal | Prédicas Cristianas",
-      "url": "https://www.youtube.com/watch?v=NPm0aGSdB1U",
-      "thumbnail": "https://i.ytimg.com/vi/NPm0aGSdB1U/maxresdefault.jpg",
-      "duration": "52:50",
-      "publishedText": null,
-      "source": "youtube-data-api-uploads",
-      "isUpcoming": false,
-      "scheduledStartTime": "2026-09-30T00:24:41Z",
-      "originalIndex": 13,
-      "sources": [
-        "youtube-streams-page",
-        "youtube-uploads-rss",
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": true,
-      "publishedAt": "2026-09-30T00:28:23Z",
-      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-      "liveBroadcastContent": "none",
-      "liveStreamingDetails": {
-        "actualStartTime": "2026-09-30T00:28:23Z",
-        "actualEndTime": "2026-09-30T01:29:20Z",
-        "scheduledStartTime": "2026-09-30T00:24:41Z"
-      },
-      "actualStartTime": "2026-09-30T00:28:23Z",
-      "actualEndTime": "2026-09-30T01:29:20Z",
-      "startedAt": "2026-09-30T00:28:23Z",
-      "endedAt": "2026-09-30T01:29:20Z",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
