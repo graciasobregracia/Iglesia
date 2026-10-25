@@ -4,56 +4,21 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-10-25T01:47:57.386Z",
+  "updatedAt": "2026-10-25T06:57:39.352Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": true,
-    "activeLiveId": "dlyJQ9H3f7A",
+    "isLiveNow": false,
+    "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-10-25T01:47:57.386Z",
-    "lastSuccessfulCheck": "2026-10-25T01:47:57.386Z",
-    "lastAttemptAt": "2026-10-25T01:47:57.386Z",
+    "checkedAt": "2026-10-25T06:57:39.352Z",
+    "lastSuccessfulCheck": "2026-10-25T06:57:39.352Z",
+    "lastAttemptAt": "2026-10-25T06:57:39.352Z",
     "verificationStatus": "ok",
-    "lastEndedLiveId": null,
-    "lastEndedAt": null,
+    "lastEndedLiveId": "dlyJQ9H3f7A",
+    "lastEndedAt": "2026-10-25T06:57:39.352Z",
     "lastError": null,
-    "state": "LIVE"
+    "state": "NO_LIVE"
   },
-  "activeLive": {
-    "id": "dlyJQ9H3f7A",
-    "title": "Servicio Especial Juntos En Casa | Sábado 24 de Octubre del 2026.",
-    "url": "https://www.youtube.com/watch?v=dlyJQ9H3f7A",
-    "thumbnail": "https://i.ytimg.com/vi/dlyJQ9H3f7A/maxresdefault.jpg?v=6add44c5",
-    "duration": null,
-    "publishedText": null,
-    "source": "youtube-data-api-uploads",
-    "isUpcoming": false,
-    "scheduledStartTime": "2026-10-24T23:53:26Z",
-    "originalIndex": 0,
-    "sources": [
-      "youtube-streams-page",
-      "youtube-data-api-uploads"
-    ],
-    "listedOnStreamsPage": true,
-    "publishedAt": "2026-10-25T00:01:01Z",
-    "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-    "liveBroadcastContent": "live",
-    "liveStreamingDetails": {
-      "actualStartTime": "2026-10-25T00:01:01Z",
-      "scheduledStartTime": "2026-10-24T23:53:26Z",
-      "concurrentViewers": "5",
-      "activeLiveChatId": "Cg0KC2RseUpROUgzZjdBKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILZGx5SlE5SDNmN0E"
-    },
-    "actualStartTime": "2026-10-25T00:01:01Z",
-    "actualEndTime": null,
-    "type": "live",
-    "typePriority": 1,
-    "typeLabel": "🔴 EN VIVO AHORA",
-    "isLiveBroadcast": true,
-    "isLiveNow": true,
-    "status": "live",
-    "verificationSource": "youtube-data-api-videos-list",
-    "description": "Estamos transmitiendo nuestro servicio en este momento."
-  },
+  "activeLive": null,
   "upcomingLive": null
 }
