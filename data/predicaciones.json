@@ -4,34 +4,34 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-01T04:02:26.361Z",
+  "updatedAt": "2026-11-01T11:12:14.844Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-01T04:02:26.361Z",
-    "lastSuccessfulCheck": "2026-11-01T04:02:26.361Z",
-    "lastAttemptAt": "2026-11-01T04:02:26.361Z",
+    "checkedAt": "2026-11-01T11:12:14.844Z",
+    "lastSuccessfulCheck": "2026-11-01T11:12:14.844Z",
+    "lastAttemptAt": "2026-11-01T11:12:14.844Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "dlyJQ9H3f7A",
     "lastEndedAt": "2026-10-25T06:57:39.352Z",
     "lastError": null,
     "state": "NO_LIVE",
-    "featuredLiveTodayId": "DrhQTv3SdFU"
+    "featuredLiveTodayId": "Y-XVuR_UwBI"
   },
   "activeLive": null,
   "upcomingLive": null,
   "featuredLiveToday": {
-    "id": "DrhQTv3SdFU",
-    "title": "Servicio Evangelista | Yarumal 30 De Octubre 2026",
-    "url": "https://www.youtube.com/watch?v=DrhQTv3SdFU",
-    "thumbnail": "https://i.ytimg.com/vi/DrhQTv3SdFU/maxresdefault.jpg",
-    "duration": "58:04",
+    "id": "Y-XVuR_UwBI",
+    "title": "Servicio Especial | Sábado 31 de Octubre del 2026.",
+    "url": "https://www.youtube.com/watch?v=Y-XVuR_UwBI",
+    "thumbnail": "https://i.ytimg.com/vi/Y-XVuR_UwBI/maxresdefault.jpg?v=6ae67f11",
+    "duration": "2:04:33",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
-    "scheduledStartTime": "2026-10-31T00:10:43Z",
+    "scheduledStartTime": "2026-10-31T23:52:39Z",
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
@@ -39,18 +39,18 @@
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-10-31T00:10:36Z",
+    "publishedAt": "2026-10-31T23:58:12Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
     "liveBroadcastContent": "none",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-10-31T00:10:36Z",
-      "actualEndTime": "2026-10-31T01:31:19Z",
-      "scheduledStartTime": "2026-10-31T00:10:43Z"
+      "actualStartTime": "2026-10-31T23:58:12Z",
+      "actualEndTime": "2026-11-01T02:02:46Z",
+      "scheduledStartTime": "2026-10-31T23:52:39Z"
     },
-    "actualStartTime": "2026-10-31T00:10:36Z",
-    "actualEndTime": "2026-10-31T01:31:19Z",
-    "startedAt": "2026-10-31T00:10:36Z",
-    "endedAt": "2026-10-31T01:31:19Z",
+    "actualStartTime": "2026-10-31T23:58:12Z",
+    "actualEndTime": "2026-11-01T02:02:46Z",
+    "startedAt": "2026-10-31T23:58:12Z",
+    "endedAt": "2026-11-01T02:02:46Z",
     "type": "live",
     "typeLabel": "Directo",
     "typePriority": 1,
@@ -62,6 +62,44 @@
   },
   "items": [
     {
+      "id": "Y-XVuR_UwBI",
+      "title": "Servicio Especial | Sábado 31 de Octubre del 2026.",
+      "url": "https://www.youtube.com/watch?v=Y-XVuR_UwBI",
+      "thumbnail": "https://i.ytimg.com/vi/Y-XVuR_UwBI/maxresdefault.jpg?v=6ae67f11",
+      "duration": "2:04:33",
+      "publishedText": null,
+      "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-10-31T23:52:39Z",
+      "originalIndex": 0,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-uploads-rss",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-10-31T23:58:12Z",
+      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+      "liveBroadcastContent": "none",
+      "liveStreamingDetails": {
+        "actualStartTime": "2026-10-31T23:58:12Z",
+        "actualEndTime": "2026-11-01T02:02:46Z",
+        "scheduledStartTime": "2026-10-31T23:52:39Z"
+      },
+      "actualStartTime": "2026-10-31T23:58:12Z",
+      "actualEndTime": "2026-11-01T02:02:46Z",
+      "startedAt": "2026-10-31T23:58:12Z",
+      "endedAt": "2026-11-01T02:02:46Z",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "isLiveNow": false,
+      "status": "archived",
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+    },
+    {
       "id": "DrhQTv3SdFU",
       "title": "Servicio Evangelista | Yarumal 30 De Octubre 2026",
       "url": "https://www.youtube.com/watch?v=DrhQTv3SdFU",
@@ -71,7 +109,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T00:10:43Z",
-      "originalIndex": 0,
+      "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -109,7 +147,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-28T23:52:47Z",
-      "originalIndex": 1,
+      "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -147,7 +185,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-27T00:08:01Z",
-      "originalIndex": 2,
+      "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -185,7 +223,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-24T23:53:26Z",
-      "originalIndex": 4,
+      "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -223,7 +261,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-24T00:10:49Z",
-      "originalIndex": 5,
+      "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -261,7 +299,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-22T00:00:00Z",
-      "originalIndex": 6,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -299,7 +337,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-21T00:13:22Z",
-      "originalIndex": 7,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -337,7 +375,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-19T23:59:32Z",
-      "originalIndex": 8,
+      "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -413,7 +451,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-18T00:00:00Z",
-      "originalIndex": 9,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -451,7 +489,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-17T00:08:21Z",
-      "originalIndex": 10,
+      "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -489,7 +527,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-14T23:51:47Z",
-      "originalIndex": 11,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -527,7 +565,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-14T00:17:27Z",
-      "originalIndex": 12,
+      "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -565,7 +603,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-11T00:00:00Z",
-      "originalIndex": 13,
+      "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -592,46 +630,8 @@
       "status": "archived",
       "verificationSource": "youtube-data-api-videos-list",
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
-    },
-    {
-      "id": "usiWe86VFoQ",
-      "title": "Adversarios De Nuestra Bendición | Servicio Evangelista Yarumal | Prédicas Cristianas",
-      "url": "https://www.youtube.com/watch?v=usiWe86VFoQ",
-      "thumbnail": "https://i.ytimg.com/vi/usiWe86VFoQ/maxresdefault.jpg",
-      "duration": "52:03",
-      "publishedText": null,
-      "source": "youtube-data-api-uploads",
-      "isUpcoming": false,
-      "scheduledStartTime": "2026-10-10T00:12:21Z",
-      "originalIndex": 14,
-      "sources": [
-        "youtube-streams-page",
-        "youtube-uploads-rss",
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": true,
-      "publishedAt": "2026-10-10T00:12:47Z",
-      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-      "liveBroadcastContent": "none",
-      "liveStreamingDetails": {
-        "actualStartTime": "2026-10-10T00:12:47Z",
-        "actualEndTime": "2026-10-10T01:26:21Z",
-        "scheduledStartTime": "2026-10-10T00:12:21Z"
-      },
-      "actualStartTime": "2026-10-10T00:12:47Z",
-      "actualEndTime": "2026-10-10T01:26:21Z",
-      "startedAt": "2026-10-10T00:12:47Z",
-      "endedAt": "2026-10-10T01:26:21Z",
-      "type": "live",
-      "typeLabel": "Directo",
-      "typePriority": 1,
-      "isLiveBroadcast": true,
-      "isLiveNow": false,
-      "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list",
-      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     }
   ],
-  "archiveVerificationStatus": "error",
-  "archiveError": "No se verificaron 8 candidato(s) de archivo; se preserva el feed previo. IDs: c7DfqM133jk, 3GD2FCOZsVE, F1zVJBY669E, FjzhVnoIf0k, AP_dNSmwEP4, gFvkBrpxT4Y, phGF3xZJRew, bLMf511eL_o"
+  "archiveVerificationStatus": "ok",
+  "archiveError": null
 }
