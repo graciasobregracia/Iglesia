@@ -4,52 +4,52 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-03T23:40:36.107Z",
+  "updatedAt": "2026-11-04T03:14:45.165Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-03T23:40:36.107Z",
-    "lastSuccessfulCheck": "2026-11-03T23:40:36.107Z",
-    "lastAttemptAt": "2026-11-03T23:40:36.107Z",
+    "checkedAt": "2026-11-04T03:14:45.165Z",
+    "lastSuccessfulCheck": "2026-11-04T03:14:45.165Z",
+    "lastAttemptAt": "2026-11-04T03:14:45.165Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "dlyJQ9H3f7A",
     "lastEndedAt": "2026-10-25T06:57:39.352Z",
     "lastError": null,
     "state": "NO_LIVE",
-    "featuredLiveTodayId": "Y-XVuR_UwBI"
+    "featuredLiveTodayId": "KWteyPx6Qgc"
   },
   "activeLive": null,
   "upcomingLive": null,
   "featuredLiveToday": {
-    "id": "Y-XVuR_UwBI",
-    "title": "Un Encuentro Con Jesús | Prédicas Cristianas",
-    "url": "https://www.youtube.com/watch?v=Y-XVuR_UwBI",
-    "thumbnail": "https://i.ytimg.com/vi/Y-XVuR_UwBI/maxresdefault.jpg",
-    "duration": "1:14:27",
+    "id": "KWteyPx6Qgc",
+    "title": "servicio de enseñanza",
+    "url": "https://www.youtube.com/watch?v=KWteyPx6Qgc",
+    "thumbnail": "https://i.ytimg.com/vi/KWteyPx6Qgc/maxresdefault.jpg?v=11",
+    "duration": "1:24:44",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
-    "scheduledStartTime": "2026-10-31T23:52:39Z",
-    "originalIndex": 1,
+    "scheduledStartTime": "2026-11-03T23:57:29Z",
+    "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-10-31T23:58:12Z",
+    "publishedAt": "2026-11-03T23:57:02Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
     "liveBroadcastContent": "none",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-10-31T23:58:12Z",
-      "actualEndTime": "2026-11-01T02:02:46Z",
-      "scheduledStartTime": "2026-10-31T23:52:39Z"
+      "actualStartTime": "2026-11-03T23:57:02Z",
+      "actualEndTime": "2026-11-04T01:21:47Z",
+      "scheduledStartTime": "2026-11-03T23:57:29Z"
     },
-    "actualStartTime": "2026-10-31T23:58:12Z",
-    "actualEndTime": "2026-11-01T02:02:46Z",
-    "startedAt": "2026-10-31T23:58:12Z",
-    "endedAt": "2026-11-01T02:02:46Z",
+    "actualStartTime": "2026-11-03T23:57:02Z",
+    "actualEndTime": "2026-11-04T01:21:47Z",
+    "startedAt": "2026-11-03T23:57:02Z",
+    "endedAt": "2026-11-04T01:21:47Z",
     "type": "live",
     "typeLabel": "Directo",
     "typePriority": 1,
@@ -61,6 +61,43 @@
   },
   "items": [
     {
+      "id": "KWteyPx6Qgc",
+      "title": "servicio de enseñanza",
+      "url": "https://www.youtube.com/watch?v=KWteyPx6Qgc",
+      "thumbnail": "https://i.ytimg.com/vi/KWteyPx6Qgc/maxresdefault.jpg?v=11",
+      "duration": "1:24:44",
+      "publishedText": null,
+      "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-11-03T23:57:29Z",
+      "originalIndex": 0,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-11-03T23:57:02Z",
+      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+      "liveBroadcastContent": "none",
+      "liveStreamingDetails": {
+        "actualStartTime": "2026-11-03T23:57:02Z",
+        "actualEndTime": "2026-11-04T01:21:47Z",
+        "scheduledStartTime": "2026-11-03T23:57:29Z"
+      },
+      "actualStartTime": "2026-11-03T23:57:02Z",
+      "actualEndTime": "2026-11-04T01:21:47Z",
+      "startedAt": "2026-11-03T23:57:02Z",
+      "endedAt": "2026-11-04T01:21:47Z",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "isLiveNow": false,
+      "status": "archived",
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+    },
+    {
       "id": "Y-XVuR_UwBI",
       "title": "Un Encuentro Con Jesús | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=Y-XVuR_UwBI",
@@ -70,7 +107,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T23:52:39Z",
-      "originalIndex": 1,
+      "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -107,7 +144,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T00:10:43Z",
-      "originalIndex": 2,
+      "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -144,7 +181,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-28T23:52:47Z",
-      "originalIndex": 3,
+      "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -181,7 +218,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-27T00:08:01Z",
-      "originalIndex": 4,
+      "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -218,7 +255,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-24T23:53:26Z",
-      "originalIndex": 6,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -255,7 +292,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-24T00:10:49Z",
-      "originalIndex": 7,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -292,7 +329,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-22T00:00:00Z",
-      "originalIndex": 8,
+      "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -329,7 +366,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-21T00:13:22Z",
-      "originalIndex": 9,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -366,7 +403,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-19T23:59:32Z",
-      "originalIndex": 10,
+      "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -441,7 +478,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-18T00:00:00Z",
-      "originalIndex": 11,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -478,7 +515,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-17T00:08:21Z",
-      "originalIndex": 12,
+      "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -515,7 +552,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-14T23:51:47Z",
-      "originalIndex": 13,
+      "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -552,7 +589,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-14T00:17:27Z",
-      "originalIndex": 14,
+      "originalIndex": 15,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -570,43 +607,6 @@
       "actualEndTime": "2026-10-14T01:28:18Z",
       "startedAt": "2026-10-14T00:19:26Z",
       "endedAt": "2026-10-14T01:28:18Z",
-      "type": "live",
-      "typeLabel": "Directo",
-      "typePriority": 1,
-      "isLiveBroadcast": true,
-      "isLiveNow": false,
-      "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list",
-      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
-    },
-    {
-      "id": "lMQrjdjWjcQ",
-      "title": "El Peligro De La Distracción | Prédicas Cristianas",
-      "url": "https://www.youtube.com/watch?v=lMQrjdjWjcQ",
-      "thumbnail": "https://i.ytimg.com/vi/lMQrjdjWjcQ/maxresdefault.jpg",
-      "duration": "1:13:07",
-      "publishedText": null,
-      "source": "youtube-data-api-uploads",
-      "isUpcoming": false,
-      "scheduledStartTime": "2026-10-11T00:00:00Z",
-      "originalIndex": 15,
-      "sources": [
-        "youtube-streams-page",
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": true,
-      "publishedAt": "2026-10-11T00:02:35Z",
-      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-      "liveBroadcastContent": "none",
-      "liveStreamingDetails": {
-        "actualStartTime": "2026-10-11T00:02:35Z",
-        "actualEndTime": "2026-10-11T01:50:30Z",
-        "scheduledStartTime": "2026-10-11T00:00:00Z"
-      },
-      "actualStartTime": "2026-10-11T00:02:35Z",
-      "actualEndTime": "2026-10-11T01:50:30Z",
-      "startedAt": "2026-10-11T00:02:35Z",
-      "endedAt": "2026-10-11T01:50:30Z",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
