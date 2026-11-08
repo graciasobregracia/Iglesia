@@ -4,20 +4,21 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-08T20:27:47.665Z",
+  "updatedAt": "2026-11-08T23:53:20.740Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": null,
+    "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-08T16:11:45.788Z",
-    "lastSuccessfulCheck": "2026-11-08T16:11:45.788Z",
-    "lastAttemptAt": "2026-11-08T20:27:47.665Z",
-    "verificationStatus": "error",
+    "checkedAt": "2026-11-08T23:53:20.740Z",
+    "lastSuccessfulCheck": "2026-11-08T23:53:20.740Z",
+    "lastAttemptAt": "2026-11-08T23:53:20.740Z",
+    "verificationStatus": "ok",
     "lastEndedLiveId": "dlyJQ9H3f7A",
     "lastEndedAt": "2026-10-25T06:57:39.352Z",
-    "lastError": "Resultado incompleto: errores en 0 video(s) y 1 página(s); se conservan los JSON anteriores.",
-    "state": "ERROR"
+    "lastError": null,
+    "state": "NO_LIVE",
+    "featuredLiveTodayId": "iFn_Ua5KPyE"
   },
   "activeLive": null,
   "upcomingLive": null,
@@ -34,7 +35,6 @@
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
-      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
@@ -73,7 +73,6 @@
       "originalIndex": 0,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -111,7 +110,6 @@
       "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -149,7 +147,6 @@
       "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -187,7 +184,6 @@
       "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -225,7 +221,6 @@
       "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -263,7 +258,6 @@
       "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -301,7 +295,6 @@
       "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -339,7 +332,6 @@
       "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -377,7 +369,6 @@
       "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -415,7 +406,6 @@
       "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -453,7 +443,6 @@
       "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -491,7 +480,6 @@
       "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -529,7 +517,6 @@
       "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
