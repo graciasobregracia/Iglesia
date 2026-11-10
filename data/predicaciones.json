@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-10T11:48:34.676Z",
+  "updatedAt": "2026-11-10T18:53:29.442Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-10T11:48:34.676Z",
-    "lastSuccessfulCheck": "2026-11-10T11:48:34.676Z",
-    "lastAttemptAt": "2026-11-10T11:48:34.676Z",
+    "checkedAt": "2026-11-10T18:53:29.442Z",
+    "lastSuccessfulCheck": "2026-11-10T18:53:29.442Z",
+    "lastAttemptAt": "2026-11-10T18:53:29.442Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "dlyJQ9H3f7A",
     "lastEndedAt": "2026-10-25T06:57:39.352Z",
@@ -26,8 +26,8 @@
     "id": "ZB43H-EnRxE",
     "title": "Tiempo De Oración",
     "url": "https://www.youtube.com/watch?v=ZB43H-EnRxE",
-    "thumbnail": "https://i.ytimg.com/vi/ZB43H-EnRxE/maxresdefault.jpg?v=6af25eb2",
-    "duration": "1:27:18",
+    "thumbnail": "https://i.ytimg.com/vi/ZB43H-EnRxE/maxresdefault.jpg",
+    "duration": "51:24",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
@@ -35,6 +35,7 @@
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
+      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
@@ -64,8 +65,8 @@
       "id": "ZB43H-EnRxE",
       "title": "Tiempo De Oración",
       "url": "https://www.youtube.com/watch?v=ZB43H-EnRxE",
-      "thumbnail": "https://i.ytimg.com/vi/ZB43H-EnRxE/maxresdefault.jpg?v=6af25eb2",
-      "duration": "1:27:18",
+      "thumbnail": "https://i.ytimg.com/vi/ZB43H-EnRxE/maxresdefault.jpg",
+      "duration": "51:24",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
@@ -73,6 +74,7 @@
       "originalIndex": 0,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -110,6 +112,7 @@
       "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -147,6 +150,7 @@
       "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -184,6 +188,7 @@
       "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -221,6 +226,7 @@
       "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -258,6 +264,7 @@
       "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -295,6 +302,7 @@
       "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -332,6 +340,7 @@
       "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -369,6 +378,7 @@
       "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -406,6 +416,7 @@
       "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -443,6 +454,7 @@
       "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -480,6 +492,7 @@
       "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -517,6 +530,7 @@
       "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -617,6 +631,6 @@
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     }
   ],
-  "archiveVerificationStatus": "error",
-  "archiveError": "No se verificaron 9 candidato(s) de archivo; se preserva el feed previo. IDs: bZVsdYYrYbM, c7DfqM133jk, 3GD2FCOZsVE, F1zVJBY669E, FjzhVnoIf0k, AP_dNSmwEP4, gFvkBrpxT4Y, phGF3xZJRew, bLMf511eL_o"
+  "archiveVerificationStatus": "ok",
+  "archiveError": null
 }
