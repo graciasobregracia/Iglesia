@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-12T22:15:01.994Z",
+  "updatedAt": "2026-11-13T02:38:31.192Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-12T22:15:01.994Z",
-    "lastSuccessfulCheck": "2026-11-12T22:15:01.994Z",
-    "lastAttemptAt": "2026-11-12T22:15:01.994Z",
+    "checkedAt": "2026-11-13T02:38:31.192Z",
+    "lastSuccessfulCheck": "2026-11-13T02:38:31.192Z",
+    "lastAttemptAt": "2026-11-13T02:38:31.192Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "gjptqJ2mzmA",
     "lastEndedAt": "2026-11-12T07:38:29.811Z",
@@ -24,7 +24,7 @@
   "upcomingLive": null,
   "featuredLiveToday": {
     "id": "gjptqJ2mzmA",
-    "title": "Servicio de Enseñanza | Miércoles 11 Noviembre del 2026.",
+    "title": "Gratitud | Prédicas Cristianas",
     "url": "https://www.youtube.com/watch?v=gjptqJ2mzmA",
     "thumbnail": "https://i.ytimg.com/vi/gjptqJ2mzmA/maxresdefault.jpg",
     "duration": "1:03:28",
@@ -35,7 +35,6 @@
     "originalIndex": 1,
     "sources": [
       "youtube-streams-page",
-      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
@@ -63,7 +62,7 @@
   "items": [
     {
       "id": "gjptqJ2mzmA",
-      "title": "Servicio de Enseñanza | Miércoles 11 Noviembre del 2026.",
+      "title": "Gratitud | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=gjptqJ2mzmA",
       "thumbnail": "https://i.ytimg.com/vi/gjptqJ2mzmA/maxresdefault.jpg",
       "duration": "1:03:28",
@@ -74,7 +73,6 @@
       "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -112,7 +110,6 @@
       "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -150,7 +147,6 @@
       "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -188,7 +184,6 @@
       "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -226,7 +221,6 @@
       "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -264,7 +258,6 @@
       "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -302,7 +295,6 @@
       "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -340,7 +332,6 @@
       "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -378,7 +369,6 @@
       "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -416,7 +406,6 @@
       "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -454,7 +443,6 @@
       "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -492,7 +480,6 @@
       "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
