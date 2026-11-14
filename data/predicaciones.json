@@ -4,53 +4,52 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-13T22:45:52.369Z",
+  "updatedAt": "2026-11-14T02:42:17.773Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-13T22:45:52.369Z",
-    "lastSuccessfulCheck": "2026-11-13T22:45:52.369Z",
-    "lastAttemptAt": "2026-11-13T22:45:52.369Z",
+    "checkedAt": "2026-11-14T02:42:17.773Z",
+    "lastSuccessfulCheck": "2026-11-14T02:42:17.773Z",
+    "lastAttemptAt": "2026-11-14T02:42:17.773Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "gjptqJ2mzmA",
     "lastEndedAt": "2026-11-12T07:38:29.811Z",
     "lastError": null,
     "state": "NO_LIVE",
-    "featuredLiveTodayId": "gjptqJ2mzmA"
+    "featuredLiveTodayId": "zRnPBz4P-Oc"
   },
   "activeLive": null,
   "upcomingLive": null,
   "featuredLiveToday": {
-    "id": "gjptqJ2mzmA",
-    "title": "Gratitud | Prédicas Cristianas",
-    "url": "https://www.youtube.com/watch?v=gjptqJ2mzmA",
-    "thumbnail": "https://i.ytimg.com/vi/gjptqJ2mzmA/maxresdefault.jpg",
-    "duration": "1:03:28",
+    "id": "zRnPBz4P-Oc",
+    "title": "Servicio Evangelista Yarumal | Viernes 13 de Noviembre del 2026.",
+    "url": "https://www.youtube.com/watch?v=zRnPBz4P-Oc",
+    "thumbnail": "https://i.ytimg.com/vi/zRnPBz4P-Oc/maxresdefault.jpg?v=6af7a6b6",
+    "duration": "1:17:21",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
-    "scheduledStartTime": "2026-11-12T00:00:00Z",
-    "originalIndex": 1,
+    "scheduledStartTime": "2026-11-14T00:10:08Z",
+    "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
-      "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-11-11T23:57:46Z",
+    "publishedAt": "2026-11-14T00:11:28Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
     "liveBroadcastContent": "none",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-11-11T23:57:46Z",
-      "actualEndTime": "2026-11-12T01:33:50Z",
-      "scheduledStartTime": "2026-11-12T00:00:00Z"
+      "actualStartTime": "2026-11-14T00:11:28Z",
+      "actualEndTime": "2026-11-14T01:28:49Z",
+      "scheduledStartTime": "2026-11-14T00:10:08Z"
     },
-    "actualStartTime": "2026-11-11T23:57:46Z",
-    "actualEndTime": "2026-11-12T01:33:50Z",
-    "startedAt": "2026-11-11T23:57:46Z",
-    "endedAt": "2026-11-12T01:33:50Z",
+    "actualStartTime": "2026-11-14T00:11:28Z",
+    "actualEndTime": "2026-11-14T01:28:49Z",
+    "startedAt": "2026-11-14T00:11:28Z",
+    "endedAt": "2026-11-14T01:28:49Z",
     "type": "live",
     "typeLabel": "Directo",
     "typePriority": 1,
@@ -62,6 +61,43 @@
   },
   "items": [
     {
+      "id": "zRnPBz4P-Oc",
+      "title": "Servicio Evangelista Yarumal | Viernes 13 de Noviembre del 2026.",
+      "url": "https://www.youtube.com/watch?v=zRnPBz4P-Oc",
+      "thumbnail": "https://i.ytimg.com/vi/zRnPBz4P-Oc/maxresdefault.jpg?v=6af7a6b6",
+      "duration": "1:17:21",
+      "publishedText": null,
+      "source": "youtube-data-api-uploads",
+      "isUpcoming": false,
+      "scheduledStartTime": "2026-11-14T00:10:08Z",
+      "originalIndex": 0,
+      "sources": [
+        "youtube-streams-page",
+        "youtube-data-api-uploads"
+      ],
+      "listedOnStreamsPage": true,
+      "publishedAt": "2026-11-14T00:11:28Z",
+      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+      "liveBroadcastContent": "none",
+      "liveStreamingDetails": {
+        "actualStartTime": "2026-11-14T00:11:28Z",
+        "actualEndTime": "2026-11-14T01:28:49Z",
+        "scheduledStartTime": "2026-11-14T00:10:08Z"
+      },
+      "actualStartTime": "2026-11-14T00:11:28Z",
+      "actualEndTime": "2026-11-14T01:28:49Z",
+      "startedAt": "2026-11-14T00:11:28Z",
+      "endedAt": "2026-11-14T01:28:49Z",
+      "type": "live",
+      "typeLabel": "Directo",
+      "typePriority": 1,
+      "isLiveBroadcast": true,
+      "isLiveNow": false,
+      "status": "archived",
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+    },
+    {
       "id": "gjptqJ2mzmA",
       "title": "Gratitud | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=gjptqJ2mzmA",
@@ -71,10 +107,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-12T00:00:00Z",
-      "originalIndex": 1,
+      "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -109,10 +144,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-11T00:18:16Z",
-      "originalIndex": 2,
+      "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -147,10 +181,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-10T00:01:48Z",
-      "originalIndex": 3,
+      "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -185,10 +218,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-08T00:00:00Z",
-      "originalIndex": 4,
+      "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -223,10 +255,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-06T23:58:32Z",
-      "originalIndex": 5,
+      "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -261,10 +292,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-04T23:43:36Z",
-      "originalIndex": 6,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -299,10 +329,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-03T23:57:29Z",
-      "originalIndex": 7,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -337,10 +366,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T23:52:39Z",
-      "originalIndex": 9,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -375,10 +403,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T00:10:43Z",
-      "originalIndex": 10,
+      "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -413,10 +440,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-28T23:52:47Z",
-      "originalIndex": 11,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -451,10 +477,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-27T00:08:01Z",
-      "originalIndex": 12,
+      "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -489,10 +514,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-24T23:53:26Z",
-      "originalIndex": 14,
+      "originalIndex": 15,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -527,7 +551,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-24T00:10:49Z",
-      "originalIndex": 15,
+      "originalIndex": 16,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -564,7 +588,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-22T00:00:00Z",
-      "originalIndex": 16,
+      "originalIndex": 17,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
@@ -582,43 +606,6 @@
       "actualEndTime": "2026-10-22T01:32:50Z",
       "startedAt": "2026-10-21T23:57:26Z",
       "endedAt": "2026-10-22T01:32:50Z",
-      "type": "live",
-      "typeLabel": "Directo",
-      "typePriority": 1,
-      "isLiveBroadcast": true,
-      "isLiveNow": false,
-      "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list",
-      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
-    },
-    {
-      "id": "pMA1rRRE0e4",
-      "title": "Dispuestos Para El Señor | Servicio De Enseñanza Yarumal | Prédicas Cristianas",
-      "url": "https://www.youtube.com/watch?v=pMA1rRRE0e4",
-      "thumbnail": "https://i.ytimg.com/vi/pMA1rRRE0e4/maxresdefault.jpg",
-      "duration": "44:18",
-      "publishedText": null,
-      "source": "youtube-data-api-uploads",
-      "isUpcoming": false,
-      "scheduledStartTime": "2026-10-21T00:13:22Z",
-      "originalIndex": 17,
-      "sources": [
-        "youtube-streams-page",
-        "youtube-data-api-uploads"
-      ],
-      "listedOnStreamsPage": true,
-      "publishedAt": "2026-10-21T00:13:17Z",
-      "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-      "liveBroadcastContent": "none",
-      "liveStreamingDetails": {
-        "actualStartTime": "2026-10-21T00:13:17Z",
-        "actualEndTime": "2026-10-21T01:15:48Z",
-        "scheduledStartTime": "2026-10-21T00:13:22Z"
-      },
-      "actualStartTime": "2026-10-21T00:13:17Z",
-      "actualEndTime": "2026-10-21T01:15:48Z",
-      "startedAt": "2026-10-21T00:13:17Z",
-      "endedAt": "2026-10-21T01:15:48Z",
       "type": "live",
       "typeLabel": "Directo",
       "typePriority": 1,
