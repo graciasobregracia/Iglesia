@@ -4,57 +4,48 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-19T00:24:05.325Z",
+  "updatedAt": "2026-11-19T07:41:12.901Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": true,
-    "activeLiveId": "DVTpu7zaPuc",
-    "upcomingLiveId": null,
+    "isLiveNow": null,
+    "activeLiveId": null,
+    "upcomingLiveId": "H7lu10eFLIQ",
     "checkedAt": "2026-11-19T00:24:05.325Z",
     "lastSuccessfulCheck": "2026-11-19T00:24:05.325Z",
-    "lastAttemptAt": "2026-11-19T00:24:05.325Z",
-    "verificationStatus": "ok",
-    "lastEndedLiveId": null,
-    "lastEndedAt": null,
-    "lastError": null,
-    "state": "LIVE"
+    "lastAttemptAt": "2026-11-19T07:41:12.901Z",
+    "verificationStatus": "error",
+    "lastEndedLiveId": "DVTpu7zaPuc",
+    "lastEndedAt": "2026-11-19T07:41:12.901Z",
+    "lastError": "El LIVE anterior terminó, pero la búsqueda del siguiente LIVE quedó incompleta (3 video(s), 0 página(s) con error).",
+    "state": "ERROR"
   },
-  "activeLive": {
-    "id": "DVTpu7zaPuc",
+  "activeLive": null,
+  "upcomingLive": {
+    "id": "H7lu10eFLIQ",
     "title": "Servicio De Santa Cena",
-    "url": "https://www.youtube.com/watch?v=DVTpu7zaPuc",
-    "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg?v=6afe399b",
+    "url": "https://www.youtube.com/watch?v=H7lu10eFLIQ",
+    "thumbnail": "https://i.ytimg.com/vi/H7lu10eFLIQ/maxresdefault.jpg",
     "duration": null,
     "publishedText": null,
     "source": "youtube-data-api-uploads",
-    "isUpcoming": false,
-    "scheduledStartTime": "2026-11-18T23:50:52Z",
-    "originalIndex": 0,
+    "isUpcoming": true,
+    "scheduledStartTime": "2026-11-18T23:50:44Z",
+    "originalIndex": 1,
     "sources": [
       "youtube-streams-page",
       "youtube-uploads-rss",
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-11-18T23:57:16Z",
+    "publishedAt": "2026-11-18T23:49:36Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-    "liveBroadcastContent": "live",
+    "liveBroadcastContent": "upcoming",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-11-18T23:57:16Z",
-      "scheduledStartTime": "2026-11-18T23:50:52Z",
-      "concurrentViewers": "11",
-      "activeLiveChatId": "Cg0KC0RWVHB1N3phUHVjKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILRFZUcHU3emFQdWM"
+      "scheduledStartTime": "2026-11-18T23:50:44Z",
+      "activeLiveChatId": "Cg0KC0g3bHUxMGVGTElRKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILSDdsdTEwZUZMSVE"
     },
-    "actualStartTime": "2026-11-18T23:57:16Z",
+    "actualStartTime": null,
     "actualEndTime": null,
-    "type": "live",
-    "typePriority": 1,
-    "typeLabel": "🔴 EN VIVO AHORA",
-    "isLiveBroadcast": true,
-    "isLiveNow": true,
-    "status": "live",
-    "verificationSource": "youtube-data-api-videos-list",
-    "description": "Estamos transmitiendo nuestro servicio en este momento."
-  },
-  "upcomingLive": null
+    "isLiveNow": false
+  }
 }
