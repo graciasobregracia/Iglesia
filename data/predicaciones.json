@@ -4,34 +4,32 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-18T18:14:27.892Z",
+  "updatedAt": "2026-11-19T00:24:05.325Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": false,
-    "activeLiveId": null,
+    "isLiveNow": true,
+    "activeLiveId": "DVTpu7zaPuc",
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-18T18:14:27.892Z",
-    "lastSuccessfulCheck": "2026-11-18T18:14:27.892Z",
-    "lastAttemptAt": "2026-11-18T18:14:27.892Z",
+    "checkedAt": "2026-11-19T00:24:05.325Z",
+    "lastSuccessfulCheck": "2026-11-19T00:24:05.325Z",
+    "lastAttemptAt": "2026-11-19T00:24:05.325Z",
     "verificationStatus": "ok",
-    "lastEndedLiveId": "gjptqJ2mzmA",
-    "lastEndedAt": "2026-11-12T07:38:29.811Z",
+    "lastEndedLiveId": null,
+    "lastEndedAt": null,
     "lastError": null,
-    "state": "NO_LIVE",
-    "featuredLiveTodayId": "25aj0Dt_tos"
+    "state": "LIVE",
+    "featuredLiveTodayId": "DVTpu7zaPuc"
   },
-  "activeLive": null,
-  "upcomingLive": null,
-  "featuredLiveToday": {
-    "id": "25aj0Dt_tos",
-    "title": "Apariencias | Servicio De Enseñanza Yarumal | Prédicas Cristianas",
-    "url": "https://www.youtube.com/watch?v=25aj0Dt_tos",
-    "thumbnail": "https://i.ytimg.com/vi/25aj0Dt_tos/maxresdefault.jpg",
-    "duration": "56:54",
+  "activeLive": {
+    "id": "DVTpu7zaPuc",
+    "title": "Servicio De Santa Cena",
+    "url": "https://www.youtube.com/watch?v=DVTpu7zaPuc",
+    "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg?v=6afe399b",
+    "duration": null,
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
-    "scheduledStartTime": "2026-11-18T00:11:21Z",
+    "scheduledStartTime": "2026-11-18T23:50:52Z",
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
@@ -39,26 +37,62 @@
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-11-18T00:11:06Z",
+    "publishedAt": "2026-11-18T23:57:16Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-    "liveBroadcastContent": "none",
+    "liveBroadcastContent": "live",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-11-18T00:11:06Z",
-      "actualEndTime": "2026-11-18T01:28:15Z",
-      "scheduledStartTime": "2026-11-18T00:11:21Z"
+      "actualStartTime": "2026-11-18T23:57:16Z",
+      "scheduledStartTime": "2026-11-18T23:50:52Z",
+      "concurrentViewers": "11",
+      "activeLiveChatId": "Cg0KC0RWVHB1N3phUHVjKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILRFZUcHU3emFQdWM"
     },
-    "actualStartTime": "2026-11-18T00:11:06Z",
-    "actualEndTime": "2026-11-18T01:28:15Z",
-    "startedAt": "2026-11-18T00:11:06Z",
-    "endedAt": "2026-11-18T01:28:15Z",
+    "actualStartTime": "2026-11-18T23:57:16Z",
+    "actualEndTime": null,
     "type": "live",
-    "typeLabel": "Directo",
     "typePriority": 1,
+    "typeLabel": "🔴 EN VIVO AHORA",
     "isLiveBroadcast": true,
-    "isLiveNow": false,
-    "status": "archived",
+    "isLiveNow": true,
+    "status": "live",
     "verificationSource": "youtube-data-api-videos-list",
-    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+    "description": "Estamos transmitiendo nuestro servicio en este momento."
+  },
+  "featuredLiveToday": {
+    "id": "DVTpu7zaPuc",
+    "title": "Servicio De Santa Cena",
+    "url": "https://www.youtube.com/watch?v=DVTpu7zaPuc",
+    "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg?v=6afe399b",
+    "duration": null,
+    "publishedText": null,
+    "source": "youtube-data-api-uploads",
+    "isUpcoming": false,
+    "scheduledStartTime": "2026-11-18T23:50:52Z",
+    "originalIndex": 0,
+    "sources": [
+      "youtube-streams-page",
+      "youtube-uploads-rss",
+      "youtube-data-api-uploads"
+    ],
+    "listedOnStreamsPage": true,
+    "publishedAt": "2026-11-18T23:57:16Z",
+    "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+    "liveBroadcastContent": "live",
+    "liveStreamingDetails": {
+      "actualStartTime": "2026-11-18T23:57:16Z",
+      "scheduledStartTime": "2026-11-18T23:50:52Z",
+      "concurrentViewers": "11",
+      "activeLiveChatId": "Cg0KC0RWVHB1N3phUHVjKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILRFZUcHU3emFQdWM"
+    },
+    "actualStartTime": "2026-11-18T23:57:16Z",
+    "actualEndTime": null,
+    "type": "live",
+    "typePriority": 1,
+    "typeLabel": "🔴 EN VIVO AHORA",
+    "isLiveBroadcast": true,
+    "isLiveNow": true,
+    "status": "live",
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Estamos transmitiendo nuestro servicio en este momento."
   },
   "items": [
     {
@@ -631,6 +665,6 @@
       "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     }
   ],
-  "archiveVerificationStatus": "ok",
-  "archiveError": null
+  "archiveVerificationStatus": "error",
+  "archiveError": "No se verificaron 9 candidato(s) de archivo; se preserva el feed previo. IDs: k4GJ8YoKa90, bZVsdYYrYbM, c7DfqM133jk, 3GD2FCOZsVE, F1zVJBY669E, FjzhVnoIf0k, gFvkBrpxT4Y, AP_dNSmwEP4, phGF3xZJRew"
 }
