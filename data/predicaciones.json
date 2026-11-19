@@ -4,56 +4,30 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-19T16:47:37.856Z",
+  "updatedAt": "2026-11-19T23:15:34.101Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": null,
+    "isLiveNow": false,
     "activeLiveId": null,
-    "upcomingLiveId": "H7lu10eFLIQ",
-    "checkedAt": "2026-11-19T00:24:05.325Z",
-    "lastSuccessfulCheck": "2026-11-19T00:24:05.325Z",
-    "lastAttemptAt": "2026-11-19T16:47:37.856Z",
-    "verificationStatus": "error",
+    "upcomingLiveId": null,
+    "checkedAt": "2026-11-19T23:15:34.101Z",
+    "lastSuccessfulCheck": "2026-11-19T23:15:34.101Z",
+    "lastAttemptAt": "2026-11-19T23:15:34.101Z",
+    "verificationStatus": "ok",
     "lastEndedLiveId": "DVTpu7zaPuc",
     "lastEndedAt": "2026-11-19T07:41:12.901Z",
-    "lastError": "Resultado incompleto: errores en 3 video(s) y 0 página(s); se conservan los JSON anteriores.",
-    "state": "ERROR"
+    "lastError": null,
+    "state": "NO_LIVE",
+    "featuredLiveTodayId": "DVTpu7zaPuc"
   },
   "activeLive": null,
-  "upcomingLive": {
-    "id": "H7lu10eFLIQ",
-    "title": "Servicio De Santa Cena",
-    "url": "https://www.youtube.com/watch?v=H7lu10eFLIQ",
-    "thumbnail": "https://i.ytimg.com/vi/H7lu10eFLIQ/maxresdefault.jpg",
-    "duration": null,
-    "publishedText": null,
-    "source": "youtube-data-api-uploads",
-    "isUpcoming": true,
-    "scheduledStartTime": "2026-11-18T23:50:44Z",
-    "originalIndex": 1,
-    "sources": [
-      "youtube-streams-page",
-      "youtube-uploads-rss",
-      "youtube-data-api-uploads"
-    ],
-    "listedOnStreamsPage": true,
-    "publishedAt": "2026-11-18T23:49:36Z",
-    "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-    "liveBroadcastContent": "upcoming",
-    "liveStreamingDetails": {
-      "scheduledStartTime": "2026-11-18T23:50:44Z",
-      "activeLiveChatId": "Cg0KC0g3bHUxMGVGTElRKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILSDdsdTEwZUZMSVE"
-    },
-    "actualStartTime": null,
-    "actualEndTime": null,
-    "isLiveNow": false
-  },
+  "upcomingLive": null,
   "featuredLiveToday": {
     "id": "DVTpu7zaPuc",
-    "title": "Servicio De Santa Cena",
+    "title": "Cuando La Misericordia Nos Alcanza | Santa Cena | Prédicas Cristianas",
     "url": "https://www.youtube.com/watch?v=DVTpu7zaPuc",
-    "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg?v=6afe399b",
-    "duration": "1:38:17",
+    "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg",
+    "duration": "1:05:52",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
@@ -83,15 +57,16 @@
     "isLiveBroadcast": true,
     "isLiveNow": false,
     "status": "archived",
-    "verificationSource": "youtube-data-api-videos-list"
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
   },
   "items": [
     {
       "id": "DVTpu7zaPuc",
-      "title": "Servicio De Santa Cena",
+      "title": "Cuando La Misericordia Nos Alcanza | Santa Cena | Prédicas Cristianas",
       "url": "https://www.youtube.com/watch?v=DVTpu7zaPuc",
-      "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg?v=6afe399b",
-      "duration": "1:38:17",
+      "thumbnail": "https://i.ytimg.com/vi/DVTpu7zaPuc/maxresdefault.jpg",
+      "duration": "1:05:52",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
@@ -121,7 +96,8 @@
       "isLiveBroadcast": true,
       "isLiveNow": false,
       "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list"
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     },
     {
       "id": "25aj0Dt_tos",
@@ -133,7 +109,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-18T00:11:21Z",
-      "originalIndex": 2,
+      "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -171,7 +147,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-14T23:46:41Z",
-      "originalIndex": 3,
+      "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -247,7 +223,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-12T00:00:00Z",
-      "originalIndex": 5,
+      "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -285,7 +261,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-11T00:18:16Z",
-      "originalIndex": 6,
+      "originalIndex": 5,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -323,7 +299,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-10T00:01:48Z",
-      "originalIndex": 7,
+      "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -361,7 +337,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-08T00:00:00Z",
-      "originalIndex": 8,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -399,7 +375,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-06T23:58:32Z",
-      "originalIndex": 9,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -437,7 +413,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-04T23:43:36Z",
-      "originalIndex": 10,
+      "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -475,7 +451,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-03T23:57:29Z",
-      "originalIndex": 11,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -513,7 +489,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T23:52:39Z",
-      "originalIndex": 13,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -551,7 +527,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T00:10:43Z",
-      "originalIndex": 14,
+      "originalIndex": 13,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -589,9 +565,10 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-28T23:52:47Z",
-      "originalIndex": 15,
+      "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
+        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -626,7 +603,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-27T00:08:01Z",
-      "originalIndex": 16,
+      "originalIndex": 15,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
