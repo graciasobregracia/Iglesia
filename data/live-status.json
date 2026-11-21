@@ -4,57 +4,21 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-21T01:44:37.953Z",
+  "updatedAt": "2026-11-21T08:47:24.133Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": true,
-    "activeLiveId": "qrt8xYLhL-g",
+    "isLiveNow": false,
+    "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-21T01:44:37.953Z",
-    "lastSuccessfulCheck": "2026-11-21T01:44:37.953Z",
-    "lastAttemptAt": "2026-11-21T01:44:37.953Z",
+    "checkedAt": "2026-11-21T08:47:24.133Z",
+    "lastSuccessfulCheck": "2026-11-21T08:47:24.133Z",
+    "lastAttemptAt": "2026-11-21T08:47:24.133Z",
     "verificationStatus": "ok",
-    "lastEndedLiveId": null,
-    "lastEndedAt": null,
+    "lastEndedLiveId": "qrt8xYLhL-g",
+    "lastEndedAt": "2026-11-21T08:47:24.133Z",
     "lastError": null,
-    "state": "LIVE"
+    "state": "NO_LIVE"
   },
-  "activeLive": {
-    "id": "qrt8xYLhL-g",
-    "title": "Servicio Evangelista Yarumal | Viernes 20 de Noviembre del 2026.",
-    "url": "https://www.youtube.com/watch?v=qrt8xYLhL-g",
-    "thumbnail": "https://i.ytimg.com/vi/qrt8xYLhL-g/maxresdefault.jpg?v=6b00e25c",
-    "duration": null,
-    "publishedText": null,
-    "source": "youtube-data-api-uploads",
-    "isUpcoming": false,
-    "scheduledStartTime": "2026-11-21T00:15:09Z",
-    "originalIndex": 0,
-    "sources": [
-      "youtube-streams-page",
-      "youtube-uploads-rss",
-      "youtube-data-api-uploads"
-    ],
-    "listedOnStreamsPage": true,
-    "publishedAt": "2026-11-21T00:14:43Z",
-    "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-    "liveBroadcastContent": "live",
-    "liveStreamingDetails": {
-      "actualStartTime": "2026-11-21T00:14:43Z",
-      "scheduledStartTime": "2026-11-21T00:15:09Z",
-      "concurrentViewers": "5",
-      "activeLiveChatId": "Cg0KC3FydDh4WUxoTC1nKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILcXJ0OHhZTGhMLWc"
-    },
-    "actualStartTime": "2026-11-21T00:14:43Z",
-    "actualEndTime": null,
-    "type": "live",
-    "typePriority": 1,
-    "typeLabel": "🔴 EN VIVO AHORA",
-    "isLiveBroadcast": true,
-    "isLiveNow": true,
-    "status": "live",
-    "verificationSource": "youtube-data-api-videos-list",
-    "description": "Estamos transmitiendo nuestro servicio en este momento."
-  },
+  "activeLive": null,
   "upcomingLive": null
 }
