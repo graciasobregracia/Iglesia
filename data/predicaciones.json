@@ -4,15 +4,15 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-21T08:47:24.133Z",
+  "updatedAt": "2026-11-21T16:24:39.069Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
     "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-21T08:47:24.133Z",
-    "lastSuccessfulCheck": "2026-11-21T08:47:24.133Z",
-    "lastAttemptAt": "2026-11-21T08:47:24.133Z",
+    "checkedAt": "2026-11-21T16:24:39.069Z",
+    "lastSuccessfulCheck": "2026-11-21T16:24:39.069Z",
+    "lastAttemptAt": "2026-11-21T16:24:39.069Z",
     "verificationStatus": "ok",
     "lastEndedLiveId": "qrt8xYLhL-g",
     "lastEndedAt": "2026-11-21T08:47:24.133Z",
@@ -26,8 +26,8 @@
     "id": "qrt8xYLhL-g",
     "title": "Servicio Evangelista Yarumal | Viernes 20 de Noviembre del 2026.",
     "url": "https://www.youtube.com/watch?v=qrt8xYLhL-g",
-    "thumbnail": "https://i.ytimg.com/vi/qrt8xYLhL-g/maxresdefault.jpg?v=6b00e25c",
-    "duration": "1:29:08",
+    "thumbnail": "https://i.ytimg.com/vi/qrt8xYLhL-g/maxresdefault.jpg",
+    "duration": "1:29:03",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
@@ -57,15 +57,16 @@
     "isLiveBroadcast": true,
     "isLiveNow": false,
     "status": "archived",
-    "verificationSource": "youtube-data-api-videos-list"
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
   },
   "items": [
     {
       "id": "qrt8xYLhL-g",
       "title": "Servicio Evangelista Yarumal | Viernes 20 de Noviembre del 2026.",
       "url": "https://www.youtube.com/watch?v=qrt8xYLhL-g",
-      "thumbnail": "https://i.ytimg.com/vi/qrt8xYLhL-g/maxresdefault.jpg?v=6b00e25c",
-      "duration": "1:29:08",
+      "thumbnail": "https://i.ytimg.com/vi/qrt8xYLhL-g/maxresdefault.jpg",
+      "duration": "1:29:03",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
@@ -95,7 +96,8 @@
       "isLiveBroadcast": true,
       "isLiveNow": false,
       "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list"
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     },
     {
       "id": "DVTpu7zaPuc",
