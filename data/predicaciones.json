@@ -4,34 +4,32 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-21T21:44:43.725Z",
+  "updatedAt": "2026-11-22T01:37:41.604Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": false,
-    "activeLiveId": null,
+    "isLiveNow": true,
+    "activeLiveId": "YmlfdLS0lXg",
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-21T21:44:43.725Z",
-    "lastSuccessfulCheck": "2026-11-21T21:44:43.725Z",
-    "lastAttemptAt": "2026-11-21T21:44:43.725Z",
+    "checkedAt": "2026-11-22T01:37:41.604Z",
+    "lastSuccessfulCheck": "2026-11-22T01:37:41.604Z",
+    "lastAttemptAt": "2026-11-22T01:37:41.604Z",
     "verificationStatus": "ok",
-    "lastEndedLiveId": "qrt8xYLhL-g",
-    "lastEndedAt": "2026-11-21T08:47:24.133Z",
+    "lastEndedLiveId": null,
+    "lastEndedAt": null,
     "lastError": null,
-    "state": "NO_LIVE",
-    "featuredLiveTodayId": "qrt8xYLhL-g"
+    "state": "LIVE",
+    "featuredLiveTodayId": "YmlfdLS0lXg"
   },
-  "activeLive": null,
-  "upcomingLive": null,
-  "featuredLiveToday": {
-    "id": "qrt8xYLhL-g",
-    "title": "Servicio Evangelista Yarumal | Viernes 20 de Noviembre del 2026.",
-    "url": "https://www.youtube.com/watch?v=qrt8xYLhL-g",
-    "thumbnail": "https://i.ytimg.com/vi/qrt8xYLhL-g/maxresdefault.jpg",
-    "duration": "1:29:03",
+  "activeLive": {
+    "id": "YmlfdLS0lXg",
+    "title": "Servicio Especial De Familias  | Sábado 21 de Noviembre del 2026.",
+    "url": "https://www.youtube.com/watch?v=YmlfdLS0lXg",
+    "thumbnail": "https://i.ytimg.com/vi/YmlfdLS0lXg/maxresdefault.jpg?v=6b022c41",
+    "duration": null,
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
-    "scheduledStartTime": "2026-11-21T00:15:09Z",
+    "scheduledStartTime": "2026-11-22T00:00:00Z",
     "originalIndex": 0,
     "sources": [
       "youtube-streams-page",
@@ -39,26 +37,62 @@
       "youtube-data-api-uploads"
     ],
     "listedOnStreamsPage": true,
-    "publishedAt": "2026-11-21T00:14:43Z",
+    "publishedAt": "2026-11-21T23:58:53Z",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
-    "liveBroadcastContent": "none",
+    "liveBroadcastContent": "live",
     "liveStreamingDetails": {
-      "actualStartTime": "2026-11-21T00:14:43Z",
-      "actualEndTime": "2026-11-21T01:43:52Z",
-      "scheduledStartTime": "2026-11-21T00:15:09Z"
+      "actualStartTime": "2026-11-21T23:58:53Z",
+      "scheduledStartTime": "2026-11-22T00:00:00Z",
+      "concurrentViewers": "21",
+      "activeLiveChatId": "Cg0KC1ltbGZkTFMwbFhnKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILWW1sZmRMUzBsWGc"
     },
-    "actualStartTime": "2026-11-21T00:14:43Z",
-    "actualEndTime": "2026-11-21T01:43:52Z",
-    "startedAt": "2026-11-21T00:14:43Z",
-    "endedAt": "2026-11-21T01:43:52Z",
+    "actualStartTime": "2026-11-21T23:58:53Z",
+    "actualEndTime": null,
     "type": "live",
-    "typeLabel": "Directo",
     "typePriority": 1,
+    "typeLabel": "🔴 EN VIVO AHORA",
     "isLiveBroadcast": true,
-    "isLiveNow": false,
-    "status": "archived",
+    "isLiveNow": true,
+    "status": "live",
     "verificationSource": "youtube-data-api-videos-list",
-    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
+    "description": "Estamos transmitiendo nuestro servicio en este momento."
+  },
+  "featuredLiveToday": {
+    "id": "YmlfdLS0lXg",
+    "title": "Servicio Especial De Familias  | Sábado 21 de Noviembre del 2026.",
+    "url": "https://www.youtube.com/watch?v=YmlfdLS0lXg",
+    "thumbnail": "https://i.ytimg.com/vi/YmlfdLS0lXg/maxresdefault.jpg?v=6b022c41",
+    "duration": null,
+    "publishedText": null,
+    "source": "youtube-data-api-uploads",
+    "isUpcoming": false,
+    "scheduledStartTime": "2026-11-22T00:00:00Z",
+    "originalIndex": 0,
+    "sources": [
+      "youtube-streams-page",
+      "youtube-uploads-rss",
+      "youtube-data-api-uploads"
+    ],
+    "listedOnStreamsPage": true,
+    "publishedAt": "2026-11-21T23:58:53Z",
+    "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A",
+    "liveBroadcastContent": "live",
+    "liveStreamingDetails": {
+      "actualStartTime": "2026-11-21T23:58:53Z",
+      "scheduledStartTime": "2026-11-22T00:00:00Z",
+      "concurrentViewers": "21",
+      "activeLiveChatId": "Cg0KC1ltbGZkTFMwbFhnKicKGFVDWDBrRUdUVkp0bGtySXhYazl0U0Y2QRILWW1sZmRMUzBsWGc"
+    },
+    "actualStartTime": "2026-11-21T23:58:53Z",
+    "actualEndTime": null,
+    "type": "live",
+    "typePriority": 1,
+    "typeLabel": "🔴 EN VIVO AHORA",
+    "isLiveBroadcast": true,
+    "isLiveNow": true,
+    "status": "live",
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Estamos transmitiendo nuestro servicio en este momento."
   },
   "items": [
     {
@@ -71,7 +105,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-21T00:15:09Z",
-      "originalIndex": 0,
+      "originalIndex": 1,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -109,7 +143,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-18T23:50:52Z",
-      "originalIndex": 1,
+      "originalIndex": 2,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -147,7 +181,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-18T00:11:21Z",
-      "originalIndex": 2,
+      "originalIndex": 3,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -185,7 +219,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-14T23:46:41Z",
-      "originalIndex": 3,
+      "originalIndex": 4,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -261,7 +295,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-12T00:00:00Z",
-      "originalIndex": 5,
+      "originalIndex": 6,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -299,7 +333,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-11T00:18:16Z",
-      "originalIndex": 6,
+      "originalIndex": 7,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -337,7 +371,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-10T00:01:48Z",
-      "originalIndex": 7,
+      "originalIndex": 8,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -375,7 +409,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-08T00:00:00Z",
-      "originalIndex": 8,
+      "originalIndex": 9,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -413,7 +447,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-06T23:58:32Z",
-      "originalIndex": 9,
+      "originalIndex": 10,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -451,7 +485,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-04T23:43:36Z",
-      "originalIndex": 10,
+      "originalIndex": 11,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -489,7 +523,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-11-03T23:57:29Z",
-      "originalIndex": 11,
+      "originalIndex": 12,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -527,7 +561,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T23:52:39Z",
-      "originalIndex": 13,
+      "originalIndex": 14,
       "sources": [
         "youtube-streams-page",
         "youtube-uploads-rss",
@@ -565,10 +599,9 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-31T00:10:43Z",
-      "originalIndex": 14,
+      "originalIndex": 15,
       "sources": [
         "youtube-streams-page",
-        "youtube-uploads-rss",
         "youtube-data-api-uploads"
       ],
       "listedOnStreamsPage": true,
@@ -603,7 +636,7 @@
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
       "scheduledStartTime": "2026-10-28T23:52:47Z",
-      "originalIndex": 15,
+      "originalIndex": 16,
       "sources": [
         "youtube-streams-page",
         "youtube-data-api-uploads"
