@@ -4,20 +4,21 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-22T16:41:14.824Z",
+  "updatedAt": "2026-11-22T22:01:38.643Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": null,
+    "isLiveNow": false,
     "activeLiveId": null,
     "upcomingLiveId": null,
-    "checkedAt": "2026-11-22T08:47:12.413Z",
-    "lastSuccessfulCheck": "2026-11-22T08:47:12.413Z",
-    "lastAttemptAt": "2026-11-22T16:41:14.824Z",
-    "verificationStatus": "error",
+    "checkedAt": "2026-11-22T22:01:38.643Z",
+    "lastSuccessfulCheck": "2026-11-22T22:01:38.643Z",
+    "lastAttemptAt": "2026-11-22T22:01:38.643Z",
+    "verificationStatus": "ok",
     "lastEndedLiveId": "YmlfdLS0lXg",
     "lastEndedAt": "2026-11-22T08:47:12.413Z",
-    "lastError": "Resultado incompleto: errores en 0 video(s) y 1 página(s); se conservan los JSON anteriores.",
-    "state": "ERROR"
+    "lastError": null,
+    "state": "NO_LIVE",
+    "featuredLiveTodayId": "YmlfdLS0lXg"
   },
   "activeLive": null,
   "upcomingLive": null,
@@ -25,8 +26,8 @@
     "id": "YmlfdLS0lXg",
     "title": "Servicio Especial De Familias  | Sábado 21 de Noviembre del 2026.",
     "url": "https://www.youtube.com/watch?v=YmlfdLS0lXg",
-    "thumbnail": "https://i.ytimg.com/vi/YmlfdLS0lXg/maxresdefault.jpg?v=6b022c41",
-    "duration": "1:56:26",
+    "thumbnail": "https://i.ytimg.com/vi/YmlfdLS0lXg/maxresdefault.jpg",
+    "duration": "1:56:20",
     "publishedText": null,
     "source": "youtube-data-api-uploads",
     "isUpcoming": false,
@@ -56,15 +57,16 @@
     "isLiveBroadcast": true,
     "isLiveNow": false,
     "status": "archived",
-    "verificationSource": "youtube-data-api-videos-list"
+    "verificationSource": "youtube-data-api-videos-list",
+    "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
   },
   "items": [
     {
       "id": "YmlfdLS0lXg",
       "title": "Servicio Especial De Familias  | Sábado 21 de Noviembre del 2026.",
       "url": "https://www.youtube.com/watch?v=YmlfdLS0lXg",
-      "thumbnail": "https://i.ytimg.com/vi/YmlfdLS0lXg/maxresdefault.jpg?v=6b022c41",
-      "duration": "1:56:26",
+      "thumbnail": "https://i.ytimg.com/vi/YmlfdLS0lXg/maxresdefault.jpg",
+      "duration": "1:56:20",
       "publishedText": null,
       "source": "youtube-data-api-uploads",
       "isUpcoming": false,
@@ -94,7 +96,8 @@
       "isLiveBroadcast": true,
       "isLiveNow": false,
       "status": "archived",
-      "verificationSource": "youtube-data-api-videos-list"
+      "verificationSource": "youtube-data-api-videos-list",
+      "description": "Transmision en vivo archivada del canal oficial de la Iglesia Cristiana Gracia Sobre Gracia."
     },
     {
       "id": "qrt8xYLhL-g",
