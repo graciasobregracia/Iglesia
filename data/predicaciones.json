@@ -4,21 +4,20 @@
     "url": "https://www.youtube.com/@icgraciasobregracia",
     "channelId": "UCX0kEGTVJtlkrIxXk9tSF6A"
   },
-  "updatedAt": "2026-11-26T20:28:08.782Z",
+  "updatedAt": "2026-11-27T03:03:24.704Z",
   "source": "youtube-data-api-uploads-and-live-pages",
   "status": {
-    "isLiveNow": false,
+    "isLiveNow": null,
     "activeLiveId": null,
     "upcomingLiveId": null,
     "checkedAt": "2026-11-26T20:28:08.782Z",
     "lastSuccessfulCheck": "2026-11-26T20:28:08.782Z",
-    "lastAttemptAt": "2026-11-26T20:28:08.782Z",
-    "verificationStatus": "ok",
+    "lastAttemptAt": "2026-11-27T03:03:24.704Z",
+    "verificationStatus": "error",
     "lastEndedLiveId": "YmlfdLS0lXg",
     "lastEndedAt": "2026-11-22T08:47:12.413Z",
-    "lastError": null,
-    "state": "NO_LIVE",
-    "featuredLiveTodayId": "FfjgHc0mLVY"
+    "lastError": "Resultado incompleto: errores en 0 video(s) y 1 página(s); se conservan los JSON anteriores.",
+    "state": "ERROR"
   },
   "activeLive": null,
   "upcomingLive": null,
